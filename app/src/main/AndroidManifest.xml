@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="phoenix.delta" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/xxhic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phoenix.delta.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".AdminActivity"
+            android:label="@string/title_activity_admin" >
+        </activity>
+        <activity
+            android:name=".TeacherActivity"
+            android:label="@string/title_activity_teacher" >
+        </activity>
+        <activity
+            android:name=".RegAdminActivity"
+            android:label="@string/title_activity_reg_admin"
+            android:parentActivityName=".LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phoenix.delta.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".TrialSettingActivity"
+            android:label="@string/title_activity_trial_setting"
+            android:parentActivityName=".AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phoenix.delta.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".SessionPrep"
+            android:label="@string/title_activity_session_prep" >
+        </activity>
+        <activity
+            android:name=".TrialMain"
+            android:label="@string/title_activity_trial_main" >
+        </activity>
+        <activity
+            android:name=".TrialSelection"
+            android:label="@string/title_activity_trial_selection" >
+        </activity>
+        <activity
+            android:name=".DroidRunJumpActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ManageTeacherActivity"
+            android:label="@string/title_activity_manage_teacher"
+            android:parentActivityName=".AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phoenix.delta.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".ManageStudentActivity"
+            android:label="@string/title_activity_manage_student"
+            android:parentActivityName=".AdminActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="phoenix.delta.AdminActivity" />
+        </activity>
+        <activity
+            android:name=".TrialWaitActivity"
+            android:label="@string/title_activity_trial_wait" >
+        </activity>
+    </application>
+
+</manifest>
