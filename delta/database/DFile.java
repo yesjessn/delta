@@ -19,10 +19,11 @@
 //
 
 package delta.database;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -66,20 +67,23 @@ public abstract class DFile {
 	// It returns true if successful, false otherwise.
 		String delimiter = ",";
 
+		BufferedReader br = new BufferedReader(new FileReader("file.txt"));
 		try {
-			Scanner in = new Scanner(Paths.get(filename));
-			while(in.hasNextLine()) {
-				String line = in.nextLine();
+			String line = br.readLine();
+			while(line != null) {
 				String[] tokens = line.split(delimiter);
 				this.addEntry(tokens);
+				line = br.readLine();
 			} // read line by line
-			in.close();
 			return true;
 		} catch (FileNotFoundException e) {
 			System.err.println(e);
 		} catch (IOException e) {
 			System.err.println(e);
-		} // ensure that file read succeeds
+		} finally {
+			br.close();
+		}
+
 		return false;
 	} // public boolean readFile(String filename)
 
