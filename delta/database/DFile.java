@@ -67,21 +67,22 @@ public abstract class DFile {
 	// It returns true if successful, false otherwise.
 		String delimiter = ",";
 
-		BufferedReader br = new BufferedReader(new FileReader("file.txt"));
 		try {
+			BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+
 			String line = br.readLine();
 			while(line != null) {
 				String[] tokens = line.split(delimiter);
 				this.addEntry(tokens);
 				line = br.readLine();
 			} // read line by line
+
+			br.close();
 			return true;
 		} catch (FileNotFoundException e) {
 			System.err.println(e);
 		} catch (IOException e) {
 			System.err.println(e);
-		} finally {
-			br.close();
 		}
 
 		return false;
