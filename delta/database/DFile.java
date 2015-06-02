@@ -19,11 +19,13 @@
 //
 
 package delta.database;
+import android.content.Context;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,19 +67,24 @@ public abstract class DFile {
 	// The function does not clear the list before reading, meaning that
 	// it can be used with writeFile() to append entries to a file.
 	// It returns true if successful, false otherwise.
-		String delimiter = ",";
+
+		Context         context;
+		String          buffer;
+		String[]        entries;
+		FileInputStream fis;
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+			context = Context.getApplicationContext();
+			fis = context.openFileInput(filename);
+			buffer = fis.toString();
 
-			String line = br.readLine();
-			while(line != null) {
-				String[] tokens = line.split(delimiter);
+			entries = buffer.split("\n");
+			for (String entry : entries) {
+				String[] tokens = entry.split(",");
 				this.addEntry(tokens);
-				line = br.readLine();
-			} // read line by line
+			}
 
-			br.close();
+			fis.close();
 			return true;
 		} catch (FileNotFoundException e) {
 			System.err.println(e);
@@ -93,14 +100,18 @@ public abstract class DFile {
 	// write the contents of this object to a file specified by filename.
 	// If the file already exists, this function will overwrite it.
 	// It returns true if successful, false otherwise.
+
+		FileOutputStream outputStream;
+
 		try {
-			PrintWriter pw = new PrintWriter(filename);
-			pw.print(this.toString());
-			pw.close();
+			outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+			outputStream.write(this.toString().getBytes());
+			outputStream.close();
 			return true;
-		} catch (FileNotFoundException e) {
-			System.err.println(e);
+		} catch (Exception e) {
+			e.printStackTrace();
 		} // ensure that file read succeeds
+
 		return false;
 	} // public boolean writeFile(String filename)
 
