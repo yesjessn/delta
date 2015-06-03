@@ -41,9 +41,9 @@
 //	|	du.readFile("User.csv");
 //	|
 //	|	// assume that String user and pw are defined already
-//	|	if      (checkAdmin(user, pw)) System.out.println("ADMIN privileges");
-//	|	else if (checkSuper(user, pw)) System.out.println("SUPERUSER privileges");
-//	|	else                           System.out.println("Authentication failed");
+//	|	if      (du.checkAdmin(user, pw)) System.out.println("ADMIN privileges");
+//	|	else if (du.checkSuper(user, pw)) System.out.println("SUPERUSER privileges");
+//	|	else                              System.out.println("Authentication failed");
 //
 
 package delta.database;
