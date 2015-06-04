@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-3f04b7b71b072a4a0dd34ebeb42bcf6cae685f52.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\DELTA\box-content-sdk\unspecified\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="b9a4d2394c155fa1f551cef20097ebc273e29b0d">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-d8c99b70d6e7ce8dff1daa9018bb326a63571f65.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-48a7b70be743ec52470ae004b2d6bfeab39b1b30.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-3f04b7b71b072a4a0dd34ebeb42bcf6cae685f52.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\internal_impl-21.0.3-ac4ba14b9b4c611d7f740c97f834f92f830aba95.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\support-annotations-21.0.3-96be28f3a0ad885a64eeb52cf68bcebdf88ac62d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\.gradle\caches\modules-2\files-2.1\com.eclipsesource.minimal-json\minimal-json\0.9.1\9b409b88e38b11519ce3334cbcdda361462ac72d\minimal-json-0.9.1.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="9b409b88e38b11519ce3334cbcdda361462ac72d">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\minimal-json-0.9.1-497602274f4eb3a6ba6e253cc2a5b12f6d7661ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\DELTA\box-content-sdk\unspecified\classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="170af76fd54d693bf0433f49db5f1d16e3811a05">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-d8c99b70d6e7ce8dff1daa9018bb326a63571f65.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\classes-48a7b70be743ec52470ae004b2d6bfeab39b1b30.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.0"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\internal_impl-21.0.3-ac4ba14b9b4c611d7f740c97f834f92f830aba95.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\.gradle\caches\modules-2\files-2.1\com.eclipsesource.minimal-json\minimal-json\0.9.1\9b409b88e38b11519ce3334cbcdda361462ac72d\minimal-json-0.9.1.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="9b409b88e38b11519ce3334cbcdda361462ac72d">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\minimal-json-0.9.1-497602274f4eb3a6ba6e253cc2a5b12f6d7661ff.jar" />
+    </item>
+    <item
+        jar="C:\Users\Patrick CHAN\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="C:\Users\Patrick CHAN\AndroidStudioProjects\DELTA\app\build\intermediates\pre-dexed\release\support-annotations-21.0.3-96be28f3a0ad885a64eeb52cf68bcebdf88ac62d.jar" />
+    </item>
+
+</items>

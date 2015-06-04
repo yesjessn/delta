@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Home -->
+    <string name="app_name">DELTA</string>
+    <string name="action_settings">Settings</string>
+    <string name="start_app_btn">Start App</string>
+    <!-- Login -->
+    <string name="title_activity_login">Log In</string>
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password (6-12 characters)</string>
+    <string name="teacher_login">Teacher Login</string>
+    <string name="admin_login">Administrator Login</string>
+    <string name="reg_admin">Register New Administrator</string>
+    <!-- Admin/Teacher -->
+    <string name="title_activity_admin">Administrator Homepage</string>
+    <string name="title_activity_teacher">Teacher Homepage</string>
+    <string name="manage_teachers">Manage Teachers</string>
+    <string name="manage_students">Manage Students</string>
+    <string name="trial_setting">Trial Setting</string>
+    <string name="start_session">Start Session</string>
+    <string name="upload_data">Upload Data to Box</string>
+    <string name="logout">Log Out</string>
+    <!-- Admin Registration -->
+    <string name="title_activity_reg_admin">Register New Administrator</string>
+    <string name="admin_registration">Administrator Registration</string>
+    <string name="prompt_repeat_password">Repeat Password</string>
+    <string name="prompt_admin_code">Admin Secret Code Confirmation</string>
+    <string name="register">Register</string>
+    <string name="cancel">Cancel</string>
+    <!--  -->
+    <string name="title_activity_trial_setting">Trial Setting</string>
+    <string name="num_trial">* Total Number of Trials</string>
+    <string name="init_trial_time">* Initial Trial Time \n(in seconds)</string>
+    <string name="game_time_delay">* Game Time for \nDelay Choice \n(in seconds)</string>
+    <string name="game_time_instant">* Game Time for \nImmediate Choice \n(in seconds)</string>
+    <string name="time_inc">* Wait Time Increment (sec)\nFor Every 3 Consecutive \nDelay Choices</string>
+    <string name="default_setting">Default Setting</string>
+    <string name="save_change">Save Changes</string>
+    <!--  -->
+    <string name="title_activity_session_prep">Select Student to Start</string>
+    <string name="select_student">Select Student for Session</string>
+    <string name="enter_student">Enter Student ID for Session</string>
+    <string name="select">Select</string>
+    <string name="add_new_student">Add New Student</string>
+    <string name="enter_studID_here">Enter Student ID Here</string>
+    <string name="enter">Enter</string>
+    <string name="get_new_stud">Enter New Student (id)</string>
+    <!--  -->
+    <string name="title_activity_trial_main">Begin Trial</string>
+    <string name="start_trial">Start Trial</string>
+    <string name="quit_trialsave">Save Data and Quit</string>
+    <string name="hide_timer">Hide Timer During Wait Time</string>
+    <string name="show_timer">Show Timer During Wait Time</string>
+    <string name="quit_trialnosave">Quit without Saving</string>
+    <string name="title_activity_trial_selection">Selection</string>
+    <string name="wait">Wait</string>
+    <string name="now">Now</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <!--  -->
+    <string name="title_activity_manage_teacher">Manage Teacher</string>
+    <string name="delete_teacher">Delete Teacher</string>
+    <string name="add_teacher">Add Teacher</string>
+    <string name="enter_new_teacher">Enter New Teacher</string>
+    <string name="add">Add</string>
+    <string name="delete">Del</string>
+    <!--  -->
+    <string name="title_activity_manage_student">Manage Student</string>
+    <string name="delete_student">Delete Student</string>
+    <string name="add_student">Add Student</string>
+    <string name="enter_new_student">Enter New Student</string>
+    <string name="title_activity_trial_wait">Waiting Period</string>
+    <string name="title_activity_box">BoxActivity</string>
+    <string name="upload">Upload</string>
+    <string name="done">Done</string>
+    <string name="accounts">Accounts</string>
+    <string name="title_activity_done_session">DoneSessionActivity</string>
+
+    <string name="hint_pw_done">Numeric Password</string>
+    <string name="prompt_pw_done">Session is finished!\nEnter the (numeric) password to exit!</string>
+
+
+
+</resources>

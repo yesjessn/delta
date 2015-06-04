@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/src/main/res/values/colors.xml -->
+    <eat-comment/>
+    <color name="box_accent">@color/link_text_material_light</color>
+    <color name="box_background">@color/background_material_light</color>
+    <color name="box_hint_foreground">@color/hint_foreground_material_light</color>
+    <color name="box_link_text">@color/box_accent</color>
+    <color name="box_logo_background">#195eae</color>
+    <color name="box_logo_description">#80afd2</color>
+    <color name="box_primary_text">@color/primary_text_default_material_light</color>
+    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="box_horizontal_rule_height">1dp</dimen>
+    <dimen name="collaboration_cell_height">72dp</dimen>
+    <dimen name="collaboration_thumb_size">40dp</dimen>
+    <dimen name="header_cell_height">48dp</dimen>
+    <dimen name="keyline_margin">16dp</dimen>
+    <dimen name="radio_margin">20dp</dimen>
+    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="boxsdk_Authenticating">Authenticating</string>
+    <string name="boxsdk_Authentication_cancelled">Authentication Cancelled</string>
+    <string name="boxsdk_Authentication_fail">Authentication Failed</string>
+    <string name="boxsdk_Authentication_fail_url_mismatch">The redirect url is not valid</string>
+    <string name="boxsdk_Cancel">Cancel</string>
+    <string name="boxsdk_Continue">Continue</string>
+    <string name="boxsdk_Create_folder">Create folder</string>
+    <string name="boxsdk_Go_back">Go back</string>
+    <string name="boxsdk_Please_wait">Please wait…</string>
+    <string name="boxsdk_Security_Warning">Security Warning</string>
+    <string name="boxsdk_Select">Select</string>
+    <string name="boxsdk_Select_an_account_to_use">Select an account to use</string>
+    <string name="boxsdk_There_are_problems_with_the_security_certificate_for_this_site">There are problems with the security certificate for this site.</string>
+    <string name="boxsdk_Use_a_different_account">Use a different account</string>
+    <string description="" name="boxsdk_alert_dialog_cancel">Cancel</string>
+    <string description="" name="boxsdk_alert_dialog_ok">Submit</string>
+    <string description="" name="boxsdk_alert_dialog_password">Password</string>
+    <string description="" name="boxsdk_alert_dialog_text_entry">This website or application is requesting authentication.</string>
+    <string description="" name="boxsdk_alert_dialog_username">Username</string>
+    <string name="boxsdk_details">Details</string>
+    <string name="boxsdk_ssl_error_warning_DATE_INVALID">The date of the certificate is invalid.</string>
+    <string name="boxsdk_ssl_error_warning_EXPIRED">The certificate has expired.</string>
+    <string name="boxsdk_ssl_error_warning_ID_MISMATCH">Hostname mismatch.</string>
+    <string name="boxsdk_ssl_error_warning_INVALID">A generic error occurred.</string>
+    <string name="boxsdk_ssl_error_warning_NOT_YET_VALID">The certificate is not yet valid.</string>
+    <string name="boxsdk_ssl_error_warning_UNTRUSTED">The certificate authority is not trusted.</string>
+    <string name="boxsdk_ssl_should_not_proceed">You should not proceed, especially if you have never seen this warning before for this site.</string>
+    <string name="boxsdk_title_activity_oauth">OAuthActivity</string>
+    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/src/main/res/values/themes.xml -->
+    <eat-comment/>
+    <style name="Theme.BoxSdk.DialogNoTitle" parent="android:style/Theme.Dialog">
+           <item name="android:windowNoTitle">true</item>
+    </style>
+</resources>

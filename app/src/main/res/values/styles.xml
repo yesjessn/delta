@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <style name="SessionMenuTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <!--style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_background</item>
+
+
+
+    </style>
+
+    <style name="Widget.ActionBar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+    </style-->
+
+
+</resources>

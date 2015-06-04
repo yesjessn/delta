@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="phoenix.delta.TrialMain">
+
+    <!--item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" /-->
+
+    <!-- show timer -->
+    <item android:id="@+id/show_timer"
+        android:title="@string/show_timer" />
+
+    <!-- hide timer -->
+    <item android:id="@+id/hide_timer"
+        android:title="@string/hide_timer" />
+
+    <!-- quit and SAVE data -->
+    <item android:id="@+id/quitSave_trial"
+        android:title="@string/quit_trialsave" />
+
+    <!-- quit and DISCARD data -->
+    <item android:id="@+id/quitNoSave_trial"
+        android:title="@string/quit_trialnosave" />
+
+
+</menu>
+<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/menu/menu_trial_main.xml -->
