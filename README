@@ -1,8 +1,0 @@
-DELTA Project
-
-Directory tree:
-	./delta/database/
-		contains Java classes used for database management.
-		These classes are located in package delta.database.
-		To compile, use the Makefile provided in the root directory.
-	
