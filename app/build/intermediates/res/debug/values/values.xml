@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -22,7 +22,7 @@
     <color name="background_floating_material_light">#ffeeeeee</color>
     <color name="background_material_dark">#ff303030</color>
     <color name="background_material_light">#ffeeeeee</color>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
     <eat-comment/>
     <color name="box_accent">@color/link_text_material_light</color>
     <color name="box_background">@color/background_material_light</color>
@@ -31,7 +31,7 @@
     <color name="box_logo_background">#195eae</color>
     <color name="box_logo_description">#80afd2</color>
     <color name="box_primary_text">@color/primary_text_default_material_light</color>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
@@ -132,16 +132,16 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
     <eat-comment/>
     <dimen name="box_horizontal_rule_height">1dp</dimen>
     <dimen name="collaboration_cell_height">72dp</dimen>
     <dimen name="collaboration_thumb_size">40dp</dimen>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -149,12 +149,12 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
     <eat-comment/>
     <dimen name="header_cell_height">48dp</dimen>
     <dimen name="keyline_margin">16dp</dimen>
     <dimen name="radio_margin">20dp</dimen>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -182,7 +182,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="accounts">Accounts</string>
     <string name="action_settings">Settings</string>
@@ -193,7 +193,7 @@
     <string name="admin_login">Administrator Login</string>
     <string name="admin_registration">Administrator Registration</string>
     <string name="app_name">DELTA</string>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
     <eat-comment/>
     <string name="boxsdk_Authenticating">Authenticating</string>
     <string name="boxsdk_Authentication_cancelled">Authentication Cancelled</string>
@@ -223,7 +223,7 @@
     <string name="boxsdk_ssl_error_warning_UNTRUSTED">The certificate authority is not trusted.</string>
     <string name="boxsdk_ssl_should_not_proceed">You should not proceed, especially if you have never seen this warning before for this site.</string>
     <string name="boxsdk_title_activity_oauth">OAuthActivity</string>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="cancel">Cancel</string>
     <string name="default_setting">Default Setting</string>
@@ -234,11 +234,13 @@
     <string name="enter">Enter</string>
     <string name="enter_new_student">Enter New Student</string>
     <string name="enter_new_teacher">Enter New Teacher</string>
+    <string name="enter_studID_here">Enter Student ID Here</string>
+    <string name="enter_student">Enter Student ID for Session</string>
     <string name="game_time_delay">* Game Time for \nDelay Choice \n(in seconds)</string>
     <string name="game_time_instant">* Game Time for \nImmediate Choice \n(in seconds)</string>
     <string name="get_new_stud">Enter New Student (id)</string>
-    <string name="hello_world">Hello world!</string>
     <string name="hide_timer">Hide Timer During Wait Time</string>
+    <string name="hint_pw_done">Numeric Password</string>
     <string name="init_trial_time">* Initial Trial Time \n(in seconds)</string>
     <string name="logout">Log Out</string>
     <string name="manage_students">Manage Students</string>
@@ -282,13 +284,13 @@
     <string name="upload">Upload</string>
     <string name="upload_data">Upload Data to Box</string>
     <string name="wait">Wait</string>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance">
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -1208,13 +1210,13 @@
     <style name="RtlOverlay.Widget.AppCompat.SearchView.MagIcon" parent="android:Widget">
         <item name="android:layout_marginLeft">@dimen/abc_dropdownitem_text_padding_left</item>
     </style>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="SessionMenuTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@android:color/transparent</item>
         <!-- Customize your theme here. -->
     </style>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>
@@ -1276,12 +1278,12 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/DELTA/box-content-sdk/unspecified/res/values/values.xml -->
     <eat-comment/>
     <style name="Theme.BoxSdk.DialogNoTitle" parent="android:style/Theme.Dialog">
            <item name="android:windowNoTitle">true</item>
     </style>
-    <!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>

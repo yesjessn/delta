@@ -12,4 +12,4 @@
         android:filterTouchesWhenObscured="true">
     </com.box.androidsdk.content.auth.OAuthWebView>
 </FrameLayout>
-<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/src/main/res/layout/boxsdk_activity_oauth.xml --><!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/build/intermediates/bundles/debug/res/layout/boxsdk_activity_oauth.xml -->
+<!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/box-content-sdk/src/main/res/layout/boxsdk_activity_oauth.xml --><!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/box-content-sdk/build/intermediates/bundles/debug/res/layout/boxsdk_activity_oauth.xml -->

@@ -8,15 +8,42 @@
     android:background="@drawable/bg3_run"
     tools:context="phoenix.delta.SessionPrep">
 
+
+    <!-- ADD THIS TO TEXTVIEW2 ONLY IF DB IS CONNECTED
+        android:text="@string/select_student"-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/select_student"
         android:id="@+id/textView2"
+        android:text="@string/enter_student"
         android:textSize="48dp" />
 
-    <Spinner
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/studentID"
+        android:hint="@string/enter_studID_here"
+        android:imeOptions="flagNoExtractUi"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/start_session"
+        android:id="@+id/start_btn"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/transparent_button"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/cancel"
+        android:id="@+id/cancel_btn"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/transparent_button"/>
+
+    <!--Spinner
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/transparent_button"
@@ -101,7 +128,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-    </RelativeLayout>
+    </RelativeLayout-->
 
 </LinearLayout>
-<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/layout/activity_session_prep.xml -->
+<!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/layout/activity_session_prep.xml -->

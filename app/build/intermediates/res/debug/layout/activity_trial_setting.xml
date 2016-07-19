@@ -5,8 +5,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@drawable/bg3_run"
-    tools:context="phoenix.delta.TrialSettingActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="phoenix.delta.TrialSettingActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -247,4 +247,4 @@
             android:layout_marginTop="15dp"/>
 
     </LinearLayout>
-</ScrollView><!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/layout/activity_trial_setting.xml -->
+</ScrollView><!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/layout/activity_trial_setting.xml -->

@@ -25,7 +25,8 @@ public class LoginActivity extends ActionBarActivity {
 
     DatabaseHandler db;
 
-    int minLength = 6, maxLength = 12;
+    // Temporarily set password min length to 0 (to accomodate teacher password "" for testing)
+    int minLength = 0, maxLength = 12;
     Button teacher_login_btn, admin_login_btn, reg_admin_btn;
     EditText et_username, et_password;
     TextView errMsg;
@@ -39,8 +40,8 @@ public class LoginActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_login);
 
-        admin_shared = new DUser("superadmin","ucdmind", DUser.ADMINISTRATOR);
-        teacher_shared = new DUser("teacher","employees", DUser.TEACHER);
+        admin_shared = new DUser("superadmin","ucdm1nd", DUser.ADMINISTRATOR);
+        teacher_shared = new DUser("teacher","ucdmind", DUser.TEACHER);
 
         //db = DatabaseHandler.getInstance(this);
         et_username = (EditText)findViewById(R.id.username);
@@ -132,37 +133,6 @@ public class LoginActivity extends ActionBarActivity {
         }
         else
             return checkAsTeacher(username, password);
-
-        //FileHandling fh = new FileHandling();
-        //String tuple = username + "," + password + "," + usertype;
-
-        //if(!validInput() || !fh.checkUserExist(tuple))
-        /*if(!validInput() || !db.isUserInDB(new DUser(username,password,userType)))
-            return false;*/
-
-/*
-        // check in database
-        boolean validUser = false;
-        for(int i = 0; i < userdb.length && !validUser; i++) {
-            if(username.compareTo(userdb[i][0]) == 0 && password.compareTo(userdb[i][1]) == 0) {
-                validUser = true;
-            }
-        }
-        if(validUser)
-            return true;
-        else {
-            errMsg.setText("Wrong username and/ or password");
-            return false;
-        }
-
-        userdb.readFile(pwFilename);
-        if(userdb.checkAdmin(username,password))
-            return true;
-        else {
-            errMsg.setText("Wrong username and/ or password");
-            return false;
-        }
-        */
 
     }
 

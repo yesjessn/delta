@@ -8,4 +8,4 @@
         android:angle="270" />
     <corners android:radius="30dp" />
     <stroke android:width="3px" android:color="#000000" />
-</shape><!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/drawable/transparent_button.xml -->
+</shape><!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/drawable/transparent_button.xml -->

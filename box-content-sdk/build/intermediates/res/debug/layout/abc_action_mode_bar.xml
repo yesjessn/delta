@@ -22,4 +22,4 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         style="?attr/actionModeStyle"/>
-<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_action_mode_bar.xml -->
+<!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/box-content-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/abc_action_mode_bar.xml -->

@@ -389,10 +389,10 @@ public final class R {
 		public static final int activity_chooser_view_content = 0x7f090021;
 		public static final int always = 0x7f090016;
 		public static final int beginning = 0x7f090013;
-		public static final int box_account_description = 0x7f09008f;
-		public static final int box_account_initials = 0x7f09008d;
-		public static final int box_account_title = 0x7f09008e;
-		public static final int boxsdk_accounts_list = 0x7f09008a;
+		public static final int box_account_description = 0x7f09008b;
+		public static final int box_account_initials = 0x7f090089;
+		public static final int box_account_title = 0x7f09008a;
+		public static final int boxsdk_accounts_list = 0x7f090086;
 		public static final int checkbox = 0x7f090029;
 		public static final int collapseActionView = 0x7f090017;
 		public static final int decor_content_parent = 0x7f09002f;
@@ -415,10 +415,10 @@ public final class R {
 		public static final int never = 0x7f090019;
 		public static final int none = 0x7f09000e;
 		public static final int normal = 0x7f09000a;
-		public static final int oauth_container = 0x7f090084;
-		public static final int oauthview = 0x7f090085;
-		public static final int password_edit = 0x7f090089;
-		public static final int password_view = 0x7f090088;
+		public static final int oauth_container = 0x7f090080;
+		public static final int oauthview = 0x7f090081;
+		public static final int password_edit = 0x7f090085;
+		public static final int password_view = 0x7f090084;
 		public static final int progress_circular = 0x7f090005;
 		public static final int progress_horizontal = 0x7f090006;
 		public static final int radio = 0x7f09002b;
@@ -442,8 +442,8 @@ public final class R {
 		public static final int title = 0x7f090027;
 		public static final int up = 0x7f090008;
 		public static final int useLogo = 0x7f090012;
-		public static final int username_edit = 0x7f090087;
-		public static final int username_view = 0x7f090086;
+		public static final int username_edit = 0x7f090083;
+		public static final int username_view = 0x7f090082;
 		public static final int withText = 0x7f09001a;
 		public static final int wrap_content = 0x7f09001d;
 	}

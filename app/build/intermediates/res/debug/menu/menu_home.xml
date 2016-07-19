@@ -4,4 +4,4 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>
-<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/menu/menu_home.xml -->
+<!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/menu/menu_home.xml -->

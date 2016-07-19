@@ -4,7 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-class Droid {
+public class Droid {
 
     float x;
     float y;

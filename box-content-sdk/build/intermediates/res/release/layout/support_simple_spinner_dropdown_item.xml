@@ -22,4 +22,4 @@
           android:singleLine="true"
           android:layout_width="match_parent"
           android:layout_height="?attr/dropdownListPreferredItemHeight"
-          android:ellipsize="marquee"/><!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/box-content-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/support_simple_spinner_dropdown_item.xml -->
+          android:ellipsize="marquee"/><!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/box-content-sdk/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/layout/support_simple_spinner_dropdown_item.xml -->

@@ -1,7 +1,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@drawable/bg3_run"
     tools:context="phoenix.delta.BoxActivity">
@@ -65,4 +65,4 @@
 
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/Patrick%20CHAN/AndroidStudioProjects/DELTA/app/src/main/res/layout/activity_box.xml -->
+<!-- From: file:/D:/jessica/Documents/GitHub/delta/delta/app/src/main/res/layout/activity_box.xml -->
