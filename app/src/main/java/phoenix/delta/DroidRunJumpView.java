@@ -172,7 +172,7 @@ public class DroidRunJumpView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        return thread.doTouchEvent(event);
+        return getThread().doTouchEvent(event);
     }
 
     //

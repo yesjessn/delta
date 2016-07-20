@@ -35,7 +35,7 @@ public class Constants
     public static final float START_Y               = 502.5f;
 
     public static final float MOVEMENT_RATE         = 100.0f;//pixels per second
-    public static final float AIR_TIME              = .5f;//seconds
+    public static final float AIR_TIME              = 0.5f;//seconds
     public static final float JUMP_HEIGHT           = -100.0f;//pixels
 
     //calculated from the equation y = a * t^2 + v * t based on the given jump height and air time

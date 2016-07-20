@@ -1334,12 +1334,24 @@ containing a value of this type.
         public static final int ic_launcher=0x7f020046;
         public static final int icon_white_upload=0x7f020047;
         public static final int mic_launcher=0x7f020048;
-        public static final int pastry=0x7f020049;
-        public static final int road=0x7f02004a;
-        public static final int transparent_button=0x7f02004b;
-        public static final int wait=0x7f02004c;
-        public static final int xhic_launcher=0x7f02004d;
-        public static final int xxhic_launcher=0x7f02004e;
+        public static final int p1_jump=0x7f020049;
+        public static final int p1_walk01=0x7f02004a;
+        public static final int p1_walk02=0x7f02004b;
+        public static final int p1_walk03=0x7f02004c;
+        public static final int p1_walk04=0x7f02004d;
+        public static final int p1_walk05=0x7f02004e;
+        public static final int p1_walk06=0x7f02004f;
+        public static final int p1_walk07=0x7f020050;
+        public static final int p1_walk08=0x7f020051;
+        public static final int p1_walk09=0x7f020052;
+        public static final int p1_walk10=0x7f020053;
+        public static final int p1_walk11=0x7f020054;
+        public static final int road=0x7f020055;
+        public static final int star=0x7f020056;
+        public static final int transparent_button=0x7f020057;
+        public static final int wait=0x7f020058;
+        public static final int xhic_launcher=0x7f020059;
+        public static final int xxhic_launcher=0x7f02005a;
     }
     public static final class id {
         public static final int action_bar=0x7f090031;

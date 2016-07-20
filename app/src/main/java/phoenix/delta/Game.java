@@ -543,7 +543,7 @@ public class Game {
     Bitmap pastryImage;
     Bitmap droidJumpImage;
     Bitmap [] droidImages;
-    final int MAX_DROID_IMAGES = 4;
+    final int MAX_DROID_IMAGES = 11;
 
     //
     // sound
@@ -569,15 +569,22 @@ public class Game {
         grassImage = BitmapFactory.decodeResource(res, R.drawable.grass);
         //dividerImage = BitmapFactory.decodeResource(res, R.drawable.divider);
 
-        pastryImage = BitmapFactory.decodeResource(res, R.drawable.pastry);
+        pastryImage = BitmapFactory.decodeResource(res, R.drawable.star);
 
-        droidJumpImage = BitmapFactory.decodeResource(res, R.drawable.droidjump);
+        droidJumpImage = BitmapFactory.decodeResource(res, R.drawable.p1_jump);
 
         droidImages = new Bitmap[MAX_DROID_IMAGES];
-        droidImages[0] = BitmapFactory.decodeResource(res, R.drawable.droid0);
-        droidImages[1] = BitmapFactory.decodeResource(res, R.drawable.droid1);
-        droidImages[2] = BitmapFactory.decodeResource(res, R.drawable.droid2);
-        droidImages[3] = BitmapFactory.decodeResource(res, R.drawable.droid3);
+        droidImages[0] = BitmapFactory.decodeResource(res, R.drawable.p1_walk01);
+        droidImages[1] = BitmapFactory.decodeResource(res, R.drawable.p1_walk02);
+        droidImages[2] = BitmapFactory.decodeResource(res, R.drawable.p1_walk03);
+        droidImages[3] = BitmapFactory.decodeResource(res, R.drawable.p1_walk04);
+        droidImages[4] = BitmapFactory.decodeResource(res, R.drawable.p1_walk05);
+        droidImages[5] = BitmapFactory.decodeResource(res, R.drawable.p1_walk06);
+        droidImages[6] = BitmapFactory.decodeResource(res, R.drawable.p1_walk07);
+        droidImages[7] = BitmapFactory.decodeResource(res, R.drawable.p1_walk08);
+        droidImages[8] = BitmapFactory.decodeResource(res, R.drawable.p1_walk09);
+        droidImages[9] = BitmapFactory.decodeResource(res, R.drawable.p1_walk10);
+        droidImages[10] = BitmapFactory.decodeResource(res, R.drawable.p1_walk11);
     }
 
     private void gamePause(Canvas canvas) {

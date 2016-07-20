@@ -16,8 +16,8 @@ public class Droid {
     float h;
 
     final float startX = 530.0f;
-    final float startY = 502.5f;
-    final float initialVelocity = 20.0f;
+    final float startY;
+    final float initialVelocity = 30.0f;
 
     Game game;
 
@@ -42,6 +42,7 @@ public class Droid {
 
         w = game.droidJumpImage.getWidth();
         h = game.droidJumpImage.getHeight();
+        startY = game.groundY + h;
 
         // -- END workshop 2
 
@@ -193,23 +194,14 @@ public class Droid {
     }
 
     private void doPlayerFall() {
-        vy += 4.0f;
+        System.out.println("falling {y:" + y + ", vy:" + vy + ")");
+        vy += 0.1f;
         y += vy;
-        float tmpY = y + h;
-        if (tmpY > game.groundY) {
-            //y = startY;
+        if (y > startY) {
+            System.out.printf("hitting ground (%f) at (y: %f, vy: %f) with height: %f; startY: %f", game.groundY, y, vy, h, startY);
+            y = startY;
             //falling = false;
 
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            y = startY;
-
-                        }
-                    },
-                    70
-            );
             new java.util.Timer().schedule(
                     new java.util.TimerTask() {
                         @Override
@@ -224,8 +216,9 @@ public class Droid {
     }
 
     private void doPlayerJump() {
+        System.out.println("jumping {y:" + y + ", vy:" + vy + ")");
         y -= vy;
-        vy -= 1.0f;
+        vy -= 2.0f;
         if (vy <= 0.0f) {
             jumping = false;
             falling = true;

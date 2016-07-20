@@ -1,35 +1,25 @@
 package phoenix.delta;
 
-import android.content.pm.ActivityInfo;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.view.*;
-import android.widget.Button;
-import android.view.View;
-import android.widget.Toast;
-import android.view.View.OnClickListener;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
 
-
+//starting activity
 public class HomeActivity extends ActionBarActivity {
-
+    //button that tells you to start the app
     Button start_app_btn;
 
-    /*
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/app_name"
-        android:fontFamily="sans-serif"
-        android:textSize="100dp"
-        android:layout_above="@+id/start_app_btn"
-        android:layout_centerHorizontal="true" />
-    */
-
+    //override is overriding a function from the thing you're extending
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //super refers to the thing you're extending not the class (would use "this" instead)
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_home);
@@ -42,7 +32,6 @@ public class HomeActivity extends ActionBarActivity {
                 startActivity(new Intent(HomeActivity.this,LoginActivity.class));
             }
         });
-
     }
 
 
