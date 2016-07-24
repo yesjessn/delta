@@ -9,12 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -23,7 +20,6 @@ import android.content.pm.ActivityInfo;
 import com.box.androidsdk.content.BoxApiFile;
 import com.box.androidsdk.content.BoxApiFolder;
 import com.box.androidsdk.content.BoxConfig;
-import com.box.androidsdk.content.BoxFutureTask;
 import com.box.androidsdk.content.models.BoxSession;
 import com.box.androidsdk.content.BoxException;
 import com.box.androidsdk.content.auth.BoxAuthentication;
@@ -34,130 +30,123 @@ import com.box.androidsdk.content.models.BoxFolder;
 import com.box.androidsdk.content.models.BoxItem;
 import com.box.androidsdk.content.models.BoxListItems;
 import com.box.androidsdk.content.requests.BoxRequestsFile;
-import com.box.androidsdk.content.requests.BoxResponse;
 
 import org.apache.http.HttpStatus;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class BoxActivity extends ActionBarActivity implements BoxAuthentication.AuthListener{
+public class BoxActivity extends ActionBarActivity implements BoxAuthentication.AuthListener
+{
+    private BoxSession m_session = null;
+    private BoxSession m_oldSession = null;
 
-    Button upload_btn, logout_btn, done_btn;
-    TextView numFiles;
+    private ProgressDialog m_dialog;
 
-    // file to upload
-    String filename = "testing.txt";
-    String displayName = "testing.txt";
+    private ArrayAdapter<BoxItem> m_adapter;
 
-    // BOX INFO - DON'T CHANGE THESE
-    final String DELTA_BOX_CLIENT_ID = "lb35b8rol4cairzf4rk3uqr5vc6kps34";
-    final String DELTA_BOX_CLIENT_SECRET = "qMvy31CNvoZGyfLkTELq2XHilC5DedBn";
-    final String DELTA_BOX_REDIRECT_URL = "https://app.box.com/static/sync_redirect.html";
+    private BoxApiFolder m_folderApi;
+    private BoxApiFile m_fileApi;
 
-    BoxSession mSession = null;
-    BoxSession mOldSession = null;
-
-    private ProgressDialog mDialog;
-
-    private ArrayList<BoxItem> mList;
-
-    private ListView mListView;
-    private ArrayAdapter<BoxItem> mAdapter;
-
-    private BoxApiFolder mFolderApi;
-    private BoxApiFile mFileApi;
-
-    Intent adminAct;
-    Session currSession;
+    private Intent m_adminAct;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle p_savedInstanceState)
+    {
+        super.onCreate(p_savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_box);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
 
-        adminAct = new Intent(BoxActivity.this,AdminActivity.class);
-        adminAct.putExtra("SESSION", currSession);
+        m_adminAct = new Intent(BoxActivity.this,AdminActivity.class);
+        m_adminAct.putExtra("SESSION",currSession);
 
-        mList = new ArrayList<>();
-        mListView = (ListView) findViewById(android.R.id.list);
-        mAdapter = new BoxItemAdapter(this);
+        m_adapter = new BoxItemAdapter(this);
 
         BoxConfig.IS_LOG_ENABLED = true;
-        BoxConfig.CLIENT_ID = DELTA_BOX_CLIENT_ID;
-        BoxConfig.CLIENT_SECRET = DELTA_BOX_CLIENT_SECRET;
+        BoxConfig.CLIENT_ID = Constants.DELTA_BOX_CLIENT_ID;
+        BoxConfig.CLIENT_SECRET = Constants.DELTA_BOX_CLIENT_SECRET;
         // needs to match redirect uri in developer settings if set.
-        BoxConfig.REDIRECT_URL = DELTA_BOX_REDIRECT_URL;
+        BoxConfig.REDIRECT_URL = Constants.DELTA_BOX_REDIRECT_URL;
 
-        upload_btn = (Button)findViewById(R.id.upload_btn);
-        upload_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+        Button uploadBtn = (Button)findViewById(R.id.upload_btn);
+        uploadBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
                 uploadFile();
             }
         });
 
-        logout_btn = (Button)findViewById(R.id.logout_btn);
-        logout_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                mSession.logout();
+        Button logoutBtn = (Button)findViewById(R.id.logout_btn);
+        logoutBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                m_session.logout();
                 initialize();
             }
         });
 
-        done_btn = (Button)findViewById(R.id.done_btn);
-        done_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                startActivity(adminAct);
+        Button doneBtn = (Button)findViewById(R.id.done_btn);
+        doneBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                startActivity(m_adminAct);
             }
         });
 
         initialize();
     }
 
-    private void updateTextView_numFiles () {
-        int num = fileList().length;
-        numFiles.setText(Integer.toString(num) + " files needs to be uploaded!");
+    private void initialize()
+    {
+        m_adapter.clear();
+
+        m_session = new BoxSession(this, null);
+        m_session.setSessionAuthListener(this);
+        m_session.authenticate();
     }
 
-    private void initialize() {
-        //mList.clear();
-        mAdapter.clear();
-
-        mSession = new BoxSession(this, null);
-        mSession.setSessionAuthListener(this);
-        mSession.authenticate();
-    }
-
-    private void showToast(final String text) {
-        runOnUiThread(new Runnable() {
+    private void showToast(final String p_text)
+    {
+        runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
-                Toast.makeText(BoxActivity.this, text, Toast.LENGTH_LONG).show();
+            public void run()
+            {
+                Toast.makeText(BoxActivity.this, p_text, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    private void loadRootFolder() {
-        new Thread() {
+    private void loadRootFolder()
+    {
+        new Thread()
+        {
             @Override
-            public void run() {
-                try {
-                    final BoxListItems folderItems = mFolderApi.getItemsRequest("0").send();
-                    runOnUiThread(new Runnable() {
+            public void run()
+            {
+                try
+                {
+                    final BoxListItems folderItems = m_folderApi.getItemsRequest("0").send();
+                    runOnUiThread(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             //mList.addAll(folderItems);
-                            mAdapter.addAll(folderItems);
+                            m_adapter.addAll(folderItems);
                         }
                     });
-                } catch (BoxException e) {
+                }
+                catch (BoxException e)
+                {
                     e.printStackTrace();
                 }
 
@@ -165,12 +154,16 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
         }.start();
     }
 
-    private void uploadFile() {
-        mDialog = ProgressDialog.show(BoxActivity.this, getText(R.string.boxsdk_Please_wait), getText(R.string.boxsdk_Please_wait));
-        new Thread() {
+    private void uploadFile()
+    {
+        m_dialog = ProgressDialog.show(BoxActivity.this, getText(R.string.boxsdk_Please_wait), getText(R.string.boxsdk_Please_wait));
+        new Thread()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
 
                     // upload all files from the internal storage to Box
                     String[] allFiles = fileList();
@@ -179,17 +172,13 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
                         int numFileUploaded = 0;
 
                         // upload all files in the app's internal storage
-                        for(int i = 0; i < allFiles.length; i++) {
-
-                            // get filename
-                            String uploadFileName = allFiles[i];
+                        for(String uploadFileName :allFiles)
+                        {
 
                             // upload the file
-                            // InputStream uploadStream = getResources().getAssets().open(uploadFileName);
                             InputStream uploadStream = openFileInput(uploadFileName);
                             String destinationFolderId = "0";
-                            String uploadName = uploadFileName; // use the same file name
-                            BoxRequestsFile.UploadFile request = mFileApi.getUploadRequest(uploadStream, uploadName, destinationFolderId);
+                            BoxRequestsFile.UploadFile request = m_fileApi.getUploadRequest(uploadStream, uploadFileName, destinationFolderId);
                             final BoxFile uploadFileInfo = request.send();
                             showToast("Uploaded " + uploadFileInfo.getName());
                             numFileUploaded++;
@@ -197,205 +186,200 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
                             // Upon uploading the file, remove it from device (app's internal storage)
                             File internalStorageDIR = getFilesDir();
                             File file = new File(internalStorageDIR, uploadFileName);
-                            file.delete();
+                            if(!file.delete())
+                            {
+                                showToast("File " + file.getName() + " not deleted");
+                            }
 
                             loadRootFolder();
                         }
                         showToast("Uploaded " + numFileUploaded + " files");
                     }
                     else
+                    {
                         showToast("No file to upload");
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showToast("IOException");
-                } catch (BoxException e) {
-                    e.printStackTrace();
-                    BoxError error = e.getAsBoxError();
-                    if (error != null && error.getStatus() == HttpStatus.SC_CONFLICT) {
-                        ArrayList<BoxEntity> conflicts = error.getContextInfo().getConflicts();
-                        if (conflicts != null && conflicts.size() == 1 && conflicts.get(0) instanceof BoxFile) {
-                            uploadNewVersion((BoxFile) conflicts.get(0));
-                            return;
-                        }
                     }
-                    showToast("Upload failed");
-                } finally {
-                    mDialog.dismiss();
                 }
-                /*
-                try {
-                    String uploadFileName = filename;
-                    InputStream uploadStream = getResources().getAssets().open(uploadFileName);
-                    String destinationFolderId = "0";
-                    String uploadName = displayName;
-                    BoxRequestsFile.UploadFile request = mFileApi.getUploadRequest(uploadStream, uploadName, destinationFolderId);
-                    final BoxFile uploadFileInfo = request.send();
-                    showToast("Uploaded " + uploadFileInfo.getName());
-                    loadRootFolder();
-                } catch (IOException e) {
+                catch (IOException e)
+                {
                     e.printStackTrace();
                     showToast("IOException");
-                } catch (BoxException e) {
+                }
+                catch (BoxException e)
+                {
                     e.printStackTrace();
                     BoxError error = e.getAsBoxError();
-                    if (error != null && error.getStatus() == HttpStatus.SC_CONFLICT) {
+                    if (error != null && error.getStatus() == HttpStatus.SC_CONFLICT)
+                    {
                         ArrayList<BoxEntity> conflicts = error.getContextInfo().getConflicts();
-                        if (conflicts != null && conflicts.size() == 1 && conflicts.get(0) instanceof BoxFile) {
+                        if (conflicts != null && conflicts.size() == 1 && conflicts.get(0) instanceof BoxFile)
+                        {
                             uploadNewVersion((BoxFile) conflicts.get(0));
                             return;
                         }
                     }
                     showToast("Upload failed");
-                } finally {
-                    mDialog.dismiss();
-                }*/
+                }
+                finally
+                {
+                    m_dialog.dismiss();
+                }
             }
         }.start();
-        //startActivity(adminAct);
     }
 
-    private void uploadNewVersion(final BoxFile file) {
-        new Thread() {
+    private void uploadNewVersion(final BoxFile p_file)
+    {
+        new Thread()
+        {
             @Override
-            public void run() {
-                try {
-                    String uploadFileName = filename;
+            public void run()
+            {
+                try
+                {
+                    String uploadFileName = Constants.FILE_NAME;
                     InputStream uploadStream = getResources().getAssets().open(uploadFileName);
-                    BoxRequestsFile.UploadNewVersion request = mFileApi.getUploadNewVersionRequest(uploadStream, file.getId());
+                    BoxRequestsFile.UploadNewVersion request = m_fileApi.getUploadNewVersionRequest(uploadStream, p_file.getId());
                     final BoxFile uploadFileVersionInfo = request.send();
                     showToast("Uploaded new version of " + uploadFileVersionInfo.getName());
-                } catch (IOException e) {
+                }
+                catch (IOException e)
+                {
                     e.printStackTrace();
                     showToast("IOException");
-                } catch (BoxException e) {
+                }
+                catch (BoxException e)
+                {
                     e.printStackTrace();
                     showToast("Upload failed");
-                } finally {
-                    mDialog.dismiss();
+                }
+                finally
+                {
+                    m_dialog.dismiss();
                 }
             }
         }.start();
     }
 
-    private void clearList() {
-        runOnUiThread(new Runnable() {
+    private void clearAdapter()
+    {
+        runOnUiThread(new Runnable()
+        {
             @Override
-            public void run() {
-                mList.clear();
+            public void run()
+            {
+                m_adapter.clear();
             }
         });
     }
 
-    private void clearAdapter() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.clear();
-            }
-        });
+    @Override
+    public void onRefreshed(BoxAuthentication.BoxAuthenticationInfo info)
+    {
+        //necessary for interface - do nothing
     }
 
     ///////////////// BOX FUNCTIONS ///////////////////////
     @Override
-    public void onAuthCreated(BoxAuthentication.BoxAuthenticationInfo info) {
-        mFolderApi = new BoxApiFolder(mSession);
-        mFileApi = new BoxApiFile(mSession);
+    public void onAuthCreated(BoxAuthentication.BoxAuthenticationInfo p_info)
+    {
+        m_folderApi = new BoxApiFolder(m_session);
+        m_fileApi = new BoxApiFile(m_session);
 
         loadRootFolder();
-        //uploadFile();
     }
 
     @Override
-    public void onRefreshed(BoxAuthentication.BoxAuthenticationInfo info) {
-        // do nothing
-    }
-
-    @Override
-    public void onAuthFailure(BoxAuthentication.BoxAuthenticationInfo info, Exception ex) {
-        if (ex != null) {
-            //clearList();
+    public void onAuthFailure(BoxAuthentication.BoxAuthenticationInfo p_info, Exception p_ex)
+    {
+        if (p_ex != null)
+        {
             clearAdapter();
-        } else if (info == null && mOldSession != null) {
-            mSession = mOldSession;
-            mOldSession = null;
-            onAuthCreated(mSession.getAuthInfo());
+        }
+        else if (p_info == null && m_oldSession != null)
+        {
+            m_session = m_oldSession;
+            m_oldSession = null;
+            onAuthCreated(m_session.getAuthInfo());
         }
     }
 
     @Override
-    public void onLoggedOut(BoxAuthentication.BoxAuthenticationInfo info, Exception ex) {
-        //clearList();
+    public void onLoggedOut(BoxAuthentication.BoxAuthenticationInfo p_info, Exception p_ex)
+    {
         clearAdapter();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu p_menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_box, menu);
+        getMenuInflater().inflate(R.menu.menu_box, p_menu);
         return true;
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    public boolean onPrepareOptionsMenu(Menu p_menu)
+    {
         int numAccounts = BoxAuthentication.getInstance().getStoredAuthInfo(this).keySet().size();
-        //menu.findItem(R.id.logoutAll).setVisible(numAccounts > 1);
-        menu.findItem(R.id.logout).setVisible(numAccounts > 0);
-        //menu.findItem(R.id.switch_accounts).setTitle(numAccounts > 0 ? R.string.switch_accounts : R.string.login);
+        p_menu.findItem(R.id.logout).setVisible(numAccounts > 0);
         return true;
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem p_item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int id = p_item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.upload) {
-                uploadFile();
-                return true;
-            } else if (id == R.id.logout) {
-                mSession.logout();
-                initialize();
-                return true;
+        if (id == R.id.upload)
+        {
+            uploadFile();
+            return true;
+        }
+        else if (id == R.id.logout)
+        {
+            m_session.logout();
+            initialize();
+            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(p_item);
     }
 
-    @Override
-    public void onBackPressed() {
-        // Do Nothing
-        ;
-    }
-
-    private class BoxItemAdapter extends ArrayAdapter<BoxItem> {
-        public BoxItemAdapter(Context context) {
-            super(context, 0);
+    private class BoxItemAdapter extends ArrayAdapter<BoxItem>
+    {
+        public BoxItemAdapter(Context p_context)
+        {
+            super(p_context, 0);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            BoxItem item = getItem(position);
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.boxsdk_list_item, parent, false);
+        public View getView(int p_position, View p_convertView, ViewGroup p_parent)
+        {
+            BoxItem item = getItem(p_position);
+            if (p_convertView == null)
+            {
+                p_convertView = LayoutInflater.from(getContext()).inflate(R.layout.boxsdk_list_item, p_parent, false);
             }
 
-            TextView name = (TextView) convertView.findViewById(R.id.name);
+            TextView name = (TextView) p_convertView.findViewById(R.id.name);
             name.setText(item.getName());
 
-            ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-            if (item instanceof BoxFolder) {
+            ImageView icon = (ImageView) p_convertView.findViewById(R.id.icon);
+            if (item instanceof BoxFolder)
+            {
                 icon.setImageResource(R.drawable.boxsdk_icon_folder_yellow_private);
-            } else {
+            }
+            else
+            {
                 icon.setImageResource(R.drawable.boxsdk_generic);
             }
 
-            return convertView;
+            return p_convertView;
         }
 
     }

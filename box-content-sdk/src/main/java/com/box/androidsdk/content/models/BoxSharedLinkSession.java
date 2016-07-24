@@ -41,7 +41,7 @@ public class BoxSharedLinkSession extends BoxSession {
     }
 
     public interface OnSharedLinkResponseListener {
-        public void onResponse(String uri, String password, Exception ex);
+        void onResponse(String uri, String password, Exception ex);
     }
 
 }

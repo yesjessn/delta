@@ -18,101 +18,110 @@ import java.util.ArrayList;
 
 public class DoneSessionActivity extends ActionBarActivity {
 
-    private long passphrase = 2015; // changeable
-    private long inPW;
-    Session currSession;
-    TextView prompt, allTrials;
-    EditText editText_inPW;
-    Button done_btn;
-    ArrayList<Trial> allTrialEntries;
+    private long m_inPW;
+    private Session m_currSession;
+    private EditText m_editTextInPW;
+    private ArrayList<Trial> m_allTrialEntries;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle p_savedInstanceState)
+    {
+        super.onCreate(p_savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_done_session);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
 
-        allTrials = (TextView) findViewById(R.id.allTrials);
-        prompt = (TextView) findViewById(R.id.prompt);
+        TextView allTrials = (TextView) findViewById(R.id.allTrials);
+        TextView prompt = (TextView) findViewById(R.id.prompt);
         prompt.setGravity(Gravity.CENTER);
 
-        editText_inPW = (EditText) findViewById(R.id.passphrase);
+        m_editTextInPW = (EditText) findViewById(R.id.passphrase);
 
-
-        allTrialEntries = currSession.getAllTrials();
+        m_allTrialEntries = m_currSession.getAllTrials();
         allTrials.setText(printAllTrials());
 
-        done_btn = (Button) findViewById(R.id.done_btn);
-        done_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+        Button doneBtn = (Button) findViewById(R.id.done_btn);
+        doneBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
 
-                if(editText_inPW.getText().toString().length() == 0) {
+                if(m_editTextInPW.getText().toString().length() == 0)
+                {
                     Toast.makeText(DoneSessionActivity.this, "Enter Passphrase!", Toast.LENGTH_LONG).show();
                 }
-                else {
-                    inPW = Integer.parseInt(editText_inPW.getText().toString());
+                else
+                {
+                    m_inPW = Integer.parseInt(m_editTextInPW.getText().toString());
                     // correct passphrase
-                    if(inPW == passphrase) {
+                    if(m_inPW == Constants.PASSPHRASE)
+                    {
 
                         // read all data to file ()
-                        if(!currSession.endSession(getApplicationContext())) {
+                        if(!m_currSession.endSession(getApplicationContext()))
+                        {
                             Toast.makeText(DoneSessionActivity.this, "Cannot write to file", Toast.LENGTH_LONG).show();
                         }
-                        else if(currSession.isStartedByAdmin()) {
+                        else if(m_currSession.isStartedByAdmin())
+                        {
                             Intent adminAct = new Intent(DoneSessionActivity.this,AdminActivity.class);
-                            adminAct.putExtra("SESSION", currSession);
+                            adminAct.putExtra(Constants.SESSION, m_currSession);
                             startActivity(adminAct);
                         }
-                        else {
+                        else
+                        {
                             Intent teacherAct = new Intent(DoneSessionActivity.this,TeacherActivity.class);
-                            teacherAct.putExtra("SESSION", currSession);
+                            teacherAct.putExtra(Constants.SESSION, m_currSession);
                             startActivity(teacherAct);
                         }
                     }
                     else
-                        Toast.makeText(DoneSessionActivity.this, "Incorrect Passphrase", Toast.LENGTH_LONG).show();
+                    {
+                        Toast.makeText(DoneSessionActivity.this, "Incorrect Passphrase", Toast
+                                .LENGTH_LONG).show();
+                    }
                 }
 
             }
         });
-
-
-
     }
 
-    public String printAllTrials () {
+    public String printAllTrials ()
+    {
         String content = "Results for All Trials: (trial time, response time, choice)\n";
 
-        for(Trial t : allTrialEntries) {
+        for(Trial t : m_allTrialEntries)
+        {
             content += t.toString() + "\n";
         }
-
 
         return content;
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu p_menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_done_session, menu);
+        getMenuInflater().inflate(R.menu.menu_done_session, p_menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem p_item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int id = p_item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(p_item);
     }
 }

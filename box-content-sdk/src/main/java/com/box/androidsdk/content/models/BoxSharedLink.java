@@ -272,7 +272,7 @@ public class BoxSharedLink extends BoxJsonObject {
             throw new IllegalArgumentException(String.format(Locale.ENGLISH, "No enum with text %s found", text));
         }
 
-        private Access(String value) {
+        Access(String value) {
             this.mValue = value;
         }
 

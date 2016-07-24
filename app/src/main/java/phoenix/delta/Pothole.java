@@ -4,15 +4,41 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 
 
-class Pothole {
+public class Pothole {
 
-    float x, y;
-    float w, h;
-    boolean alive;
+    private float x, y;
+    private float w, h;
+    private boolean alive;
 
-    Game game;
+    private Game game;
 
-    public void reset() {
+    public float getX()
+    {
+        return x;
+    }
+
+    public float getY()
+    {
+        return y;
+    }
+
+    public float getW()
+    {
+        return w;
+    }
+
+    public float getH()
+    {
+        return h;
+    }
+
+    public boolean isAlive()
+    {
+        return alive;
+    }
+
+    public void reset()
+    {
         alive = false;
     }
 
@@ -23,9 +49,8 @@ class Pothole {
         // apply additional xOffset and vary the width of the pothole
         //
 
-        w = game.MIN_POTHOLE_WIDTH;
-        //w = game.random(game.MIN_POTHOLE_WIDTH, game.MAX_POTHOLE_WIDTH);
-        x = game.width + w + xOffset;
+        w = Constants.MIN_POTHOLE_WIDTH;
+        x = game.getWidth() + w + xOffset;
         alive = true;
     }
 
@@ -35,7 +60,7 @@ class Pothole {
         // potholes move from right to left
         //
 
-        x -= 7.0f;
+        x -= Constants.MOVEMENT_RATE;
 
 
         //
@@ -47,7 +72,7 @@ class Pothole {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawRect(x, y, x + w, y + h, game.clearPaint);
+        canvas.drawRect(x, y, x + w, y + h, game.getClearPaint());
     }
 
     //
@@ -59,8 +84,8 @@ class Pothole {
     public Pothole(int id, Game game) {
         this.id = id;
         this.game = game;
-        y = game.groundY + 170;
-        h = game.grassImage.getHeight();
+        y = Constants.GROUND_Y + 170;
+        h = game.getGrassImage().getHeight();
         alive = false;
     }
 

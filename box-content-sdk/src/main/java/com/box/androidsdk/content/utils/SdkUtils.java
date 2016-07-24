@@ -231,7 +231,7 @@ public class SdkUtils {
     public static void closeQuietly(Closeable... closeables) {
         for (Closeable c : closeables) {
             try {
-                c.close();;
+                c.close();
             } catch (Exception e) {
 
             }

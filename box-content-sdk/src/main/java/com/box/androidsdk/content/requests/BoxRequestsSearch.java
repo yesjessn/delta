@@ -89,7 +89,7 @@ public class BoxRequestsSearch {
         protected static final String FIELD_OFFSET = "offset";
 
 
-        public static enum Scope {
+        public enum Scope {
             USER_CONTENT,
             /**
              * This scope only works for administrator, and may need special permission. Please check

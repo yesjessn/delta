@@ -497,7 +497,7 @@ public abstract class BoxRequest<T extends BoxObject, R extends BoxRequest<T, R>
 
         private String mName;
 
-        private ContentTypes(String name) {
+        ContentTypes(String name) {
             mName = name;
         }
 

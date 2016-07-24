@@ -71,7 +71,7 @@ public class BoxFutureTask<E extends BoxObject> extends FutureTask<BoxResponse<E
 
     public interface OnCompletedListener<E extends BoxObject> {
 
-        public void onCompleted(BoxResponse<E> response);
+        void onCompleted(BoxResponse<E> response);
     }
 
 }

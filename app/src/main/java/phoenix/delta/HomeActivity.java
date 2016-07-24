@@ -11,35 +11,25 @@ import android.view.View.OnClickListener;
 import android.content.Intent;
 
 
-public class HomeActivity extends ActionBarActivity {
-
-    Button start_app_btn;
-
-    /*
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/app_name"
-        android:fontFamily="sans-serif"
-        android:textSize="100dp"
-        android:layout_above="@+id/start_app_btn"
-        android:layout_centerHorizontal="true" />
-    */
+public class HomeActivity extends ActionBarActivity
+{
+    Button m_startAppBtn;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle p_savedInstanceState)
+    {
+        super.onCreate(p_savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_home);
 
-        start_app_btn = (Button)findViewById(R.id.start_app_btn);
-        start_app_btn.setOnClickListener(new OnClickListener() {
+        m_startAppBtn = (Button) findViewById(R.id.start_app_btn);
+        m_startAppBtn.setOnClickListener(new OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View p_view)
+            {
                 Toast.makeText(HomeActivity.this, "Starting App", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(HomeActivity.this,LoginActivity.class));
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
             }
         });
 
@@ -47,24 +37,27 @@ public class HomeActivity extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu p_menu)
+    {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_home, p_menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem p_item)
+    {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        int id = p_item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(p_item);
     }
 }

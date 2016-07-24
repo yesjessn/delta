@@ -2,77 +2,75 @@ package phoenix.delta;
 
 import android.content.Context;
 
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 
-/**
- * Created by Tiffany Chan on 3/1/2015.
- */
-public class Session implements Serializable {
+public class Session implements Serializable
+{
+    private String m_studID;
+    private int m_numTrial;
+    private int m_initTrialDurationTime;
+    private int m_timeIncAmount;
+    private int m_gameTimeDelay;
+    private int m_gameTimeInstant;
+    private int m_numTrialPerInc;
+    private int m_currTrialTime;
+    private int m_consecutiveDelayCount;
+    private Trial m_currentTrial;
 
-    public final static int INSTANT_GAME_ACCESS = 0;
-    public final static int WAIT_FOR_GAME = 1;
-
-    private String studID;
-    private int numTrial,
-                initTrialDurationTime,
-                timeIncAmount,
-                numTrialPerInc,
-                gameTimeDelay,
-                gameTimeInstant;
-    private int currTrialTime;
-    private int consecutiveDelayCount;
-    private Trial currentTrial;
-
-    private ArrayList<Trial> trials;
-    private boolean showTimer;
-    private boolean isAdmin;
+    private ArrayList<Trial> m_trials;
+    private boolean m_showTimer;
+    private boolean m_isAdmin;
 
     // constructor
-    public Session(boolean isAdmin) {
-        // initialize
-        this.trials = new ArrayList<>();
-        this.studID = "";
-        this.showTimer = false;
-        this.isAdmin = isAdmin;
-        this.consecutiveDelayCount = 0;
-        // set default values
+    public Session(boolean p_isAdmin)
+    {
+        m_trials = new ArrayList<>();
+        m_studID = "";
+        m_showTimer = false;
+        m_isAdmin = p_isAdmin;
+        m_consecutiveDelayCount = 0;
         setDefaultSetting();
-        this.currTrialTime = this.initTrialDurationTime;
-        this.numTrialPerInc = 3; // hard-code it in!
-
+        m_currTrialTime = m_initTrialDurationTime;
     }
 
-    public ArrayList<Trial> getAllTrials() {
-        return trials;
+    public ArrayList<Trial> getAllTrials()
+    {
+        return m_trials;
     }
 
-    public boolean isSessionDone () {return (trials.size() >= numTrial);}
-    public void resetSession() {
-        currentTrial = null;
-        trials.clear();
-        studID = "";
-        consecutiveDelayCount = 0;
+    public boolean isSessionDone()
+    {
+        return (m_trials.size() >= m_numTrial);
     }
 
-    public void setDefaultSetting () {
-        this.numTrial = 10;
-        this.initTrialDurationTime = 20;
-        this.gameTimeInstant = 5;
-        this.gameTimeDelay = 15;
-        this.timeIncAmount = 5;
+    public void resetSession()
+    {
+        m_currentTrial = null;
+        m_trials.clear();
+        m_studID = "";
+        m_consecutiveDelayCount = 0;
     }
 
-    public String printableTrialSetting () {
+    public void setDefaultSetting()
+    {
+        m_numTrial = Constants.DEFAULT_NUM_TRIALS;
+        m_initTrialDurationTime = Constants.DEFAULT_INIT_TRIAL_DURATION_SEC;
+        m_gameTimeInstant = Constants.DEFAULT_INSTANT_GAME_TIME_SEC;
+        m_gameTimeDelay = Constants.DEFAULT_DELAYED_GAME_TIME_SEC;
+        m_timeIncAmount = Constants.DEFAULT_TIME_INC_SEC;
+        m_numTrialPerInc = Constants.DEFAULT_TRIALS_BEFORE_INC;
+    }
+
+    public String printableTrialSetting()
+    {
         return "Current Trial Setting:"
-             + "\nNumber of trials: " + this.numTrial
-             + "\nInitial trial duration time (sec): " + this.initTrialDurationTime
-             + "\nIncrement trial time by " + this.timeIncAmount + " sec every " + this.numTrialPerInc + " consecutive delay choice(s)."
-             + "\nGame Time for Delay Choice (sec): " + this.gameTimeDelay
-             + "\nGame Time for Instant Choice (sec): " + this.gameTimeInstant;
+             + "\nNumber of trials: " + m_numTrial
+             + "\nInitial trial duration time (sec): " + m_initTrialDurationTime
+             + "\nIncrement trial time by " + m_timeIncAmount + " sec every " + m_numTrialPerInc + " consecutive delay choice(s)."
+             + "\nGame Time for Delay Choice (sec): " + m_gameTimeDelay
+             + "\nGame Time for Instant Choice (sec): " + m_gameTimeInstant;
     }
 
     /*********************************************************************************
@@ -80,23 +78,28 @@ public class Session implements Serializable {
         in:  student's code
         out: NOTHING
      */
-    public void setStudent (String stud) {this.studID = stud;}
+    public void setStudent (String p_stud)
+    {
+        m_studID = p_stud;
+    }
 
     /*********************************************************************************
         setStudentSelection: set student's selection, wait or play instantly
         in:  INSTANT_GAME_ACCESS or WAIT_FOR_GAME
         out: NOTHING
      */
-    public void setStudentSelection(int choice) {
-        currentTrial.setChoice(choice);
+    public void setStudentSelection(ScheduleChoice p_choice)
+    {
+        m_currentTrial.setChoice(p_choice);
     }
     /*********************************************************************************
         setStudentResponseTime: set student's response time
         in:  response time
         out: NOTHING
      */
-    public void setStudentResponseTime(double time) {
-        currentTrial.setResponseTime(time);
+    public void setStudentResponseTime(double p_time)
+    {
+        m_currentTrial.setResponseTime(p_time);
     }
 
     /*********************************************************************************
@@ -105,14 +108,15 @@ public class Session implements Serializable {
              game time if instant is chose, and the wait time increment
         out: NOTHING
      */
-    public void changeSetting (int numTrial, int initTrialDurationTime,
-                               int gameTimeDelay, int gameTimeInstant, int timeIncAmount) {
-        this.numTrial = numTrial;
-        this.initTrialDurationTime = initTrialDurationTime;
-        this.currTrialTime = initTrialDurationTime;
-        this.gameTimeDelay = gameTimeDelay;
-        this.gameTimeInstant = gameTimeInstant;
-        this.timeIncAmount = timeIncAmount;
+    public void changeSetting (int p_numTrial, int p_initTrialDurationTime,
+                               int p_gameTimeDelay, int p_gameTimeInstant, int p_timeIncAmount)
+    {
+        m_numTrial = p_numTrial;
+        m_initTrialDurationTime = p_initTrialDurationTime;
+        m_currTrialTime = p_initTrialDurationTime;
+        m_gameTimeDelay = p_gameTimeDelay;
+        m_gameTimeInstant = p_gameTimeInstant;
+        m_timeIncAmount = p_timeIncAmount;
     }
 
     /*********************************************************************************
@@ -121,23 +125,29 @@ public class Session implements Serializable {
         out: return true if newTrial is set to current successfully
              return false if newTrial is null OR if current trial is not finished
      */
-    public boolean startNewTrial (Trial newTrial) {
-        if(newTrial == null || currentTrial != null) {
+    public boolean startNewTrial (Trial p_newTrial)
+    {
+        if(p_newTrial == null || m_currentTrial != null)
+        {
             return false;
         }
-        else {
-            if(consecutiveDelayCount == 3) {
-                this.currTrialTime += this.timeIncAmount;
-                newTrial.setTrialTime(this.currTrialTime);
-                consecutiveDelayCount = 0;
+        else
+        {
+            if(m_consecutiveDelayCount == m_numTrialPerInc)
+            {
+                // Increment trial time by m_timeIncAmount sec every m_numTrialPerInc consecutive delay choice(s).
+                m_currTrialTime += m_timeIncAmount;
+                p_newTrial.setTrialTime(m_currTrialTime);
+                m_consecutiveDelayCount = 0;
             }
             else
-                newTrial.setTrialTime(this.currTrialTime);
-            currentTrial = newTrial;
+            {
+                p_newTrial.setTrialTime(m_currTrialTime);
+            }
+            m_currentTrial = p_newTrial;
             return true;
         }
     }
-    public String getStudID () {return studID;}
 
     /*********************************************************************************
         endTrial: mark the end of a trial (save trial in the session's )
@@ -145,12 +155,16 @@ public class Session implements Serializable {
         out: return true if current trial is not null and added to the storing list
              return false if current trial is null
      */
-    public boolean endTrial() {
-        if(currentTrial != null) {
-            if(currentTrial.getChoice() == WAIT_FOR_GAME)
-                consecutiveDelayCount++;
-            trials.add(currentTrial);
-            currentTrial = null;
+    public boolean endTrial()
+    {
+        if(m_currentTrial != null)
+        {
+            if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
+            {
+                m_consecutiveDelayCount++;
+            }
+            m_trials.add(m_currentTrial);
+            m_currentTrial = null;
             return true;
         }
         return false;
@@ -161,35 +175,32 @@ public class Session implements Serializable {
         in:  NOTHING
         OUT: return true if save successfully; return false otherwise
      */
-    public boolean endSession (Context context) {
+    public boolean endSession (Context context)
+    {
 
-        if(currentTrial != null)
+        if(m_currentTrial != null)
+        {
             endTrial();
-
+        }
         // save all trials to file
         String filename = generateFilename();
         FileHandling fh = new FileHandling();
-        if(fh.fileWriter(context, filename, fileWriteable())) {
-
-
-
-            return true;
-        }
-        else
-            return false;
+        return fh.fileWriter(context, filename, fileWriteable());
 
     }
 
-    public String fileWriteable () {
+    public String fileWriteable()
+    {
         String content = "";
-        for(Trial t : trials)
+        for(Trial t : m_trials)
+        {
             content += t.toString() + "\n";
+        }
         return content;
     }
 
-    private String generateFilename () {
-        String filename = "";
-
+    private String generateFilename()
+    {
         Calendar today = Calendar.getInstance();
         int year = today.get(Calendar.YEAR);
         int month = today.get(Calendar.MONTH);
@@ -200,44 +211,80 @@ public class Session implements Serializable {
 
         // i.e.: at 2015 june 3rd, 6:16:60 pm
         // filename = timmy895_2015-6-3_18-16-60.csv
-        filename = studID + "_"
+        return m_studID + "_"
                    + year + "-" + month + "-" + day + "_"
                    + hour + "-" + minute + "-" + second + ".csv";
-        return filename;
     }
 
+    public int getNumTrial()
+    {
+        return m_numTrial;
+    }
 
-    /*********************************************************************************
-        getNumTrial: get the trial duration time for the next trial
-        in:  NOTHING
-        OUT: return the number of trials finished
+    public int getInitTrialDurationTime()
+    {
+        return m_initTrialDurationTime;
+    }
 
-    public int getNextTrialTime(){
-        int trialTime = initTrialDurationTime;
+    public int getTimeIncAmount()
+    {
+        return m_timeIncAmount;
+    }
 
-        if(numTrialPerInc > 0)
-            trialTime += timeIncAmount * (trials.size() / numTrialPerInc);
+    public int getGameTimeDelay()
+    {
+        return m_gameTimeDelay;
+    }
 
-        return trialTime;
-    }*/
+    public int getGameTimeInstant()
+    {
+        return m_gameTimeInstant;
+    }
 
-    public int getNumTrial() {return this.numTrial;}
-    public int getInitTrialDurationTime() {return initTrialDurationTime;}
-    public int getTimeIncAmount() {return timeIncAmount;}
-    public int getGameTimeDelay() {return gameTimeDelay;}
-    public int getGameTimeInstant() {return gameTimeInstant;}
-    public int getCurrTrialChoice() {return currentTrial.getChoice();}
-    public int getWaitTime () {
-        if(currentTrial.getChoice() == WAIT_FOR_GAME)
-            return currentTrial.getWaitTime(gameTimeDelay);
+    public ScheduleChoice getCurrTrialChoice()
+    {
+        return m_currentTrial.getChoice();
+    }
+
+    public int getWaitTime()
+    {
+        if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
+        {
+            return m_currentTrial.getWaitTime(m_gameTimeDelay);
+        }
         else
-            return currentTrial.getWaitTime(gameTimeInstant);
+        {
+            return m_currentTrial.getWaitTime(m_gameTimeInstant);
+        }
     }
 
-    public void setTimerVisible () {this.showTimer = true;}
-    public void setTimerInvisible () {this.showTimer = false;}
-    public boolean isTimerVisible () {return this.showTimer;}
-    public boolean isTrialNull () {return (currentTrial == null);}
-    public boolean isStartedByAdmin () {return this.isAdmin;}
-    public boolean isNewSession() {return this.trials.size() == 0;}
+    public void setTimerVisible()
+    {
+        m_showTimer = true;
+    }
+
+    public void setTimerInvisible()
+    {
+        m_showTimer = false;
+    }
+
+    public boolean isTimerVisible()
+    {
+        return m_showTimer;
+    }
+
+    public boolean isTrialNull()
+    {
+        return (m_currentTrial == null);
+    }
+
+    public boolean isStartedByAdmin()
+    {
+        return m_isAdmin;
+    }
+
+    public boolean isNewSession()
+    {
+        return m_trials.size() == 0;
+    }
 }

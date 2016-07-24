@@ -4,103 +4,116 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-public class Pastry {
+public class Pastry
+{
+    private float m_x, m_y;
+    private float m_w, m_h;
+    private boolean m_alive;
+    private boolean m_another;
 
-    float x, y;
-    float w, h;
-    boolean alive;
-    boolean another;
+    private Game  m_game;
+    private RectF m_rect;
 
-    Game game;
-    RectF rect;
+    public Pastry(Game game)
+    {
+        m_game = game;
 
-    public Pastry(Game game) {
-        this.game = game;
+        m_w = game.getPastryImage().getWidth();
+        m_h = game.getPastryImage().getHeight();
 
-        w = game.pastryImage.getWidth();
-        h = game.pastryImage.getHeight();
-
-        rect = new RectF();
+        m_rect = new RectF();
     }
 
-    public void reset() {
-        alive = false;
+    public RectF getRect()
+    {
+        return m_rect;
     }
 
-    public void reset2() {
-        another = false;
+    public void reset()
+    {
+        m_alive = false;
     }
 
-    public void spawn() {
-        x = game.width + w;
-        y = game.groundY - h + game.random(h - 40, 80.0f);
-        rect.top = y;
-        rect.bottom = y + h;
-        alive = true;
+    public void reset2()
+    {
+        m_another = false;
     }
 
-    public void spawn2() {
-        x = game.width + w + game.random(170.0f, 250.0f);
-        y = game.groundY - h + game.random(h - 40, 80.0f);
-        rect.top = y;
-        rect.bottom = y + h;
-        another = true;
+    public void spawn()
+    {
+        m_x = m_game.getWidth() + m_w;
+        m_y = Constants.GROUND_Y - m_h + Utilities.random(m_h - 40, 80.0f);
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_alive = true;
     }
 
-    public void update() {
+    public void spawn2()
+    {
+        m_x = m_game.getWidth() + m_w + Utilities.random(170.0f, 250.0f);
+        m_y = Constants.GROUND_Y - m_h + Utilities.random(m_h - 40, 80.0f);
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_another = true;
+    }
 
-        //
-        // pastry move from right to left
-        //
+    public void update()
+    {
+        m_x -= Constants.MOVEMENT_RATE;
+        m_rect.left = m_x;
+        m_rect.right = m_x + m_w;
 
-        x -= 7.0f;
-        rect.left = x;
-        rect.right = x + w;
-
-        //
-        // if pastry beyond left hand side of display then disable it
-        //
-        if (x < -w) {
-            alive = false;
+        if (m_x < -m_w)
+        {
+            m_alive = false;
         }
     }
 
-    public void update2() {
-        //
-        // pastry move from right to left
-        //
+    public void update2()
+    {
+        m_x -= Constants.MOVEMENT_RATE;
+        m_rect.left = m_x;
+        m_rect.right = m_x + m_w;
 
-        x -= 7.0f;
-        rect.left = x;
-        rect.right = x + w;
-
-        //
-        // if pastry beyond left hand side of display then disable it
-        //
-        if (x < -w)
-            another = false;
+        if (m_x < -m_w)
+        {
+            m_another = false;
+        }
     }
 
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(game.pastryImage, rect.left, rect.top, game.clearPaint);
+    public boolean isAlive()
+    {
+        return m_alive;
     }
 
-    public void restore(SharedPreferences savedState) {
-        x = savedState.getFloat("ps_x", 0);
-        y = savedState.getFloat("ps_y", 0);
-        w = savedState.getFloat("ps_w", 0);
-        h = savedState.getFloat("ps_h", 0);
-        alive = savedState.getBoolean("ps_alive", false);
-        another = savedState.getBoolean("ps_another", false);
+    public void setAlive(boolean p_alive)
+    {
+        m_alive = p_alive;
     }
 
-    public void save(SharedPreferences.Editor map) {
-        map.putFloat("ps_x", x);
-        map.putFloat("ps_y", y);
-        map.putFloat("ps_w", w);
-        map.putFloat("ps_h", h);
-        map.putBoolean("ps_alive", alive);
-        map.putBoolean("ps_another", another);
+    public boolean isAnother()
+    {
+        return m_another;
+    }
+
+    public void setAnother(boolean p_another)
+    {
+        m_another = p_another;
+    }
+
+    public void draw(Canvas canvas)
+    {
+        canvas.drawBitmap(m_game.getPastryImage(), m_rect.left, m_rect.top, m_game.getClearPaint());
+    }
+
+    public void save(SharedPreferences.Editor map)
+    {
+        map.putFloat("ps_x", m_x);
+        map.putFloat("ps_y", m_y);
+        map.putFloat("ps_w", m_w);
+        map.putFloat("ps_h", m_h);
+        map.putBoolean("ps_alive", m_alive);
+        map.putBoolean("ps_another", m_another);
     }
 }
 

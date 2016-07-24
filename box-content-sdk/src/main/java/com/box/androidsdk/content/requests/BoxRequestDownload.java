@@ -188,7 +188,7 @@ abstract class BoxRequestDownload<E extends BoxObject, R extends BoxRequest<E,R>
         }
 
 
-        protected OutputStream getOutputStream(BoxDownload downloadInfo) throws FileNotFoundException, IOException{
+        protected OutputStream getOutputStream(BoxDownload downloadInfo) throws IOException{
             if (mRequest.mFileOutputStream == null){
                 if (!downloadInfo.getOutputFile().exists()){
                     downloadInfo.getOutputFile().createNewFile();

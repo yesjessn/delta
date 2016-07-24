@@ -130,13 +130,13 @@ public class ChooseAuthenticationFragment extends Fragment {
          *
          * @param authInfo the auth info chosen by the user, returns a new empty instance of DifferentAuthenticationInfo if the user chose to use a different account.
          */
-        public void onAuthenticationChosen(BoxAuthentication.BoxAuthenticationInfo authInfo);
+        void onAuthenticationChosen(BoxAuthentication.BoxAuthenticationInfo authInfo);
 
 
         /**
          * Called if a user chooses to login as a "different account". If this is called the instantiater of this fragment should show appropriate ui to allow a new user to login.
          */
-        public void onDifferentAuthenticationChosen();
+        void onDifferentAuthenticationChosen();
     }
 
 }

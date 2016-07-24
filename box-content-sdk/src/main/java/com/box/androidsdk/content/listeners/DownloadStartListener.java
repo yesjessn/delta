@@ -7,6 +7,6 @@ import com.box.androidsdk.content.models.BoxDownload;
  */
 public interface DownloadStartListener  {
 
-    public void onStart(BoxDownload downloadInfo);
+    void onStart(BoxDownload downloadInfo);
 
 }

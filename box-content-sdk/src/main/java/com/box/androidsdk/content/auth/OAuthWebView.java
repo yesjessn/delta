@@ -280,7 +280,7 @@ public class OAuthWebView extends WebView {
     /**
      * Listener to listen to the event of a page load finishing.
      */
-    public static interface OnPageFinishedListener {
+    public interface OnPageFinishedListener {
 
         void onPageFinished(final WebView view, final String url);
     }

@@ -390,7 +390,7 @@ public class BoxUser extends BoxCollaborator {
 
         private final String mValue;
 
-        private Role(String value) {
+        Role(String value) {
             this.mValue = value;
         }
 
@@ -437,7 +437,7 @@ public class BoxUser extends BoxCollaborator {
 
         private final String mValue;
 
-        private Status(String value) {
+        Status(String value) {
             this.mValue = value;
         }
 

@@ -31,7 +31,7 @@ public class BoxException extends Exception {
      * @param  response     the response body returned by the Box server.
      */
     public BoxException(String message, BoxHttpResponse response) {
-        super(message, (Throwable)null);
+        super(message, null);
         this.boxHttpResponse = response;
         if (response != null) {
             responseCode = response.getResponseCode();

@@ -1,190 +1,77 @@
 package phoenix.delta;
 
-import android.content.Intent;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class DroidRunJumpView extends SurfaceView implements SurfaceHolder.Callback {
+public class DroidRunJumpView extends SurfaceView
+        implements SurfaceHolder.Callback
+{
+    private DroidRunJumpThread m_thread;
 
-    //
-    // game thread
-    //
-    class DroidRunJumpThread extends Thread {
+    private Game          m_game;
+    private SurfaceHolder m_holder;
 
-        private SurfaceHolder surfaceHolder;
-        boolean run;
-        Game game;
+    public DroidRunJumpView(Context p_context, AttributeSet p_attrs)
+    {
+        super(p_context, p_attrs);
 
-        public DroidRunJumpThread(SurfaceHolder surfaceHolder, Context context, Game game) {
-            run = false;
-            this.surfaceHolder = surfaceHolder;
-            this.game = game;
-        }
+        m_holder = getHolder();
+        m_holder.addCallback(this);
 
-        public void setSurfaceSize(int width, int height) {
-            synchronized (surfaceHolder) {
-                game.setScreenSize(width, height);
-            }
-        }
+        m_game = new Game(p_context);
 
-        public void setRunning(boolean b) {
-            run = b;
-        }
-
-        @Override
-        public void run() {
-
-            //
-            // game loop
-            //
-
-            while (run) {
-                Canvas c = null;
-                try {
-                    c = surfaceHolder.lockCanvas(null);
-                    synchronized (surfaceHolder) {
-                        game.run(c);
-                    }
-                } finally {
-                    if (c != null) {
-                        surfaceHolder.unlockCanvasAndPost(c);
-                    }
-                }
-            }
-        }
-
-
-        boolean doTouchEvent(MotionEvent event) {
-            boolean handled = false;
-
-            synchronized (surfaceHolder) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        game.doTouch();
-                        handled = true;
-                        break;
-                }
-            }
-
-            return handled;
-        }
-
-        //
-        // workshop2
-        //
-
-        public void pause() {
-            synchronized (surfaceHolder) {
-                game.pause();
-                run = false;
-            }
-        }
-
-        public void resetGame() {
-            synchronized (surfaceHolder) {
-                game.initOrResetGame();
-            }
-        }
-
-        public void restoreGame(SharedPreferences savedInstanceState) {
-            synchronized (surfaceHolder) {
-                game.restore(savedInstanceState);
-            }
-        }
-
-        public void saveGame(SharedPreferences.Editor editor) {
-            synchronized (surfaceHolder) {
-                game.save(editor);
-            }
-        }
-
-        // -- END workshop 2
-    }
-
-    //
-    // game view
-    //
-    private DroidRunJumpThread thread;
-
-    //
-    // workshop 2
-    //
-
-    private Context context;
-    private Game game;
-    private SurfaceHolder holder;
-
-    // -- END workshop 2
-
-    public DroidRunJumpView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-
-        holder = getHolder();
-        holder.addCallback(this);
-
-        //
-        // workshop2
-        //
-
-        this.context = context;
-        game = new Game(context);
-
-        thread = null;
-
-        // -- END workshop 2
+        m_thread = null;
 
         setFocusable(true);
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
-        thread.setSurfaceSize(width, height);
+    public void surfaceChanged(SurfaceHolder p_holder, int p_format, int p_width,
+                               int p_height)
+    {
+        m_thread.setSurfaceSize(p_width, p_height);
     }
 
-    public void surfaceCreated(SurfaceHolder holder) {
-        thread.setRunning(true);
-        thread.start();
+    public void surfaceCreated(SurfaceHolder p_holder)
+    {
+        m_thread.setRunning(true);
+        m_thread.start();
     }
 
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed(SurfaceHolder p_holder)
+    {
         boolean retry = true;
-        thread.setRunning(false);
-        while (retry) {
-            try {
-                thread.join();
+        m_thread.setRunning(false);
+        while (retry)
+        {
+            try
+            {
+                m_thread.join();
                 retry = false;
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
             }
         }
 
-        //
-        // workshop2
-        //
-
-        thread = null;
-
-        // -- END workshop 2
+        m_thread = null;
     }
 
-    public boolean onTouchEvent(MotionEvent event) {
-        return thread.doTouchEvent(event);
+    public boolean onTouchEvent(@NonNull MotionEvent p_event)
+    {
+        return m_thread.doTouchEvent(p_event);
     }
 
-    //
-    // workshop2 code
-    //
-
-    public DroidRunJumpThread getThread() {
-        if (thread == null) {
-            thread = new DroidRunJumpThread(holder, context, game);
+    public DroidRunJumpThread getThread()
+    {
+        if (m_thread == null)
+        {
+            m_thread = new DroidRunJumpThread(m_holder, m_game);
         }
-        return thread;
+        return m_thread;
     }
-
-    // -- END workshop 2
 }

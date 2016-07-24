@@ -78,13 +78,12 @@ package phoenix.delta;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.os.CountDownTimer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class TrialWaitActivity extends ActionBarActivity {
@@ -116,7 +115,7 @@ public class TrialWaitActivity extends ActionBarActivity {
             public void onFinish() {
 
                 Intent nextAct;
-                if(currSession.getCurrTrialChoice() == Session.WAIT_FOR_GAME)
+                if(currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
                     nextAct = new Intent(TrialWaitActivity.this,DroidRunJumpActivity.class);
                 else
                     nextAct = new Intent(TrialWaitActivity.this,TrialMain.class);
@@ -128,14 +127,11 @@ public class TrialWaitActivity extends ActionBarActivity {
             }
 
         }.start();
-        //startActivity(new Intent(TrialWaitActivity.this,DroidRunJumpActivity.class));
-        //startActivity(new Intent(TrialWaitActivity.this,TrialMain.class));
     }
 
     @Override
     public void onBackPressed () {
         // do nothing
-        ;
     }
 
     @Override

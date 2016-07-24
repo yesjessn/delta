@@ -5,58 +5,57 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
-import phoenix.delta.DroidRunJumpView.DroidRunJumpThread;
+public class DroidRunJumpActivity extends Activity
+{
+    private DroidRunJumpView m_drjView;
+    private DroidRunJumpThread m_drjThread;
+    private Session m_currSession;
 
-
-public class DroidRunJumpActivity extends Activity {
-
-    public static final String PREFS_NAME = "DRJPrefsFile";
-
-    DroidRunJumpView drjView;
-    DroidRunJumpThread drjThread;
-    Session currSession;
-
-    /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle p_savedInstanceState)
+    {
+        super.onCreate(p_savedInstanceState);
         setContentView(R.layout.main);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
-        drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
+        m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
+        m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
 
         int gameTime = 2; // to waive the "ready, set, go" time
 
-        if(currSession.getCurrTrialChoice() == Session.WAIT_FOR_GAME)
-            gameTime += currSession.getGameTimeDelay();
+        if(m_currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
+        {
+            gameTime += m_currSession.getGameTimeDelay();
+        }
         else
-            gameTime += currSession.getGameTimeInstant();
+        {
+            gameTime += m_currSession.getGameTimeInstant();
+        }
 
-        new CountDownTimer(gameTime*1000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
+        new CountDownTimer(gameTime*1000, 1000)
+        {
+            public void onTick(long millisUntilFinished)
+            {
 
             }
 
-            public void onFinish() {
+            public void onFinish()
+            {
 
                 Intent nextAct;
-                if(currSession.getCurrTrialChoice() == Session.WAIT_FOR_GAME)
-                    nextAct = new Intent(DroidRunJumpActivity.this,TrialMain.class);
+                if(m_currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
+                {
+                    nextAct = new Intent(DroidRunJumpActivity.this, TrialMain.class);
+                }
                 else
-                    nextAct = new Intent(DroidRunJumpActivity.this,TrialWaitActivity.class);
+                {
+                    nextAct = new Intent(DroidRunJumpActivity.this, TrialWaitActivity.class);
+                }
 
-                nextAct.putExtra("SESSION", currSession);
+                nextAct.putExtra(Constants.SESSION, m_currSession);
                 startActivity(nextAct);
-
-                //startActivity(new Intent(TrialWaitActivity.this,TrialMain.class));
             }
-
         }.start();
 
     }
@@ -65,37 +64,33 @@ public class DroidRunJumpActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences settings = getSharedPreferences(Constants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        drjThread = drjView.getThread();
+        m_drjThread = m_drjView.getThread();
 
         // if player wants to quit then reset the game
         if (isFinishing()) {
-            drjThread.resetGame();
+            m_drjThread.resetGame();
         }
         else {
-            drjThread.pause();
+            m_drjThread.pause();
         }
 
-        drjThread.saveGame(editor);
+        m_drjThread.saveGame(editor);
+        editor.apply();
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
-        // restore game
-        drjThread = drjView.getThread();
-        /*SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        drjThread.restoreGame(settings);
-        Intent finishedGame = new Intent(DroidRunJumpActivity.this, TrialMain.class);
-        finishedGame.putExtra("SESSION", currSession);
-        startActivity(finishedGame);*/
+        m_drjThread = m_drjView.getThread();
     }
 
     @Override
-    public void onBackPressed () {
+    public void onBackPressed ()
+    {
         // do nothing
-        ;
     }
 }

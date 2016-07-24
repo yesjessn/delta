@@ -4,263 +4,182 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-class Droid {
+public class Droid
+{
 
-    float x;
-    float y;
-    float vy;
-    boolean jumping;
-    boolean falling;
+    private float m_x;
+    private float   m_y;
+    private float   m_vy;
+    private boolean m_isJumping;
 
-    float w;
-    float h;
+    private float m_w;
+    private float m_h;
 
-    final float startX = 530.0f;
-    final float startY = 502.5f;
-    final float initialVelocity = 20.0f;
+    private Game m_game;
 
-    Game game;
+    private RectF m_rect;
 
-    //
-    // workshop 2
-    //
+    private int m_curFrame;
+    private long m_lastFrameSwitch;
+    private long m_lastUpdate;
 
-    RectF rect;
+    public Droid(Game p_game)
+    {
+        m_game = p_game;
 
-    int curFrame;
-    long curFrameTime = 0;
+        m_rect = new RectF();
 
-    // -- END workshop 2
-
-    public Droid(Game game) {
-        this.game = game;
-
-        //
-        // workshop 2
-        //
-        this.rect = new RectF();
-
-        w = game.droidJumpImage.getWidth();
-        h = game.droidJumpImage.getHeight();
-
-        // -- END workshop 2
+        m_w = m_game.getDroidJumpImage().getWidth();
+        m_h = m_game.getDroidJumpImage().getHeight();
 
         reset();
     }
 
-    public void reset() {
+    public void reset()
+    {
+        m_isJumping = false;
 
-        jumping = false;
-        falling = false;
+        m_x = Constants.START_X;
+        m_y = Constants.START_Y;
 
-        x = startX;
-        y = startY;
+        m_rect.left = m_x;
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_rect.right = m_x + m_w;
 
-        rect.left = x;
-        rect.top = y;
-        rect.bottom = y + h;
-        rect.right = x + w;
-
-        curFrame = 0;
-        curFrameTime = System.currentTimeMillis();
+        m_curFrame = 0;
+        m_lastFrameSwitch = System.currentTimeMillis();
+        m_lastUpdate = System.currentTimeMillis();
     }
 
-    public void update() {
+    public void update()
+    {
+        System.out.println(m_vy + " " + m_y);
+        long updateTime = System.currentTimeMillis();
+        long msSinceLastUpdate = updateTime - m_lastUpdate;
+        m_lastUpdate = updateTime;
 
-        //
         // first: handle collision detection with pastry and potholes
-        //
         doCollisionDetection();
         checkPastry2Collision();
 
-        //
-        // handle falling
-        //
-        if (falling) {
-            doPlayerFall();
-        }
-
-        //
         // handle jumping
-        //
-        if (jumping) {
-            doPlayerJump();
+        if (m_isJumping)
+        {
+            doPlayerJump(msSinceLastUpdate);
         }
 
-        //
         // does player want to jump?
-        //
-        if (game.playerTap && !jumping && !falling) {
+        if (m_game.getPlayerTapFlag() && !m_isJumping)
+        {
             startPlayerJump();
-            game.soundPool.play(game.droidJumpSnd, 1.0f, 1.0f, 0, 0, 1.0f);
+            m_game.getSoundPool().play(m_game.getDroidJumpSnd(), 1.0f, 1.0f, 0, 0, 1.0f);
         }
 
-        //
-        // workshop 2
-        //
-
-        //
         // update animation
-        //
-        long now = System.currentTimeMillis() - curFrameTime;
-        if (now > 250) {
-            curFrame++;
-            if (curFrame > 3) {
-                curFrame = 1;
+        long timeOnFrame = updateTime - m_lastFrameSwitch;
+        if (timeOnFrame > Constants.ANIMATION_CYCLE_MS)
+        {
+            m_curFrame++;
+            if(m_curFrame >= Constants.MAX_DROID_IMAGES)
+            {
+                m_curFrame = 0;
             }
-            curFrameTime = System.currentTimeMillis();
+            m_lastFrameSwitch = updateTime;
         }
-
-        // -- END workshop 2
     }
 
-    public void draw(Canvas canvas) {
-        //canvas.drawRect(x, y, x + w, y + h, game.greenPaint);
-
-        //
-        // workshop 2
-        //
-
-        if (jumping || falling) {
-            canvas.drawBitmap(game.droidJumpImage, x, y, game.clearPaint);
+    public void draw(Canvas p_canvas)
+    {
+        if (m_isJumping)
+        {
+            p_canvas.drawBitmap(m_game.getDroidJumpImage(), m_x, m_y, m_game.getClearPaint());
         }
-        else {
-            canvas.drawBitmap(game.droidImages[curFrame], x, y, game.clearPaint);
+        else
+        {
+            p_canvas.drawBitmap(m_game.getDroidImages()[m_curFrame], m_x, m_y,
+                                m_game.getClearPaint());
         }
-
-        // -- END workshop 2
     }
 
     //
     // helper methods for workshop - not to be implemented by participants
     //
-    private void doCollisionDetection() {
+    private void doCollisionDetection()
+    {
+        float ey = m_y + m_h;
 
-        float ey = y + h;
-
-        for (Pothole p : game.potholes) {
-            if (!p.alive) {
+        for (Pothole p : m_game.getPotholes())
+        {
+            if (!p.isAlive())
+            {
                 continue;
             }
 
-            float lx = x;
-            float rx = x + w;
+            float lx = m_x;
+            float rx = m_x + m_w;
 
-            if (
-                // am I over the pothole?
-                    (p.x < lx)
-
-                            // am I still inside the pothole?
-                            && ((p.x + p.w) > rx)
-
-                            // have I fallen into the pothole?
-                            && (p.y <= ey)
-
-                    ) {
-
-                game.initGameOver();
+            if ((p.getX() < lx) // am I over the pothole?
+                    && ((p.getX() + p.getW()) > rx) // am I still inside the pothole?
+                    && (p.getY() <= ey)) // have I fallen into the pothole?
+            {
+                m_game.initGameOver();
             }
         }
 
-        //
-        // workshop 2
-        //
-
-        //
         // check for pastry collision
-        //
-        rect.left = x;
-        rect.top = y;
-        rect.bottom = y + h;
-        rect.right = x + w;
+        m_rect.left = m_x;
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_rect.right = m_x + m_w;
 
-        if (game.pastry.alive && rect.intersect(game.pastry.rect)) {
-            game.doPlayerEatPastry();
-        }
-
-        // -- END workshop 2
-    }
-
-    public void checkPastry2Collision() {
-        rect.left = x;
-        rect.top = y;
-        rect.bottom = y + h;
-        rect.right = x + w;
-
-        if (game.pastry2.another && rect.intersect(game.pastry2.rect)) {
-            game.doPlayerEatPastry2();
+        if (m_game.getPastry().isAlive() && m_rect.intersect(m_game.getPastry().getRect()))
+        {
+            m_game.doPlayerEatPastry();
         }
     }
 
-    private void doPlayerFall() {
-        vy += 4.0f;
-        y += vy;
-        float tmpY = y + h;
-        if (tmpY > game.groundY) {
-            //y = startY;
-            //falling = false;
+    public void checkPastry2Collision()
+    {
+        m_rect.left = m_x;
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_rect.right = m_x + m_w;
 
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            y = startY;
-
-                        }
-                    },
-                    70
-            );
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            falling = false;
-
-                        }
-                    },
-                    35
-            );
+        if (m_game.getPastry2().isAnother() && m_rect.intersect(m_game.getPastry2().getRect()))
+        {
+            m_game.doPlayerEatPastry2();
         }
     }
 
-    private void doPlayerJump() {
-        y -= vy;
-        vy -= 1.0f;
-        if (vy <= 0.0f) {
-            jumping = false;
-            falling = true;
+    private void doPlayerJump(long p_millisSinceLastUpdate)
+    {
+        float secsSinceLastUpdate = p_millisSinceLastUpdate / 1000.0f;
+        System.out.println("delta m_vy: " + (secsSinceLastUpdate * Constants.DROID_FALL_ACCEL));
+        m_vy += secsSinceLastUpdate * Constants.DROID_FALL_ACCEL;
+        System.out.println("delta m_y: " + (secsSinceLastUpdate * m_vy));
+        m_y += secsSinceLastUpdate * m_vy;
+        if (m_y > Constants.START_Y)
+        {
+            m_y = Constants.START_Y;
+            m_vy = 0;
+            m_isJumping = false;
         }
     }
 
-    private void startPlayerJump() {
-        jumping = true;
-        game.playerTap = false;
-        vy = initialVelocity;
-    }
-
-    //
-    // workshop 2
-    //
-
-    public void restore(SharedPreferences savedState) {
-        x = savedState.getFloat("droid_x", 0);
-        y = savedState.getFloat("droid_y", 0);
-        vy = savedState.getFloat("droid_vy", 0);
-        jumping = savedState.getBoolean("droid_jumping", false);
-        falling = savedState.getBoolean("droid_falling", false);
-        curFrame = savedState.getInt("droid_curFrame", 0);
-        curFrameTime = savedState.getLong("droid_curFrameTime",0 );
+    private void startPlayerJump()
+    {
+        m_isJumping = true;
+        m_game.setPlayerTapFlag(false);
+        m_vy = Constants.INITIAL_JUMP_VELOCITY;
     }
 
     public void save(SharedPreferences.Editor map) {
-        map.putFloat("droid_x", x);
-        map.putFloat("droid_y", y);
-        map.putFloat("droid_vy", vy);
-        map.putBoolean("droid_jumping", jumping);
-        map.putBoolean("droid_falling", falling);
-        map.putInt("droid_curFrame", curFrame);
-        map.putLong("droid_curFrameTime", curFrameTime);
+        map.putFloat(Constants.DROID_X, m_x);
+        map.putFloat(Constants.DROID_Y, m_y);
+        map.putFloat(Constants.DROID_VY, m_vy);
+        map.putBoolean(Constants.DROID_JUMPING, m_isJumping);
+        map.putInt(Constants.DROID_CUR_FRAME, m_curFrame);
+        map.putLong(Constants.DROID_CUR_FRAME_TIME, m_lastFrameSwitch);
     }
-
-    // -- END workshop 2
 }

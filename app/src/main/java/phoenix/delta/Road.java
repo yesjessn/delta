@@ -3,59 +3,56 @@ package phoenix.delta;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 
-public class Road {
+public class Road
+{
+    private Game m_game;
 
-    Game game;
-    float y;
+    private final int MAX_DIVIDERS = 11;
+    private float [] m_dividerX;
 
-    final int MAX_DIVIDERS = 11;
-    float [] dividerX;
-
-    public Road(Game game) {
-        this.game = game;
-        y = game.groundY;
-
-        dividerX = new float[MAX_DIVIDERS];
+    public Road(Game p_game)
+    {
+        m_game = p_game;
+        m_dividerX = new float[MAX_DIVIDERS];
     }
 
-    public void reset() {
+    public void reset()
+    {
         float xOffset = 0.0f;
-        for (int i=0; i<MAX_DIVIDERS; i++) {
-            dividerX[i] = xOffset;
+        for (int i=0; i<MAX_DIVIDERS; i++)
+        {
+            m_dividerX[i] = xOffset;
             xOffset += 80.0f;
         }
     }
 
-    public void update() {
-        for (int i=0; i<MAX_DIVIDERS; i++) {
-            dividerX[i] -= 5.0f;
-            if (dividerX[i] < -70.0f) {
-                dividerX[i] = game.width + 10.0f;
+    public void update()
+    {
+        for (int i = 0; i < MAX_DIVIDERS; i++)
+        {
+            m_dividerX[i] -= 5.0f;
+            if (m_dividerX[i] < -70.0f)
+            {
+                m_dividerX[i] = m_game.getWidth() + 10.0f;
             }
         }
     }
 
-    public void draw(Canvas canvas) {
-        canvas.drawBitmap(game.grassImage, 0, y + 170, game.emptyPaint);
-
-        /*for (int i=0; i<MAX_DIVIDERS; i++) {
-            canvas.drawBitmap(game.dividerImage, dividerX[i], y+10.0f, game.emptyPaint);
-        }*/
+    public void draw(Canvas p_canvas)
+    {
+        p_canvas.drawBitmap(m_game.getGrassImage(), 0, Constants.GROUND_Y + 170, m_game.getEmptyPaint());
     }
 
-    public void drawBackground(Canvas canvas){
-        canvas.drawBitmap(game.backgroundImage, 0, y-275, game.clearPaint);
+    public void drawBackground(Canvas p_canvas)
+    {
+        p_canvas.drawBitmap(m_game.getBackgroundImage(), 0, Constants.GROUND_Y - 275, m_game.getClearPaint());
     }
 
-    public void restore(SharedPreferences savedState) {
-        for (int i=0; i<MAX_DIVIDERS; i++) {
-            dividerX[i] = savedState.getFloat("road_div_" + i + "_x", 0);
-        }
-    }
-
-    public void save(SharedPreferences.Editor map) {
-        for (int i=0; i<MAX_DIVIDERS; i++) {
-            map.putFloat("road_div_" + i + "_x", dividerX[i]);
+    public void save(SharedPreferences.Editor p_map)
+    {
+        for (int i=0; i<MAX_DIVIDERS; i++)
+        {
+            p_map.putFloat("road_div_" + i + "_x", m_dividerX[i]);
         }
     }
 }

@@ -214,7 +214,7 @@ public class BoxCollaboration extends BoxEntity {
 
         private final String mValue;
 
-        private Status(String value) {
+        Status(String value) {
             this.mValue = value;
         }
 
@@ -294,7 +294,7 @@ public class BoxCollaboration extends BoxEntity {
 
         private final String mValue;
 
-        private Role(String value) {
+        Role(String value) {
             this.mValue = value;
         }
 

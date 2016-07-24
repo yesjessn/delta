@@ -1,90 +1,78 @@
 package phoenix.delta;
 
-import java.io.InputStream;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Movie;
 import android.util.AttributeSet;
 import android.view.View;
 
-public class GIFView extends View {
-    private InputStream gifInputStream;
-    private Movie gifMovie;
-    private int movieWidth, movieHeight;
-    private long movieDuration;
-    private long mMovieStart;
+import java.io.InputStream;
 
-    public GIFView(Context context) {
-        super(context);
-        init(context);
+public class GIFView extends View
+{
+    private Movie m_gifMovie;
+    private int m_movieWidth, m_movieHeight;
+    private long m_mMovieStart;
+
+    public GIFView(Context p_context)
+    {
+        super(p_context);
+        init(p_context);
     }
 
-    public GIFView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
+    public GIFView(Context p_context, AttributeSet p_attrs)
+    {
+        super(p_context, p_attrs);
+        init(p_context);
     }
 
-    public GIFView(Context context, AttributeSet attrs,
-                   int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+    public GIFView(Context p_context, AttributeSet p_attrs,
+                   int p_defStyleAttr)
+    {
+        super(p_context, p_attrs, p_defStyleAttr);
+        init(p_context);
     }
 
-    private void init(Context context){
+    private void init(Context p_context)
+    {
         setFocusable(true);
-        gifInputStream = context.getResources()
-                .openRawResource(+ R.drawable.wait);
+        InputStream gifInputStream = p_context.getResources().openRawResource(+R.drawable.wait);
 
-        gifMovie = Movie.decodeStream(gifInputStream);
-        movieWidth = gifMovie.width();
-        movieHeight = gifMovie.height();
-        movieDuration = gifMovie.duration();
+        m_gifMovie = Movie.decodeStream(gifInputStream);
+        m_movieWidth = m_gifMovie.width();
+        m_movieHeight = m_gifMovie.height();
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec,
-                             int heightMeasureSpec) {
-        setMeasuredDimension(movieWidth, movieHeight);
-    }
-
-    public int getMovieWidth(){
-        return movieWidth;
-    }
-
-    public int getMovieHeight(){
-        return movieHeight;
-    }
-
-    public long getMovieDuration(){
-        return movieDuration;
+    protected void onMeasure(int p_widthMeasureSpec,
+                             int p_heightMeasureSpec)
+    {
+        setMeasuredDimension(m_movieWidth, m_movieHeight);
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-
+    protected void onDraw(Canvas p_canvas)
+    {
         long now = android.os.SystemClock.uptimeMillis();
-        if (mMovieStart == 0) {   // first time
-            mMovieStart = now;
+        if (m_mMovieStart == 0)
+        {   // first time
+            m_mMovieStart = now;
         }
 
-        if (gifMovie != null) {
-
-            int dur = gifMovie.duration();
-            if (dur == 0) {
-                dur = 1000;
+        if (m_gifMovie != null)
+        {
+            int dur = m_gifMovie.duration();
+            if (dur == 0)
+            {
+                dur = Constants.DEFAULT_GIF_LENGTH;
             }
 
-            int relTime = (int)((now - mMovieStart) % dur);
+            int relTime = (int)((now - m_mMovieStart) % dur);
 
-            gifMovie.setTime(relTime);
+            m_gifMovie.setTime(relTime);
 
-            gifMovie.draw(canvas, 0, 0);
+            m_gifMovie.draw(p_canvas, 0, 0);
             invalidate();
-
         }
-
     }
-
 }
-

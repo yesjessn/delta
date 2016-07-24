@@ -80,7 +80,6 @@ public class TrialMain extends ActionBarActivity {
     @Override
     public void onBackPressed () {
         // do nothing
-        ;
     }
 
     @Override

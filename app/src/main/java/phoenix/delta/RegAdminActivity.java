@@ -2,13 +2,11 @@ package phoenix.delta;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -72,34 +70,13 @@ public class RegAdminActivity extends ActionBarActivity {
 
     }
 
-    private boolean addAdmin () {
+    private boolean addAdmin ()
+    {
         username = et_username.getText().toString();
         password = et_password.getText().toString();
-        password_repeat = et_password_repeat.getText().toString();;
+        password_repeat = et_password_repeat.getText().toString();
         secretCodeIn = et_secretcode.getText().toString();
 
-        //return true;
-
-        /*DUser newAdmin = new DUser(username,password,DUser.ADMINISTRATOR);
-        if(validInput() && !db.isUserInDB(newAdmin)) {
-            //db.addUser(newAdmin);
-            return true;
-        }
-        else
-            return false;*/
-
-
-
-        FileHandling fh = new FileHandling();
-        String tuple = username + "," + password + "," + DUser.ADMINISTRATOR;
-/*
-        if(validInput() && !fh.checkUserExist(tuple)) {
-            return fh.addUser(tuple);
-            //return true;
-        }
-        else
-            return false;
-            */
         return true;
 
     }

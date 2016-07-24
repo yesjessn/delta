@@ -290,7 +290,7 @@ public class BoxFolder extends BoxItem {
 
         private final String mValue;
 
-        private SyncState(String value) {
+        SyncState(String value) {
             this.mValue = value;
         }
 
@@ -352,7 +352,7 @@ public class BoxFolder extends BoxItem {
 
         private final String mValue;
 
-        private Permission(String value) {
+        Permission(String value) {
             this.mValue = value;
         }
 

@@ -271,7 +271,7 @@ public class BoxEvent extends BoxJsonObject {
         /**
          * An admin role changed for a user.
          */
-        CHANGE_ADMIN_ROLE;
+        CHANGE_ADMIN_ROLE
     }
 
     /**

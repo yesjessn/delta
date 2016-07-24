@@ -2,168 +2,119 @@ package phoenix.delta;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 //import android.database.sqlite.*;
 
 public class LoginActivity extends ActionBarActivity {
 
-    private String pwFilename = "passwordFile";
-    private DUser admin_shared;
-    private DUser teacher_shared;
+    private DUser m_adminShared;
+    private DUser m_teacherShared;
 
-    DatabaseHandler db;
-
-    int minLength = 6, maxLength = 12;
-    Button teacher_login_btn, admin_login_btn, reg_admin_btn;
-    EditText et_username, et_password;
-    TextView errMsg;
-    String username, password;
-    Session newSession;
+    //temporarily set password min length to zero for debugging
+    private static final int MIN_LENGTH = 0, MAX_LENGTH = 12;
+    private EditText m_etUsername, m_etPassword;
+    private TextView m_errMsg;
+    private String m_username, m_password;
+    private Session m_newSession;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_login);
 
-        admin_shared = new DUser("superadmin","ucdmind", DUser.ADMINISTRATOR);
-        teacher_shared = new DUser("teacher","employees", DUser.TEACHER);
+        m_adminShared = new DUser("", "", UserType.ADMINISTRATOR);
+        m_teacherShared = new DUser("", "", UserType.TEACHER);
 
-        //db = DatabaseHandler.getInstance(this);
-        et_username = (EditText)findViewById(R.id.username);
-        et_password = (EditText)findViewById(R.id.password);
-        errMsg = (TextView) findViewById(R.id.login_error_msg);
-        errMsg.setText("");
-        //errMsg.setVisibility(View.INVISIBLE);
+        m_etUsername = (EditText) findViewById(R.id.username);
+        m_etPassword = (EditText) findViewById(R.id.password);
+        m_errMsg = (TextView) findViewById(R.id.login_error_msg);
+        m_errMsg.setText("");
 
-        teacher_login_btn = (Button)findViewById(R.id.teacher_login_btn);
-        teacher_login_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if(authentication(DUser.TEACHER)) {
-                    newSession = new Session(false);
-                    Intent teacherActivity = new Intent(LoginActivity.this,TeacherActivity.class);
-                    teacherActivity.putExtra("SESSION", newSession);
-                    Toast.makeText(LoginActivity.this, "Logged in as TEACHER", Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(LoginActivity.this, TeacherActivity.class));
+        Button teacherLoginBtn = (Button) findViewById(R.id.teacher_login_btn);
+        teacherLoginBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                if(authentication(UserType.TEACHER))
+                {
+                    m_newSession = new Session(false);
+                    Intent teacherActivity = new Intent(LoginActivity.this, TeacherActivity.class);
+                    teacherActivity.putExtra("SESSION", m_newSession);
+                    Toast.makeText(LoginActivity.this, "Logged in as TEACHER",
+                                   Toast.LENGTH_SHORT).show();
                     startActivity(teacherActivity);
                 }
-                else
-                    Toast.makeText(LoginActivity.this, "Cannot Log in as TEACHER", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(LoginActivity.this, "Cannot Log in as TEACHER",
+                                    Toast.LENGTH_SHORT).show();
             }
         });
 
-        admin_login_btn = (Button)findViewById(R.id.admin_login_btn);
-        admin_login_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-/*
-                Toast.makeText(LoginActivity.this, ""+db.toString(), Toast.LENGTH_SHORT).show();
-
-                List<DUser> users = db.getAllUsers();
-                Toast.makeText(LoginActivity.this, ""+db.getUsersCount(), Toast.LENGTH_SHORT).show();
-                String everyone = "";
-                for(int i = 0; i < users.size(); i++) {
-                    everyone += users.toString() + "\n";
-                }
-                Toast.makeText(LoginActivity.this, everyone, Toast.LENGTH_LONG).show();
-                */
-
-                if(authentication(DUser.ADMINISTRATOR)) {
-                    newSession = new Session(true);
-                    Intent adminActivity = new Intent(LoginActivity.this,AdminActivity.class);
-                    adminActivity.putExtra("SESSION", newSession);
-                    Toast.makeText(LoginActivity.this, "Logged in as ADMINISTRATOR", Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(LoginActivity.this,AdminActivity.class));
+        Button adminLoginBtn = (Button)findViewById(R.id.admin_login_btn);
+        adminLoginBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                if(authentication(UserType.ADMINISTRATOR))
+                {
+                    m_newSession = new Session(true);
+                    Intent adminActivity = new Intent(LoginActivity.this, AdminActivity.class);
+                    adminActivity.putExtra("SESSION", m_newSession);
+                    Toast.makeText(LoginActivity.this, "Logged in as ADMINISTRATOR",
+                                   Toast.LENGTH_SHORT).show();
                     startActivity(adminActivity);
                 }
-                else
-                    Toast.makeText(LoginActivity.this, "Cannot Log in as ADMINISTRATOR", Toast.LENGTH_SHORT).show();
+                else Toast.makeText(LoginActivity.this, "Cannot Log in as ADMINISTRATOR",
+                                    Toast.LENGTH_SHORT).show();
 
             }
         });
 
-        reg_admin_btn = (Button)findViewById(R.id.reg_admin_btn);
+        Button regAdminBtn = (Button)findViewById(R.id.reg_admin_btn);
         // feature not available now (invisible)
-        reg_admin_btn.setVisibility(View.INVISIBLE);
-        reg_admin_btn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-
-                Toast.makeText(LoginActivity.this, "Feature Not Available: Registration", Toast.LENGTH_SHORT).show();
-                /*
-                Intent regAdminAct = new Intent(LoginActivity.this,RegAdminActivity.class);
-                Toast.makeText(LoginActivity.this, "I WANT TO JOIN!", Toast.LENGTH_SHORT).show();
-                startActivity(regAdminAct);
-                */
+        regAdminBtn.setVisibility(View.INVISIBLE);
+        regAdminBtn.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                Toast.makeText(LoginActivity.this, "Feature Not Available: Registration",
+                               Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private boolean checkAsAdmin (String username, String password) {
-        return (username.compareTo(admin_shared.getUsername()) == 0 && admin_shared.checkPassword(password));
+        return (username.compareTo(m_adminShared.getUsername()) == 0 && m_adminShared.checkPassword(password));
     }
 
     private boolean checkAsTeacher (String username, String password) {
-        return (username.compareTo(teacher_shared.getUsername()) == 0 && teacher_shared.checkPassword(password));
+        return (username.compareTo(m_teacherShared.getUsername()) == 0 && m_teacherShared.checkPassword(password));
     }
 
 
-    private boolean authentication(int userType) {
+    private boolean authentication(UserType userType) {
 
-        username = et_username.getText().toString();
-        password = et_password.getText().toString();
+        m_username = m_etUsername.getText().toString();
+        m_password = m_etPassword.getText().toString();
 
         if(!validInput())
             return false;
 
-        if(userType == DUser.ADMINISTRATOR) {
-            return checkAsAdmin(username, password);
+        if(userType == UserType.ADMINISTRATOR) {
+            return checkAsAdmin(m_username, m_password);
         }
         else
-            return checkAsTeacher(username, password);
-
-        //FileHandling fh = new FileHandling();
-        //String tuple = username + "," + password + "," + usertype;
-
-        //if(!validInput() || !fh.checkUserExist(tuple))
-        /*if(!validInput() || !db.isUserInDB(new DUser(username,password,userType)))
-            return false;*/
-
-/*
-        // check in database
-        boolean validUser = false;
-        for(int i = 0; i < userdb.length && !validUser; i++) {
-            if(username.compareTo(userdb[i][0]) == 0 && password.compareTo(userdb[i][1]) == 0) {
-                validUser = true;
-            }
-        }
-        if(validUser)
-            return true;
-        else {
-            errMsg.setText("Wrong username and/ or password");
-            return false;
-        }
-
-        userdb.readFile(pwFilename);
-        if(userdb.checkAdmin(username,password))
-            return true;
-        else {
-            errMsg.setText("Wrong username and/ or password");
-            return false;
-        }
-        */
-
+            return checkAsTeacher(m_username, m_password);
     }
 
     private boolean isNumeric(char c) {
@@ -185,21 +136,24 @@ public class LoginActivity extends ActionBarActivity {
         return true;
     }
 
-    private boolean validLength(String s) {
-        return !(s.length() < minLength || s.length() > maxLength);
+    private boolean validLength(String s)
+    {
+               return !(s.length() < MIN_LENGTH || s.length() > MAX_LENGTH);
     }
 
     private boolean validInput() {
 
         // check length
-        if(!validLength(username) || !validLength(password)) {
-            errMsg.setText("Username/ password must have length " + minLength + "-" + maxLength + " characters)");
+        if(!validLength(m_username) || !validLength(m_password)) {
+            m_errMsg.setText(
+                    "Username/ password must have length " + MIN_LENGTH + "-" + MAX_LENGTH + " characters)");
             return false;
         }
 
         // check username & password, numeric & alphabetic char only
-        if(!isNumAlphaString(username) || !isNumAlphaString(password)) {
-            errMsg.setText("Username and/or password must contain numeric and alphabetic characters only");
+        if(!isNumAlphaString(m_username) || !isNumAlphaString(m_password)) {
+            m_errMsg.setText(
+                    "Username and/or password must contain numeric and alphabetic characters only");
             return false;
         }
 

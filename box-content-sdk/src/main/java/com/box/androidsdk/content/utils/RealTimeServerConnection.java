@@ -167,14 +167,15 @@ public class RealTimeServerConnection implements BoxFutureTask.OnCompletedListen
          * @param realTimeServerConnection The real time server connection. Call connect to reconnect.
          *
          */
-        public void onChange(final BoxSimpleMessage message, final RealTimeServerConnection realTimeServerConnection);
+        void onChange(final BoxSimpleMessage message,
+                      final RealTimeServerConnection realTimeServerConnection);
 
         /**
          *
          * @param e Exception returned, this can be a MaxRetriesExceededException exception.
          * @param realTimeServerConnection The real time server that connection failed with. Call connect to reconnect.
          */
-        public void onException(Exception e, final RealTimeServerConnection realTimeServerConnection);
+        void onException(Exception e, final RealTimeServerConnection realTimeServerConnection);
 
     }
 

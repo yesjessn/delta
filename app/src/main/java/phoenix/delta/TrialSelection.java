@@ -2,15 +2,16 @@ package phoenix.delta;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.os.*;
+import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
-//import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.Toast;
+
+//import android.os.Bundle;
 
 
 public class TrialSelection extends ActionBarActivity {
@@ -44,7 +45,7 @@ public class TrialSelection extends ActionBarActivity {
 
                 // save the data
                 currSession.setStudentResponseTime(responseTime / 1000.0);
-                currSession.setStudentSelection(Session.INSTANT_GAME_ACCESS);
+                currSession.setStudentSelection(ScheduleChoice.INSTANT_GAME_ACCESS);
                 //currSession.endTrial();
 
                 // go to next activity
@@ -66,7 +67,7 @@ public class TrialSelection extends ActionBarActivity {
 
                 // save the data
                 currSession.setStudentResponseTime(responseTime / 1000.00);
-                currSession.setStudentSelection(Session.WAIT_FOR_GAME);
+                currSession.setStudentSelection(ScheduleChoice.WAIT_FOR_GAME);
                 //currSession.endTrial();
 
                 // go to next activity
@@ -116,7 +117,6 @@ public class TrialSelection extends ActionBarActivity {
     @Override
     public void onBackPressed () {
         // do nothing
-        ;
     }
 
     @Override

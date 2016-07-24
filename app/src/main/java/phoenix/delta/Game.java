@@ -1,7 +1,5 @@
 package phoenix.delta;
 
-import java.util.Random;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -12,452 +10,356 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+public class Game
+{
+    private Pothole[] m_potholes;
+    private Pothole m_lastPothole;
+    private long    m_spawnPotholeTime;
+    
+    private Droid     m_droid;
+    private boolean   m_playerTapFlag;
+    private GameState m_gameState;
+    
+    private long            m_tapToStartTime;
+    private boolean         m_showTapToStart;
+    private long            m_getReadyGoTime;
+    private GetReadyGoState m_getReadyGoState;
+    
+    private long m_gameOverTime;
+    
+    private Paint m_clearPaint;
+    
+    private int     m_width;
+    private int     m_height;
+    private boolean m_initStart;
+    
+    private boolean m_first;
+    private Paint   m_blackPaint;
+    
+    private Paint m_emptyPaint;
+    private int   m_highScore;
+    private int   m_curScore;
+    private long  m_scoreTime;
+    
+    private Pastry m_pastry;
+    private Pastry m_pastry2;
+    private long   m_spawnPastryTime;
+    
+    private Road     m_road;
+    private Bitmap   m_backgroundImage;
+    private Bitmap   m_pastryImage;
+    private Bitmap   m_grassImage;
+    private Bitmap   m_droidJumpImage;
+    private Bitmap[] m_droidImages;
+    
+    private SoundPool m_soundPool;
+    private int       m_droidJumpSnd;
+    private int       m_droidEatPastrySnd;
+    private int       m_droidCrashSnd;
+    private GameState m_lastGameState;
+    private long      m_pauseStartTime;
+    
+    public boolean getPlayerTapFlag()
+    {
+        return m_playerTapFlag;
+    }
+    
+    public void setPlayerTapFlag(boolean p_playerTapFlag)
+    {
+        m_playerTapFlag = p_playerTapFlag;
+    }
+    
+    public Paint getClearPaint()
+    {
+        return m_clearPaint;
+    }
+    
+    public int getWidth()
+    {
+        return m_width;
+    }
+    
+    public Paint getEmptyPaint()
+    {
+        return m_emptyPaint;
+    }
 
-public class Game {
+    public Pastry getPastry()
+    {
+        return m_pastry;
+    }
 
-    //
-    // pothole resources
-    //
-    final int MAX_potholes = 1;
-    float MIN_POTHOLE_WIDTH = 127.0f;
-    //float MAX_POTHOLE_WIDTH = 137.0f;
-    Pothole [] potholes;
+    public Pastry getPastry2()
+    {
+        return m_pastry2;
+    }
 
-    // keep track of last spawned pothole
-    Pothole lastPothole;
+    public Bitmap getBackgroundImage()
+    {
+        return m_backgroundImage;
+    }
 
-    long spawnPotholeTime;
-    final long SPAWN_POTHOLE_TIME = 750;
+    public Bitmap getGrassImage()
+    {
+        return m_grassImage;
+    }
 
-    //
-    // Droid/Player resources
-    //
-    Droid droid;
-    final float groundY = 400;
-    final float groundHeight = 20;
+    public Bitmap getPastryImage()
+    {
+        return m_pastryImage;
+    }
 
-    //
-    // player input flag
-    //
-    boolean playerTap;
+    public Bitmap getDroidJumpImage()
+    {
+        return m_droidJumpImage;
+    }
 
-    //
-    // possible game states
-    //
-    final int GAME_MENU = 0;
-    final int GAME_READY = 1;
-    final int GAME_PLAY = 2;
-    final int GAME_OVER = 3;
+    public Bitmap[] getDroidImages()
+    {
+        return m_droidImages;
+    }
 
-    int gameState;
+    public SoundPool getSoundPool()
+    {
+        return m_soundPool;
+    }
 
-    //
-    // game menu message
-    //
-    long tapToStartTime;
-    boolean showTapToStart;
+    public int getDroidJumpSnd()
+    {
+        return m_droidJumpSnd;
+    }
 
-    //
-    // get ready message
-    //
-    final int FIRST_TIME_IN_GAME_READY = 0;
-    final int SHOW_GET_READY = 1;
-    final int SHOW_GO = 2;
+    public Game(Context p_context)
+    {
+        m_clearPaint = new Paint();
+        m_clearPaint.setARGB(Constants.EIGHT_BIT_MAX, 0, 0, 0);
+        m_clearPaint.setAntiAlias(true);
 
-    long getReadyGoTime;
-    int getReadyGoState;
+        m_emptyPaint = new Paint();
 
-    //
-    // game over message
-    //
-    long gameOverTime;
+        loadImages(p_context);
 
-    //
-    // shared paint objects for drawing
-    //
+        //Deprecated in build 21 - we're at build 16
+        m_soundPool = new SoundPool(Constants.MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+        loadSounds(p_context);
 
-    Paint greenPaint;
-    Paint clearPaint;
+        m_droid = new Droid(this);
 
-    //
-    // random number generator
-    //
-    Random rng;
-
-    //
-    // display dimensions
-    //
-    int width;
-    int height;
-
-    // run the gameReady only one time -- at the beginning
-    boolean initStart;
-    boolean first;
-
-
-    public Game(Context context) {
-
-        //
-        // allocate resources needed by game
-        //
-
-        greenPaint = new Paint();
-        greenPaint.setAntiAlias(true);
-        greenPaint.setARGB(255, 0, 255, 0);
-        greenPaint.setFakeBoldText(true);
-        greenPaint.setTextSize(42.0f);
-
-        clearPaint = new Paint();
-        clearPaint.setARGB(255, 0, 0, 0);
-        clearPaint.setAntiAlias(true);
-
-        rng = new Random();
-
-        //
-        // workshop 2
-        //
-
-        emptyPaint = new Paint();
-
-        //
-        // load images
-        //
-
-        loadImages(context);
-
-        //
-        // load sounds
-        //
-
-        soundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
-        loadSounds(context);
-
-        // -- END workshop 2
-
-        //
-        // create game entities
-        //
-
-        droid = new Droid(this);
-
-        potholes = new Pothole[MAX_potholes];
-        for (int i=0; i<MAX_potholes; i++) {
-            potholes[i] = new Pothole(i, this);
+        m_potholes = new Pothole[Constants.MAX_POTHOLES];
+        for (int i = 0; i < m_potholes.length; i++)
+        {
+            m_potholes[i] = new Pothole(i, this);
         }
 
-        //
-        // workshop 2
-        //
+        m_blackPaint = new Paint();
+        m_blackPaint.setAntiAlias(true);
+        m_blackPaint.setARGB(Constants.EIGHT_BIT_MAX, 0, 0, 0);
+        m_blackPaint.setFakeBoldText(true);
+        m_blackPaint.setTextSize(100.0f);
 
-        whitePaint = new Paint();
-        whitePaint.setAntiAlias(true);
-        whitePaint.setARGB(255, 255, 255, 255);
-        whitePaint.setFakeBoldText(true);
-        whitePaint.setTextSize(42.0f);
+        m_pastry = new Pastry(this);
+        m_pastry2 = new Pastry(this);
+        m_road = new Road(this);
 
-        blackPaint = new Paint();
-        blackPaint.setAntiAlias(true);
-        blackPaint.setARGB(255, 0, 0, 0);
-        blackPaint.setFakeBoldText(true);
-        blackPaint.setTextSize(100.0f);
+        m_highScore = Constants.SCORE_DEFAULT;
 
-        pastry = new Pastry(this);
-        pastry2 = new Pastry(this);
-        road = new Road(this);
+        m_first = true;
+        m_initStart = true;
 
-        highScore = SCORE_DEFAULT;
-
-        first = true;
-        initStart = true;
-        // -- END workshop 2
-
-
-        //
-        // initialize the game
-        //
         initOrResetGame();
     }
 
-    public void setScreenSize(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public Pothole[] getPotholes()
+    {
+        return m_potholes;
     }
 
-    public void run(Canvas canvas) {
-        switch (gameState) {
+    public void setScreenSize(int p_width, int p_height)
+    {
+        m_width = p_width;
+        m_height = p_height;
+    }
+
+    public void run(Canvas p_canvas)
+    {
+        switch (m_gameState)
+        {
             case GAME_MENU:
-                gameMenu(canvas);
+                gameMenu(p_canvas);
                 break;
             case GAME_READY:
-                gameReady(canvas);
+                gameReady(p_canvas);
                 break;
             case GAME_PLAY:
-                gamePlay(canvas);
+                gamePlay(p_canvas);
                 break;
-            /*case GAME_OVER:
-                gameOver(canvas);
-                break;*/
-
-            //
-            // workshop 2
-            //
             case GAME_PAUSE:
-                gamePause(canvas);
+                gamePause(p_canvas);
                 break;
         }
-        // -- END workshop 2
-
     }
 
-    public void doTouch() {
-        playerTap = true;
+    public void doTouch()
+    {
+        m_playerTapFlag = true;
     }
 
-    public void initOrResetGame() {
-        tapToStartTime = System.currentTimeMillis();
-        showTapToStart = true;
-        playerTap = false;
-        droid.reset();
+    public void initOrResetGame()
+    {
+        m_tapToStartTime = System.currentTimeMillis();
+        m_showTapToStart = true;
+        m_playerTapFlag = false;
+        m_droid.reset();
 
-        spawnPotholeTime = System.currentTimeMillis();
-        for (Pothole p : potholes) {
+        m_spawnPotholeTime = System.currentTimeMillis();
+        for (Pothole p : m_potholes)
+        {
             p.reset();
         }
 
-        lastPothole = null;
-        gameState = GAME_MENU;
-        lastGameState = gameState;
-        if (!initStart)
-            first = false;
-        getReadyGoState = FIRST_TIME_IN_GAME_READY;
-        getReadyGoTime = 0;
+        m_lastPothole = null;
+        m_gameState = GameState.GAME_MENU;
+        m_lastGameState = m_gameState;
+        if (!m_initStart)
+        {
+            m_first = false;
+        }
+        m_getReadyGoState = GetReadyGoState.FIRST_TIME_IN_GAME_READY;
+        m_getReadyGoTime = 0;
 
-        //
-        // workshop 2
-        //
-
-        //curScore = 0;
-        pastry.reset();
-        pastry2.reset2();
-        spawnPastryTime = System.currentTimeMillis();
-        road.reset();
-
-        // -- END workshop 2
+        m_pastry.reset();
+        m_pastry2.reset2();
+        m_spawnPastryTime = System.currentTimeMillis();
+        m_road.reset();
     }
-
-    public void initGameOver() {
-
-        //gameState = GAME_OVER;
-        //gameOverTime = System.currentTimeMillis();
-
-        //
-        // workshop 2
-        //
-        // play droid crash sound
-        soundPool.play(droidCrashSnd, 1.0f, 1.0f, 0, 0, 1.0f);
-
-        // update high score
-        /*if (curScore > highScore) {
-            highScore = curScore;
-        }*/
-
-        // -- END workshop 2
+    
+    public void initGameOver()
+    {
+        m_soundPool.play(m_droidCrashSnd, Constants.FULL_VOLUME, Constants.FULL_VOLUME,
+                         Constants.DEFAULT_PRIORITY, Constants.LOOP_INDICATOR,
+                         Constants.PLAYBACK_RATE);
         initOrResetGame();
     }
 
-    /*private void gameOver(Canvas canvas) {
+    private void gamePlay(Canvas p_canvas)
+    {
+        p_canvas.drawRect(0, 0, m_width, m_height, m_clearPaint);
 
-        // clear screen
-        canvas.drawRect(0, 0, width, height, clearPaint);
+        m_road.update();
+        m_road.drawBackground(p_canvas);
+        m_road.draw(p_canvas);
 
-        canvas.drawText("GAME OVER", width/3, height/2, whitePaint);
-
-        long now = System.currentTimeMillis() - gameOverTime;
-        if (now > 2000) {
-            resetGame();
-        }
-    }*/
-
-    private void gamePlay(Canvas canvas) {
-        // clear screen
-        canvas.drawRect(0, 0, width, height, clearPaint);
-
-        //
-        // workshop 2
-        //
-
-        // draw ground
-        road.update();
-        road.drawBackground(canvas);
-        road.draw(canvas);
-
-        // --- END workshop 2
-
-        for (Pothole p : potholes) {
-            if (p.alive) {
+        for (Pothole p : m_potholes)
+        {
+            if (p.isAlive())
+            {
                 p.update();
-                p.draw(canvas);
+                p.draw(p_canvas);
             }
         }
 
-        //
-        // workshop 2
-        //
-
-        if (pastry.alive) {
-            pastry.update();
-            pastry.draw(canvas);
+        if (m_pastry.isAlive())
+        {
+            m_pastry.update();
+            m_pastry.draw(p_canvas);
         }
-        droid.update();
+        m_droid.update();
 
-        if (pastry2.another) {
-            pastry2.update2();
-            pastry2.draw(canvas);
+        if (m_pastry2.isAnother())
+        {
+            m_pastry2.update2();
+            m_pastry2.draw(p_canvas);
         }
-        droid.update();
+        m_droid.update();
 
-        // -- END workshop 2
-
-        droid.draw(canvas);
+        m_droid.draw(p_canvas);
 
         spawnPothole();
-
-        //
-        // workshop 2
-        //
-
         spawnPastry();
-
-        //doScore(canvas);
-
-        // -- END workshop 2
     }
 
-
-
-    private void gameReady(Canvas canvas) {
-
+    private void gameReady(Canvas p_canvas)
+    {
         long now;
 
-        // clear screen
-        //canvas.drawRect(0, 0, width, height, clearPaint);
-        road.drawBackground(canvas);
+        m_road.drawBackground(p_canvas);
 
-        switch (getReadyGoState) {
+        switch (m_getReadyGoState)
+        {
             case FIRST_TIME_IN_GAME_READY:
-                if (first) {
-                    initStart = false;
-                    // draw blank score
-                    //canvas.drawText("SCORE: 0", 0, 40, whitePaint);
-
-                    getReadyGoTime = System.currentTimeMillis();
-                    getReadyGoState = SHOW_GET_READY;
-                } else {
-                    gameState = GAME_PLAY;
+                if (m_first)
+                {
+                    m_initStart = false;
+                    m_getReadyGoTime = System.currentTimeMillis();
+                    m_getReadyGoState = GetReadyGoState.SHOW_GET_READY;
+                }
+                else
+                {
+                    m_gameState = GameState.GAME_PLAY;
                 }
                 break;
             case SHOW_GET_READY:
-                canvas.drawText("READY SET", (width / 2) - 250.0f, height / 2, blackPaint);
-                now = System.currentTimeMillis() - getReadyGoTime;
-                if (now > 1000) {
-                    getReadyGoTime = System.currentTimeMillis();
-                    getReadyGoState = SHOW_GO;
+                drawCenteredText(p_canvas, Constants.READY_SET);
+                now = System.currentTimeMillis() - m_getReadyGoTime;
+                if (now > Constants.GET_READY_TIME_MS)
+                {
+                    m_getReadyGoTime = System.currentTimeMillis();
+                    m_getReadyGoState = GetReadyGoState.SHOW_GO;
                 }
                 break;
             case SHOW_GO:
-                canvas.drawText("GO!", (width / 2) - 190.0f, height / 2, blackPaint);
-                now = System.currentTimeMillis() - getReadyGoTime;
-                if (now > 500) {
-                    gameState = GAME_PLAY;
-
-                    //
-                    // workshop 2
-                    //
-                    scoreTime = System.currentTimeMillis();
-
-                    // -- END workshop 2
+                drawCenteredText(p_canvas, Constants.GO);
+                now = System.currentTimeMillis() - m_getReadyGoTime;
+                if (now > Constants.GO_TIME_MS)
+                {
+                    m_gameState = GameState.GAME_PLAY;
+                    m_scoreTime = System.currentTimeMillis();
                 }
                 break;
         }
 
-
-        //
-        // workshop 2
-        //
-
-        // draw ground
-        road.draw(canvas);
-
-        // -- END workshop 2
-
-        // draw player
-        droid.draw(canvas);
+        m_road.draw(p_canvas);
+        m_droid.draw(p_canvas);
     }
 
-    private void gameMenu(Canvas canvas) {
-
-        //canvas.drawRect(0, 0, width, height, clearPaint);
-        road.drawBackground(canvas);
-
-        //canvas.drawText("CHASING CAT", (width/2)-200.0f, 100.0f, whitePaint);
-
-        //canvas.drawText("HI SCORE: " + highScore, (width/3)-20.0f, height/2, whitePaint);
-
-        playerTap = true;
-        if (playerTap) {
-            gameState = GAME_READY;
-            playerTap = false;
-            getReadyGoState = FIRST_TIME_IN_GAME_READY;
-            getReadyGoTime = System.currentTimeMillis();
-
-            // spawn 1st chasm so player sees something at start of game
-            potholes[0].spawn(0);
-            lastPothole = potholes[0];
-        }
-
-        /*long now = System.currentTimeMillis() - tapToStartTime;
-        if (now > 550) {
-            tapToStartTime = System.currentTimeMillis();
-            showTapToStart = !showTapToStart;
-        }
-
-        if (showTapToStart) {
-            canvas.drawText("TAP TO START", width/3, height-100.0f, whitePaint);
-        }*/
+    private void drawCenteredText(Canvas p_canvas, String p_toDraw)
+    {
+        float textWidth = m_blackPaint.measureText(p_toDraw);
+        p_canvas.drawText(p_toDraw, (m_width - textWidth) / 2, m_height / 2, m_blackPaint);
     }
 
-    public float random(float a) {
-        return rng.nextFloat() * a;
+    private void gameMenu(Canvas p_canvas)
+    {
+        m_road.drawBackground(p_canvas);
+
+        m_playerTapFlag = true;
+        m_gameState = GameState.GAME_READY;
+        m_playerTapFlag = false;
+        m_getReadyGoState = GetReadyGoState.FIRST_TIME_IN_GAME_READY;
+        m_getReadyGoTime = System.currentTimeMillis();
+
+        // spawn 1st chasm so player sees something at start of game
+        m_potholes[0].spawn(0);
+        m_lastPothole = m_potholes[0];
     }
 
-    public float random(float a, float b) {
-        return Math.round(a + (rng.nextFloat() * (b - a)));
-    }
+    private void spawnPothole()
+    {
+        long now = System.currentTimeMillis() - m_spawnPotholeTime;
 
-    void spawnPothole() {
-        long now = System.currentTimeMillis() - spawnPotholeTime;
-
-        if (now > SPAWN_POTHOLE_TIME) {
-
+        if (now > Constants.SPAWN_POTHOLE_TIME)
+        {
             // randomly determine whether or not to spawn a new pothole
-            if ((int)random(10) > 5) {
-
-                //
-                // find an available pothole to use
-                //
-
-                for (Pothole p : potholes) {
-
-                    if (p.alive) {
+            if (Utilities.nextFloat() > Constants.SPAWN_POTHOLE_CHANCE)
+            {
+                for (Pothole p : m_potholes)
+                {
+                    if (p.isAlive())
+                    {
                         continue;
                     }
 
-                    //
-                    // by default all new potholes start just beyond
-                    // the right side of the display
-                    //
-
-                    float xOffset = 0.0f;
+                    float xOffset = 0;
 
                     //
                     // if the last pothole is alive then use its width to adjust
@@ -466,322 +368,207 @@ public class Game {
                     // give the player some breathing room.
                     //
 
-                    if (lastPothole.alive) {
+                    if (m_lastPothole.isAlive())
+                    {
+                        float tmp = m_lastPothole.getX() + m_lastPothole.getW();
 
-                        float tmp = lastPothole.x + lastPothole.w;
-
-                        if (tmp > width) {
-                            tmp = tmp - width;
-                            xOffset = tmp + random(10.0f);
+                        if (tmp > m_width)
+                        {
+                            tmp = tmp - m_width;
+                            xOffset = tmp + Utilities.random(10.0f);
                         }
-                        else {
-                            tmp = width - tmp;
-                            if (tmp < 20.0f) {
-                                xOffset = tmp + random(10.0f);
+                        else
+                        {
+                            tmp = m_width - tmp;
+                            if (tmp < 20.0f)
+                            {
+                                xOffset = tmp + Utilities.random(10.0f);
                             }
                         }
                     }
 
                     p.spawn(xOffset);
-                    lastPothole = p;
+                    m_lastPothole = p;
                     break;
                 }
             }
 
-            spawnPotholeTime = System.currentTimeMillis();
+            m_spawnPotholeTime = System.currentTimeMillis();
         }
     }
 
-    //
-    // workshop2
-    //
-
-    Paint whitePaint;
-    Paint blackPaint;
-    Paint emptyPaint;
-
-    final int GAME_PAUSE = 4;
-
-    //
-    // track time between save games
-    //
-    long saveGameTime;
-
-    //
-    // hiscore
-    //
-    int highScore;
-    int curScore;
-
-    long scoreTime;
-    final long SCORE_TIME = 100;
-
-    final int SCORE_DEFAULT = 5000;
-    final int SCORE_INC = 5;
-    final int SCORE_PASTRY_BONUS = 200;
-
-    //
-    // Pastry
-    //
-    Pastry pastry;
-    Pastry pastry2;
-    long spawnPastryTime;
-    final long SPAWN_PASTRY_TIME = 750;
-
-
-    //
-    // the road
-    //
-    Road road;
-
-    //
-    // bitmaps
-    //
-    Bitmap backgroundImage;
-    Bitmap grassImage;
-    //Bitmap dividerImage;
-    Bitmap pastryImage;
-    Bitmap droidJumpImage;
-    Bitmap [] droidImages;
-    final int MAX_DROID_IMAGES = 4;
-
-    //
-    // sound
-    //
-    SoundPool soundPool;
-    int droidJumpSnd;
-    int droidEatPastrySnd;
-    int droidCrashSnd;
-
-    int lastGameState;
-    long pauseStartTime;
-
-    private void loadSounds(Context context) {
-        droidCrashSnd = soundPool.load(context, R.raw.droidcrash, 1);
-        droidEatPastrySnd = soundPool.load(context, R.raw.eatpastry, 1);
-        droidJumpSnd = soundPool.load(context, R.raw.droidjump, 1);
+    private void loadSounds(Context context)
+    {
+        m_droidCrashSnd = m_soundPool.load(context, R.raw.droidcrash, 1);
+        m_droidEatPastrySnd = m_soundPool.load(context, R.raw.eatpastry, 1);
+        m_droidJumpSnd = m_soundPool.load(context, R.raw.droidjump, 1);
     }
 
-    private void loadImages(Context context) {
+    private void loadImages(Context context)
+    {
         Resources res = context.getResources();
 
-        backgroundImage = BitmapFactory.decodeResource(res, R.drawable.background);
-        grassImage = BitmapFactory.decodeResource(res, R.drawable.grass);
-        //dividerImage = BitmapFactory.decodeResource(res, R.drawable.divider);
+        m_backgroundImage = BitmapFactory.decodeResource(res, R.drawable.background);
+        m_grassImage = BitmapFactory.decodeResource(res, R.drawable.grass);
 
-        pastryImage = BitmapFactory.decodeResource(res, R.drawable.pastry);
+        m_pastryImage = BitmapFactory.decodeResource(res, R.drawable.star);
 
-        droidJumpImage = BitmapFactory.decodeResource(res, R.drawable.droidjump);
+        m_droidJumpImage = BitmapFactory.decodeResource(res, R.drawable.p1_jump);
 
-        droidImages = new Bitmap[MAX_DROID_IMAGES];
-        droidImages[0] = BitmapFactory.decodeResource(res, R.drawable.droid0);
-        droidImages[1] = BitmapFactory.decodeResource(res, R.drawable.droid1);
-        droidImages[2] = BitmapFactory.decodeResource(res, R.drawable.droid2);
-        droidImages[3] = BitmapFactory.decodeResource(res, R.drawable.droid3);
+        m_droidImages = new Bitmap[Constants.MAX_DROID_IMAGES];
+        m_droidImages[0] = BitmapFactory.decodeResource(res, R.drawable.p1_walk01);
+        m_droidImages[1] = BitmapFactory.decodeResource(res, R.drawable.p1_walk02);
+        m_droidImages[2] = BitmapFactory.decodeResource(res, R.drawable.p1_walk03);
+        m_droidImages[3] = BitmapFactory.decodeResource(res, R.drawable.p1_walk04);
+        m_droidImages[4] = BitmapFactory.decodeResource(res, R.drawable.p1_walk05);
+        m_droidImages[5] = BitmapFactory.decodeResource(res, R.drawable.p1_walk06);
+        m_droidImages[6] = BitmapFactory.decodeResource(res, R.drawable.p1_walk07);
+        m_droidImages[7] = BitmapFactory.decodeResource(res, R.drawable.p1_walk08);
+        m_droidImages[8] = BitmapFactory.decodeResource(res, R.drawable.p1_walk09);
+        m_droidImages[9] = BitmapFactory.decodeResource(res, R.drawable.p1_walk10);
+        m_droidImages[10] = BitmapFactory.decodeResource(res, R.drawable.p1_walk11);
     }
 
-    private void gamePause(Canvas canvas) {
-
+    private void gamePause(Canvas canvas)
+    {
         // clear screen
-        canvas.drawRect(0, 0, width, height, clearPaint);
+        canvas.drawRect(0, 0, m_width, m_height, m_clearPaint);
 
-        //canvas.drawText("GAME PAUSED", width/3, height/2, whitePaint);
-
-        if (playerTap) {
-            playerTap = false;
-            gameState = lastGameState;
+        if (m_playerTapFlag)
+        {
+            m_playerTapFlag = false;
+            m_gameState = m_lastGameState;
 
             // determine time elapsed between pause and unpause
-            long deltaTime = System.currentTimeMillis() - pauseStartTime;
+            long deltaTime = System.currentTimeMillis() - m_pauseStartTime;
 
             // adjust timer variables based on elapsed time delta
-            spawnPotholeTime += deltaTime;
-            tapToStartTime += deltaTime;
-            getReadyGoTime += deltaTime;
-            gameOverTime += deltaTime;
-            scoreTime += deltaTime;
-            spawnPastryTime += deltaTime;
+            m_spawnPotholeTime += deltaTime;
+            m_tapToStartTime += deltaTime;
+            m_getReadyGoTime += deltaTime;
+            m_gameOverTime += deltaTime;
+            m_scoreTime += deltaTime;
+            m_spawnPastryTime += deltaTime;
         }
     }
 
-    public void pause() {
-
+    public void pause()
+    {
         // if game already paused don't pause it again - otherwise we'll lose the
         // game state and end up in an infinite loop
-        if (gameState == GAME_PAUSE) {
+        if (m_gameState == GameState.GAME_PAUSE)
+        {
             return;
         }
 
-        lastGameState = gameState;
-        gameState = GAME_PAUSE;
-        pauseStartTime = System.currentTimeMillis();
+        m_lastGameState = m_gameState;
+        m_gameState = GameState.GAME_PAUSE;
+        m_pauseStartTime = System.currentTimeMillis();
     }
 
-    void spawnPastry() {
-        long now = System.currentTimeMillis() - spawnPastryTime;
+    private void spawnPastry()
+    {
+        long now = System.currentTimeMillis() - m_spawnPastryTime;
 
-        if (now > SPAWN_PASTRY_TIME) {
+        if (now > Constants.SPAWN_PASTRY_TIME)
+        {
             // randomly determine whether or not to spawn a new pastry
-            if ((int)random(10) > 3) {
-                if (!pastry.alive) {
-                    pastry.spawn();
+            if ((int) Utilities.random(10) > 3)
+            {
+                if (!m_pastry.isAlive())
+                {
+                    m_pastry.spawn();
                 }
             }
-            if ((int)random(10) > 5) {
-                if (!pastry2.another) {
-                    pastry2.spawn2();
+            if ((int) Utilities.random(10) > 5)
+            {
+                if (!m_pastry2.isAnother())
+                {
+                    m_pastry2.spawn2();
                 }
             }
-            spawnPastryTime = System.currentTimeMillis();
+            m_spawnPastryTime = System.currentTimeMillis();
         }
     }
 
-    public void doPlayerEatPastry() {
+    public void doPlayerEatPastry()
+    {
         // play eat pastry sound
-        soundPool.play(droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
+        m_soundPool.play(m_droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
 
         // increase score
-        curScore += SCORE_PASTRY_BONUS;
+        m_curScore += Constants.SCORE_PASTRY_BONUS;
 
         // reset pastry and spawn time
-        pastry.alive = false;
-        spawnPastryTime = System.currentTimeMillis();
+        m_pastry.setAlive(false);
+        m_spawnPastryTime = System.currentTimeMillis();
     }
 
-    public void doPlayerEatPastry2() {
+    public void doPlayerEatPastry2()
+    {
         // play eat pastry sound
-        soundPool.play(droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
+        m_soundPool.play(m_droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
 
         // increase score
-        curScore += SCORE_PASTRY_BONUS;
+        m_curScore += Constants.SCORE_PASTRY_BONUS;
 
         // reset pastry and spawn time
-        pastry2.another = false;
-        spawnPastryTime = System.currentTimeMillis();
+        m_pastry2.setAnother(false);
+        m_spawnPastryTime = System.currentTimeMillis();
     }
 
-    private void doScore(Canvas canvas) {
-
-        // first update current score
-        long now = System.currentTimeMillis() - scoreTime;
-
-        if (now > SCORE_TIME) {
-            curScore += SCORE_INC;
-            scoreTime = System.currentTimeMillis();
-        }
-
-        // now draw it the screen
-        StringBuilder buf = new StringBuilder("SCORE: ");
-        buf.append(curScore);
-        canvas.drawText(buf.toString(), 0, 40, whitePaint);
-    }
-
-    public void restore(SharedPreferences savedState) {
-        //
-        // start restoring game variables
-        //
-
-        if (savedState.getInt("game_saved", 0) != 1) {
-            return;
-        }
-
-        SharedPreferences.Editor editor = savedState.edit();
-        editor.remove("game_saved");
-        editor.commit();
-
-        highScore = savedState.getInt("game_highScore", SCORE_DEFAULT);
-
-        int lastPotholeId = savedState.getInt("game_lastPotHole_id", -1);
-
-        if (lastPotholeId != -1) {
-            lastPothole = potholes[lastPotholeId];
-
-        }
-        else {
-            lastPothole = null;
-        }
-
-        spawnPotholeTime = savedState.getLong("game_spawnPotholeTicks", 0);
-        playerTap = savedState.getBoolean("game_playerTap", false);
-        gameState = savedState.getInt("game_gameState", 0);
-        tapToStartTime = savedState.getLong("game_tapToStartTime", 0);
-        showTapToStart = savedState.getBoolean("game_showTapToStart", false);
-        getReadyGoTime = savedState.getLong("game_getReadyGoTime", 0);
-        getReadyGoState = savedState.getInt("game_getReadyGoState", 0);
-        gameOverTime = savedState.getLong("game_gameOverTime", 0);
-
-        lastGameState = savedState.getInt("game_lastGameState", 1);
-        pauseStartTime = savedState.getLong("game_pauseStartTime", 0);
-
-        spawnPastryTime = savedState.getLong("game_spawnPastryTime", 0);
-
-        scoreTime = savedState.getLong("game_scoreTime", 0);
-        curScore = savedState.getInt("game_curScore", 0);
-
-        // restore game entities
-        droid.restore(savedState);
-
-        for (Pothole p : potholes) {
-            p.restore(savedState);
-        }
-
-        pastry.restore(savedState);
-        pastry2.restore(savedState);
-
-        road.restore(savedState);
-    }
-
-    public void save(SharedPreferences.Editor map) {
-
-        if (map == null) {
+    public void save(SharedPreferences.Editor map)
+    {
+        if (map == null)
+        {
             return;
         }
 
         map.putInt("game_saved", 1);
 
-        map.putInt("game_highScore", highScore);
+        map.putInt("game_highScore", m_highScore);
 
         // save game vars
-        if (lastPothole == null) {
+        if (m_lastPothole == null)
+        {
             map.putInt("game_lastPotHole_id", -1);
         }
-        else {
-            map.putInt("game_lastPotHole_id", lastPothole.id);
+        else
+        {
+            map.putInt("game_lastPotHole_id", m_lastPothole.id);
         }
 
-        map.putLong("game_spawnPotholeTicks", spawnPotholeTime);
-        map.putBoolean("game_playerTap", playerTap);
-        map.putInt("game_gameState", gameState);
-        map.putLong("game_tapToStartTime", tapToStartTime);
-        map.putBoolean("game_showTapToStart", showTapToStart);
-        map.putLong("game_getReadyGoTime", getReadyGoTime);
-        map.putInt("game_getReadyGoState", getReadyGoState);
-        map.putLong("game_gameOverTime", gameOverTime);
+        map.putLong("game_spawnPotholeTicks", m_spawnPotholeTime);
+        map.putBoolean("game_playerTap", m_playerTapFlag);
+        map.putInt("game_gameState", Utilities.getOrdinal(m_gameState));
+        map.putLong("game_tapToStartTime", m_tapToStartTime);
+        map.putBoolean("game_showTapToStart", m_showTapToStart);
+        map.putLong("game_getReadyGoTime", m_getReadyGoTime);
+        map.putInt("game_getReadyGoState", Utilities.getOrdinal(m_getReadyGoState));
+        map.putLong("game_gameOverTime", m_gameOverTime);
 
-        map.putInt("game_lastGameState", lastGameState);
-        map.putLong("game_pauseStartTime", pauseStartTime);
+        map.putInt("game_lastGameState", Utilities.getOrdinal(m_lastGameState));
+        map.putLong("game_pauseStartTime", m_pauseStartTime);
 
-        map.putLong("game_spawnPastryTime", spawnPastryTime);
+        map.putLong("game_spawnPastryTime", m_spawnPastryTime);
 
-        map.putLong("game_scoreTime", scoreTime);
-        map.putInt("game_curScore", curScore);
+        map.putLong("game_scoreTime", m_scoreTime);
+        map.putInt("game_curScore", m_curScore);
 
         // save game entities
 
-        droid.save(map);
+        m_droid.save(map);
 
-        for (Pothole p : potholes) {
+        for (Pothole p : m_potholes)
+        {
             p.save(map);
         }
 
-        pastry.save(map);
-        pastry2.save(map);
+        m_pastry.save(map);
+        m_pastry2.save(map);
 
-        road.save(map);
+        m_road.save(map);
 
-        //
-        // store saved variables
-        //
         map.commit();
     }
 }

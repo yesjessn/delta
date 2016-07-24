@@ -174,7 +174,7 @@ public class BoxBookmark extends BoxItem {
 
         private final String value;
 
-        private Permission(String value) {
+        Permission(String value) {
             this.value = value;
         }
 
