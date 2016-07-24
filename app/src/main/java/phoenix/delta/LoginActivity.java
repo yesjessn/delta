@@ -49,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
                 if(authentication(UserType.TEACHER))
                 {
                     m_newSession = new Session(false);
-                    Intent teacherActivity = new Intent(LoginActivity.this, TeacherActivity.class);
+                    Intent teacherActivity = new Intent(LoginActivity.this, SessionPrep.class);
                     teacherActivity.putExtra("SESSION", m_newSession);
                     Toast.makeText(LoginActivity.this, "Logged in as TEACHER",
                                    Toast.LENGTH_SHORT).show();
@@ -182,8 +182,4 @@ public class LoginActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed () {
-        startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-    }
 }

@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".HomeActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,16 +21,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
-        <activity
             android:name=".AdminActivity"
             android:label="@string/title_activity_admin" >
-        </activity>
-        <activity
-            android:name=".TeacherActivity"
-            android:label="@string/title_activity_teacher" >
         </activity>
         <activity
             android:name=".RegAdminActivity"
@@ -58,11 +50,6 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ManageTeacherActivity"
@@ -76,11 +63,6 @@
             android:name=".TrialWaitActivity"
             android:hardwareAccelerated="false"
             android:label="@string/title_activity_trial_wait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".BoxActivity"

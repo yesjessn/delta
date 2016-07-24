@@ -102,7 +102,7 @@ public class TrialMain extends ActionBarActivity {
                 if(currSession.isStartedByAdmin())
                     goBack = new Intent(TrialMain.this,AdminActivity.class);
                 else
-                    goBack = new Intent(TrialMain.this,TeacherActivity.class);
+                    goBack = new Intent(TrialMain.this,SessionPrep.class);
 
                 // save data & reset
                 currSession.endSession(getApplicationContext());
@@ -115,7 +115,7 @@ public class TrialMain extends ActionBarActivity {
                 if(currSession.isStartedByAdmin())
                     goBack = new Intent(TrialMain.this,AdminActivity.class);
                 else
-                    goBack = new Intent(TrialMain.this,TeacherActivity.class);
+                    goBack = new Intent(TrialMain.this,SessionPrep.class);
 
                 // reset
                 currSession.resetSession();

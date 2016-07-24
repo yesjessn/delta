@@ -72,7 +72,7 @@ public class DoneSessionActivity extends ActionBarActivity {
                         }
                         else
                         {
-                            Intent teacherAct = new Intent(DoneSessionActivity.this,TeacherActivity.class);
+                            Intent teacherAct = new Intent(DoneSessionActivity.this,SessionPrep.class);
                             teacherAct.putExtra(Constants.SESSION, m_currSession);
                             startActivity(teacherAct);
                         }

@@ -63,11 +63,7 @@ public class SessionPrep extends ActionBarActivity {
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
-                Intent nextAct;
-                if(currSession.isStartedByAdmin())
-                    nextAct = new Intent(SessionPrep.this,AdminActivity.class);
-                else
-                    nextAct = new Intent(SessionPrep.this, TeacherActivity.class);
+                Intent nextAct = new Intent(SessionPrep.this, LoginActivity.class);
                 nextAct.putExtra("SESSION", currSession);
                 startActivity(nextAct);
 

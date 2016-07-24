@@ -20,6 +20,11 @@ public class DroidRunJumpActivity extends Activity
 
         Intent thisIntent = getIntent();
         m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
+        if(m_currSession == null)
+        {
+            //if session isn't set up yet, return early and don't execute wait logic
+            return;
+        }
         m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
 
         int gameTime = 2; // to waive the "ready, set, go" time
