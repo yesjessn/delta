@@ -50,7 +50,7 @@ public class SessionPrep extends ActionBarActivity {
                     Toast.makeText(SessionPrep.this, "Invalid Input: Enter a Student ID!", Toast.LENGTH_SHORT).show();
                 else {
                     currSession.setStudent(studID);
-                    Intent trialMain = new Intent(SessionPrep.this,TrialMain.class);
+                    Intent trialMain = new Intent(SessionPrep.this,SessionStartActivity.class);
                     trialMain.putExtra("SESSION", currSession);
                     Toast.makeText(SessionPrep.this, "Starting trial for: " + studID, Toast.LENGTH_LONG).show();
                     startActivity(trialMain);

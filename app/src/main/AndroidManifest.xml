@@ -37,6 +37,14 @@
             android:label="@string/title_activity_session_prep" >
         </activity>
         <activity
+            android:name=".SessionStartActivity"
+            android:label="@string/title_activity_session_start" >
+        </activity>
+        <activity
+            android:name=".GameSelection"
+            android:label="@string/title_activity_game_selection" >
+        </activity>
+        <activity
             android:name=".TrialMain"
             android:label=""
             android:theme="@style/SessionMenuTheme" >

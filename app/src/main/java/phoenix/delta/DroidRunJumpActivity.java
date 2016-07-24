@@ -18,6 +18,8 @@ public class DroidRunJumpActivity extends Activity
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.main);
 
+        m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
+
         Intent thisIntent = getIntent();
         m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
         if(m_currSession == null)
@@ -25,7 +27,10 @@ public class DroidRunJumpActivity extends Activity
             //if session isn't set up yet, return early and don't execute wait logic
             return;
         }
-        m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
+        if(m_currSession.isTrialNull()){
+            //if trial is null, we are in free play mode, so don't setup countdowntimer
+            return;
+        }
 
         int gameTime = 2; // to waive the "ready, set, go" time
 
