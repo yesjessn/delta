@@ -85,6 +85,18 @@
             android:name=".DoneSessionActivity"
             android:label="@string/title_activity_done_session" >
         </activity>
+
+        <activity
+            android:name="dev.emmaguy.fruitninja.ui.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

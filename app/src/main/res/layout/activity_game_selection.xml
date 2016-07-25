@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/play_game2_btn"
-        android:background="@drawable/p1_jump"
+        android:background="@drawable/fruit_ninja"
         />
 
     <Button

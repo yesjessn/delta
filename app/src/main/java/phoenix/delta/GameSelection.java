@@ -36,7 +36,7 @@ public class GameSelection extends ActionBarActivity{
         playGame2Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent game = new Intent(GameSelection.this, DroidRunJumpActivity.class);
+                Intent game = new Intent(GameSelection.this, dev.emmaguy.fruitninja.ui.MainActivity.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
             }

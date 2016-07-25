@@ -85,6 +85,12 @@
     <string name="hint_pw_done">Numeric Password</string>
     <string name="prompt_pw_done">Session is finished!\nEnter the (numeric) password to exit!</string>
 
+    <!--Fruit Ninja-->
+    <string name="game2_name">Fruit Ninja</string>
+    <string name="start">Start</string>
+    <string name="button_home">Home</string>
+
+
 
 
 </resources>

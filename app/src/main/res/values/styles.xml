@@ -11,6 +11,14 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <!--Fruit Ninja-->
+    <style name="buttonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:background">@drawable/buttons</item>
+        <item name="android:minWidth">120dp</item>
+        <item name="android:minHeight">40dp</item>
+    </style>
+
+
     <!--style name="Widget.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@drawable/ab_background</item>
 
