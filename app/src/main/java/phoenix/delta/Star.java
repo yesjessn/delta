@@ -28,15 +28,10 @@ public class Star
         return m_rect;
     }
 
-    public void reset()
-    {
-        m_alive = false;
-    }
-
     public void spawn()
     {
         m_x = m_game.getWidth() + m_w;
-        m_y = Utilities.random(Constants.GROUND_Y - m_game.getDroid().getHeight() - Constants.JUMP_HEIGHT, Constants.GROUND_Y - m_h);
+        m_y = Utilities.random(Constants.GROUND_Y - m_game.getDroid().getHeight() + Constants.JUMP_HEIGHT, Constants.GROUND_Y - m_h);
         m_rect.top = m_y;
         m_rect.bottom = m_y + m_h;
         m_alive = true;
