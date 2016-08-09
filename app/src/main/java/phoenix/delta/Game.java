@@ -10,12 +10,14 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.SoundPool;
 
+import java.util.ArrayList;
+
 public class Game
 {
     private Pothole[] m_potholes;
     private Pothole m_lastPothole;
     private long    m_spawnPotholeTime;
-    
+
     private Droid     m_droid;
     private boolean   m_playerTapFlag;
     private GameState m_gameState;
@@ -35,20 +37,17 @@ public class Game
     
     private boolean m_first;
     private Paint   m_blackPaint;
-    
-    private Paint m_emptyPaint;
+
     private int   m_highScore;
     private int   m_curScore;
     private long  m_scoreTime;
     
-    private Pastry m_pastry;
-    private Pastry m_pastry2;
+    private ArrayList<Star> m_stars;
     private long   m_spawnPastryTime;
     
     private Road     m_road;
     private Bitmap   m_backgroundImage;
     private Bitmap   m_pastryImage;
-    private Bitmap   m_grassImage;
     private Bitmap   m_droidJumpImage;
     private Bitmap[] m_droidImages;
     
@@ -78,31 +77,18 @@ public class Game
     {
         return m_width;
     }
-    
-    public Paint getEmptyPaint()
+
+    public int getHeight()
     {
-        return m_emptyPaint;
+        return m_height;
     }
 
-    public Pastry getPastry()
-    {
-        return m_pastry;
-    }
-
-    public Pastry getPastry2()
-    {
-        return m_pastry2;
-    }
 
     public Bitmap getBackgroundImage()
     {
         return m_backgroundImage;
     }
 
-    public Bitmap getGrassImage()
-    {
-        return m_grassImage;
-    }
 
     public Bitmap getPastryImage()
     {
@@ -129,13 +115,20 @@ public class Game
         return m_droidJumpSnd;
     }
 
+    public Droid getDroid() {
+        return m_droid;
+    }
+
+    public ArrayList<Star> getStars() {
+        return m_stars;
+    }
+
     public Game(Context p_context)
     {
         m_clearPaint = new Paint();
         m_clearPaint.setARGB(Constants.EIGHT_BIT_MAX, 0, 0, 0);
         m_clearPaint.setAntiAlias(true);
 
-        m_emptyPaint = new Paint();
 
         loadImages(p_context);
 
@@ -157,8 +150,7 @@ public class Game
         m_blackPaint.setFakeBoldText(true);
         m_blackPaint.setTextSize(100.0f);
 
-        m_pastry = new Pastry(this);
-        m_pastry2 = new Pastry(this);
+        m_stars = new ArrayList<Star>();
         m_road = new Road(this);
 
         m_highScore = Constants.SCORE_DEFAULT;
@@ -182,20 +174,31 @@ public class Game
 
     public void run(Canvas p_canvas)
     {
-        switch (m_gameState)
-        {
-            case GAME_MENU:
-                gameMenu(p_canvas);
-                break;
-            case GAME_READY:
-                gameReady(p_canvas);
-                break;
-            case GAME_PLAY:
-                gamePlay(p_canvas);
-                break;
-            case GAME_PAUSE:
-                gamePause(p_canvas);
-                break;
+        //gets width of the entire surface screen
+        final float scaleFactorX = getWidth()/(getBackgroundImage().getWidth()*1.f);
+        //gets height of entire surface screen
+        final float scaleFactorY = getHeight()/(getBackgroundImage().getHeight()*1.f);
+        if (p_canvas != null) {
+            final int savedState = p_canvas.save();
+
+            //scales screen
+            p_canvas.scale(scaleFactorX, scaleFactorY);
+
+            switch (m_gameState) {
+                case GAME_MENU:
+                    gameMenu(p_canvas);
+                    break;
+                case GAME_READY:
+                    gameReady(p_canvas);
+                    break;
+                case GAME_PLAY:
+                    gamePlay(p_canvas);
+                    break;
+                case GAME_PAUSE:
+                    gamePause(p_canvas);
+                    break;
+            }
+            p_canvas.restoreToCount(savedState);
         }
     }
 
@@ -227,8 +230,7 @@ public class Game
         m_getReadyGoState = GetReadyGoState.FIRST_TIME_IN_GAME_READY;
         m_getReadyGoTime = 0;
 
-        m_pastry.reset();
-        m_pastry2.reset2();
+        m_stars.clear();
         m_spawnPastryTime = System.currentTimeMillis();
         m_road.reset();
     }
@@ -246,7 +248,6 @@ public class Game
         p_canvas.drawRect(0, 0, m_width, m_height, m_clearPaint);
 
         m_road.update();
-        m_road.drawBackground(p_canvas);
         m_road.draw(p_canvas);
 
         for (Pothole p : m_potholes)
@@ -258,17 +259,16 @@ public class Game
             }
         }
 
-        if (m_pastry.isAlive())
+        for (int i = m_stars.size()-1; i >= 0; i--)
         {
-            m_pastry.update();
-            m_pastry.draw(p_canvas);
-        }
-        m_droid.update();
-
-        if (m_pastry2.isAnother())
-        {
-            m_pastry2.update2();
-            m_pastry2.draw(p_canvas);
+            Star s = m_stars.get(i);
+            if (s.isAlive())
+            {
+                s.update();
+                s.draw(p_canvas);
+            } else {
+                m_stars.remove(i);
+            }
         }
         m_droid.update();
 
@@ -281,8 +281,6 @@ public class Game
     private void gameReady(Canvas p_canvas)
     {
         long now;
-
-        m_road.drawBackground(p_canvas);
 
         switch (m_getReadyGoState)
         {
@@ -330,7 +328,7 @@ public class Game
 
     private void gameMenu(Canvas p_canvas)
     {
-        m_road.drawBackground(p_canvas);
+        m_road.draw(p_canvas);
 
         m_playerTapFlag = true;
         m_gameState = GameState.GAME_READY;
@@ -409,7 +407,6 @@ public class Game
         Resources res = context.getResources();
 
         m_backgroundImage = BitmapFactory.decodeResource(res, R.drawable.background);
-        m_grassImage = BitmapFactory.decodeResource(res, R.drawable.grass);
 
         m_pastryImage = BitmapFactory.decodeResource(res, R.drawable.star);
 
@@ -468,30 +465,23 @@ public class Game
 
     private void spawnPastry()
     {
-        long now = System.currentTimeMillis() - m_spawnPastryTime;
+        long now = System.currentTimeMillis();
+        long timeSinceLastSpawn = now - m_spawnPastryTime;
 
-        if (now > Constants.SPAWN_PASTRY_TIME)
+        if (timeSinceLastSpawn > Constants.SPAWN_PASTRY_TIME)
         {
             // randomly determine whether or not to spawn a new pastry
             if ((int) Utilities.random(10) > 3)
             {
-                if (!m_pastry.isAlive())
-                {
-                    m_pastry.spawn();
-                }
-            }
-            if ((int) Utilities.random(10) > 5)
-            {
-                if (!m_pastry2.isAnother())
-                {
-                    m_pastry2.spawn2();
-                }
+               Star s = new Star(this);
+                s.spawn();
+                m_stars.add(s);
             }
             m_spawnPastryTime = System.currentTimeMillis();
         }
     }
 
-    public void doPlayerEatPastry()
+    public void doPlayerEatPastry(Star s)
     {
         // play eat pastry sound
         m_soundPool.play(m_droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
@@ -500,20 +490,7 @@ public class Game
         m_curScore += Constants.SCORE_PASTRY_BONUS;
 
         // reset pastry and spawn time
-        m_pastry.setAlive(false);
-        m_spawnPastryTime = System.currentTimeMillis();
-    }
-
-    public void doPlayerEatPastry2()
-    {
-        // play eat pastry sound
-        m_soundPool.play(m_droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
-
-        // increase score
-        m_curScore += Constants.SCORE_PASTRY_BONUS;
-
-        // reset pastry and spawn time
-        m_pastry2.setAnother(false);
+        s.setAlive(false);
         m_spawnPastryTime = System.currentTimeMillis();
     }
 
@@ -564,11 +541,17 @@ public class Game
             p.save(map);
         }
 
-        m_pastry.save(map);
-        m_pastry2.save(map);
+        for (int i = 0; i < m_stars.size(); i++)
+        {
+
+            Star s = m_stars.get(i);
+            s.save(map, i);
+        }
 
         m_road.save(map);
 
         map.commit();
     }
+
+
 }

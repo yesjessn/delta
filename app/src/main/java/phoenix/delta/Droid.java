@@ -13,6 +13,8 @@ public class Droid
     private boolean m_isJumping;
 
     private float m_w;
+
+
     private float m_h;
 
     private Game m_game;
@@ -35,12 +37,16 @@ public class Droid
         reset();
     }
 
+    public float getHeight() {
+        return m_h;
+    }
+
     public void reset()
     {
         m_isJumping = false;
 
-        m_x = Constants.START_X;
-        m_y = Constants.START_Y;
+        m_x = Constants.GROUND_X;
+        m_y = Constants.GROUND_Y;
 
         m_rect.left = m_x;
         m_rect.top = m_y;
@@ -61,7 +67,6 @@ public class Droid
 
         // first: handle collision detection with pastry and potholes
         doCollisionDetection();
-        checkPastry2Collision();
 
         // handle jumping
         if (m_isJumping)
@@ -93,11 +98,11 @@ public class Droid
     {
         if (m_isJumping)
         {
-            p_canvas.drawBitmap(m_game.getDroidJumpImage(), m_x, m_y, m_game.getClearPaint());
+            p_canvas.drawBitmap(m_game.getDroidJumpImage(), m_x, m_y - m_h, m_game.getClearPaint());
         }
         else
         {
-            p_canvas.drawBitmap(m_game.getDroidImages()[m_curFrame], m_x, m_y,
+            p_canvas.drawBitmap(m_game.getDroidImages()[m_curFrame], m_x, m_y - m_h,
                                 m_game.getClearPaint());
         }
     }
@@ -105,14 +110,11 @@ public class Droid
     //
     // helper methods for workshop - not to be implemented by participants
     //
-    private void doCollisionDetection()
-    {
+    private void doCollisionDetection() {
         float ey = m_y + m_h;
 
-        for (Pothole p : m_game.getPotholes())
-        {
-            if (!p.isAlive())
-            {
+        for (Pothole p : m_game.getPotholes()) {
+            if (!p.isAlive()) {
                 continue;
             }
 
@@ -133,22 +135,14 @@ public class Droid
         m_rect.bottom = m_y + m_h;
         m_rect.right = m_x + m_w;
 
-        if (m_game.getPastry().isAlive() && m_rect.intersect(m_game.getPastry().getRect()))
-        {
-            m_game.doPlayerEatPastry();
-        }
-    }
+        for (int i = 0; i < m_game.getStars().size(); i++) {
 
-    public void checkPastry2Collision()
-    {
-        m_rect.left = m_x;
-        m_rect.top = m_y;
-        m_rect.bottom = m_y + m_h;
-        m_rect.right = m_x + m_w;
+            Star s = m_game.getStars().get(i);
+            if (s.isAlive() && m_rect.intersect(s.getRect()))
 
-        if (m_game.getPastry2().isAnother() && m_rect.intersect(m_game.getPastry2().getRect()))
-        {
-            m_game.doPlayerEatPastry2();
+            {
+                m_game.doPlayerEatPastry(s);
+            }
         }
     }
 
@@ -159,9 +153,9 @@ public class Droid
         m_vy += secsSinceLastUpdate * Constants.DROID_FALL_ACCEL;
         System.out.println("delta m_y: " + (secsSinceLastUpdate * m_vy));
         m_y += secsSinceLastUpdate * m_vy;
-        if (m_y > Constants.START_Y)
+        if (m_y > Constants.GROUND_Y)
         {
-            m_y = Constants.START_Y;
+            m_y = Constants.GROUND_Y;
             m_vy = 0;
             m_isJumping = false;
         }

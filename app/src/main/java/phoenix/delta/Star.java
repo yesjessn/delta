@@ -1,0 +1,82 @@
+package phoenix.delta;
+
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.RectF;
+
+public class Star
+{
+    private float m_x, m_y;
+    private float m_w, m_h;
+    private boolean m_alive;
+
+    private Game  m_game;
+    private RectF m_rect;
+
+    public Star(Game game)
+    {
+        m_game = game;
+
+        m_w = game.getPastryImage().getWidth();
+        m_h = game.getPastryImage().getHeight();
+
+        m_rect = new RectF();
+    }
+
+    public RectF getRect()
+    {
+        return m_rect;
+    }
+
+    public void reset()
+    {
+        m_alive = false;
+    }
+
+    public void spawn()
+    {
+        m_x = m_game.getWidth() + m_w;
+        m_y = Utilities.random(Constants.GROUND_Y - m_game.getDroid().getHeight() - Constants.JUMP_HEIGHT, Constants.GROUND_Y - m_h);
+        m_rect.top = m_y;
+        m_rect.bottom = m_y + m_h;
+        m_alive = true;
+    }
+
+    public void update()
+    {
+        m_x -= Constants.MOVEMENT_RATE;
+        m_rect.left = m_x;
+        m_rect.right = m_x + m_w;
+
+        if (m_x < -m_w)
+        {
+            m_alive = false;
+        }
+    }
+
+    public boolean isAlive()
+    {
+        return m_alive;
+    }
+
+    public void setAlive(boolean p_alive)
+    {
+        m_alive = p_alive;
+    }
+
+    public void draw(Canvas canvas)
+    {
+        canvas.drawBitmap(m_game.getPastryImage(), m_rect.left, m_rect.top, m_game.getClearPaint());
+    }
+
+    public void save(SharedPreferences.Editor map, int i)
+    {
+        map.putFloat("ps_x", m_x);
+        map.putFloat("ps_y", m_y);
+        map.putFloat("ps_w", m_w);
+        map.putFloat("ps_h", m_h);
+        map.putBoolean("ps_alive", m_alive);
+        map.putInt("ps_star", i);
+    }
+}
+

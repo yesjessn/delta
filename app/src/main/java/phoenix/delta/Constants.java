@@ -31,8 +31,9 @@ public class Constants
 
     public static final long PASSPHRASE = 2015; // changeable
 
-    public static final float START_X               = 530.0f;
-    public static final float START_Y               = 502.5f;
+    public static final float GROUND_Y = 420f;
+    public static final float GROUND_X = 64f;
+
 
     public static final float MOVEMENT_RATE         = 10.0f;//pixels per second
     public static final float AIR_TIME              = .5f;//seconds
@@ -74,7 +75,6 @@ public class Constants
 
     public static final int   MAX_POTHOLES       = 1;
     public static final long  SPAWN_POTHOLE_TIME = 750;
-    public static final float GROUND_Y           = 400;
 
     public static final int  SCORE_DEFAULT      = 5000;
     public static final int  SCORE_PASTRY_BONUS = 200;
