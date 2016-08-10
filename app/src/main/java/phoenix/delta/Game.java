@@ -41,6 +41,7 @@ public class Game
     private int   m_highScore;
     private int   m_curScore;
     private long  m_scoreTime;
+    private final Paint m_drawScore = new Paint();
     
     private ArrayList<Star> m_stars;
     private long m_spawnStarTime;
@@ -272,6 +273,7 @@ public class Game
         }
         m_droid.update();
 
+        p_canvas.drawText("Score: " + m_curScore, 0, 20, m_drawScore);
         m_droid.draw(p_canvas);
 
         spawnPothole();
@@ -315,6 +317,7 @@ public class Game
                 }
                 break;
         }
+
         m_road.draw(p_canvas);
         m_droid.draw(p_canvas);
     }
@@ -487,6 +490,7 @@ public class Game
 
         // increase score
         m_curScore += Constants.SCORE_STAR_BONUS;
+
 
         // reset pastry and spawn time
         s.setAlive(false);
