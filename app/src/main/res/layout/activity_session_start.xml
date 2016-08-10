@@ -5,7 +5,7 @@
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
               android:paddingBottom="@dimen/activity_vertical_margin"
-              android:background="@drawable/bg3_run"
+              android:background="@drawable/bg"
               tools:context="phoenix.delta.SessionStartActivity"
               android:orientation="vertical">
 
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/free_play"
         android:id="@+id/free_play_btn"
-        android:background="@drawable/transparent_button"
+        android:background="@drawable/white_button"
         />
 
     <Button
@@ -23,7 +23,7 @@
         android:layout_marginTop="15dp"
         android:text="@string/start_session"
         android:id="@+id/start_btn"
-        android:background="@drawable/transparent_button"
+        android:background="@drawable/white_button"
         />
 
     <Button
@@ -32,6 +32,6 @@
         android:layout_marginTop="15dp"
         android:text="@string/cancel"
         android:id="@+id/cancel_btn"
-        android:background="@drawable/transparent_button"/>
+        android:background="@drawable/white_button"/>
 
 </LinearLayout>

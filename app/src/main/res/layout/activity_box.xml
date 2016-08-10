@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg3_run"
+    android:background="@drawable/bg"
     tools:context="phoenix.delta.BoxActivity">
 
     <ListView
@@ -32,7 +32,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textSize="24dp"
-            android:background="@drawable/transparent_button"/>
+            android:background="@drawable/white_button"/>
 
         <Button
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textSize="24dp"
-            android:background="@drawable/transparent_button"
+            android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
 
         <Button
@@ -59,7 +59,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:textSize="24dp"
-            android:background="@drawable/transparent_button"
+            android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
     </LinearLayout>
 
