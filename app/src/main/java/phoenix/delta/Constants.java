@@ -77,8 +77,8 @@ public class Constants
     public static final long  SPAWN_POTHOLE_TIME = 750;
 
     public static final int  SCORE_DEFAULT      = 5000;
-    public static final int  SCORE_PASTRY_BONUS = 200;
-    public static final long SPAWN_PASTRY_TIME  = 750;
+    public static final int SCORE_STAR_BONUS = 200;
+    public static final long SPAWN_STAR_TIME = 750;
 
     public static final int MAX_STREAMS       = 4;
     public static final int GET_READY_TIME_MS = 1000;

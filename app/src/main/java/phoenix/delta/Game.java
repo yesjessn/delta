@@ -43,7 +43,7 @@ public class Game
     private long  m_scoreTime;
     
     private ArrayList<Star> m_stars;
-    private long   m_spawnPastryTime;
+    private long m_spawnStarTime;
     
     private Road     m_road;
     private Bitmap   m_backgroundImage;
@@ -53,7 +53,7 @@ public class Game
     
     private SoundPool m_soundPool;
     private int       m_droidJumpSnd;
-    private int       m_droidEatPastrySnd;
+    private int m_droidEatStarSnd;
     private int       m_droidCrashSnd;
     private GameState m_lastGameState;
     private long      m_pauseStartTime;
@@ -90,7 +90,7 @@ public class Game
     }
 
 
-    public Bitmap getPastryImage()
+    public Bitmap getStarImage()
     {
         return m_pastryImage;
     }
@@ -231,7 +231,7 @@ public class Game
         m_getReadyGoTime = 0;
 
         m_stars.clear();
-        m_spawnPastryTime = System.currentTimeMillis();
+        m_spawnStarTime = System.currentTimeMillis();
         m_road.reset();
     }
     
@@ -275,7 +275,7 @@ public class Game
         m_droid.draw(p_canvas);
 
         spawnPothole();
-        spawnPastry();
+        spawnStar();
     }
 
     private void gameReady(Canvas p_canvas)
@@ -315,7 +315,6 @@ public class Game
                 }
                 break;
         }
-
         m_road.draw(p_canvas);
         m_droid.draw(p_canvas);
     }
@@ -398,7 +397,7 @@ public class Game
     private void loadSounds(Context context)
     {
         m_droidCrashSnd = m_soundPool.load(context, R.raw.droidcrash, 1);
-        m_droidEatPastrySnd = m_soundPool.load(context, R.raw.eatpastry, 1);
+        m_droidEatStarSnd = m_soundPool.load(context, R.raw.eatpastry, 1);
         m_droidJumpSnd = m_soundPool.load(context, R.raw.droidjump, 1);
     }
 
@@ -445,7 +444,7 @@ public class Game
             m_getReadyGoTime += deltaTime;
             m_gameOverTime += deltaTime;
             m_scoreTime += deltaTime;
-            m_spawnPastryTime += deltaTime;
+            m_spawnStarTime += deltaTime;
         }
     }
 
@@ -463,12 +462,12 @@ public class Game
         m_pauseStartTime = System.currentTimeMillis();
     }
 
-    private void spawnPastry()
+    private void spawnStar()
     {
         long now = System.currentTimeMillis();
-        long timeSinceLastSpawn = now - m_spawnPastryTime;
+        long timeSinceLastSpawn = now - m_spawnStarTime;
 
-        if (timeSinceLastSpawn > Constants.SPAWN_PASTRY_TIME)
+        if (timeSinceLastSpawn > Constants.SPAWN_STAR_TIME)
         {
             // randomly determine whether or not to spawn a new pastry
             if ((int) Utilities.random(10) > 3)
@@ -477,21 +476,21 @@ public class Game
                 s.spawn();
                 m_stars.add(s);
             }
-            m_spawnPastryTime = System.currentTimeMillis();
+            m_spawnStarTime = System.currentTimeMillis();
         }
     }
 
-    public void doPlayerEatPastry(Star s)
+    public void doPlayerEatStar(Star s)
     {
         // play eat pastry sound
-        m_soundPool.play(m_droidEatPastrySnd, 1.0f, 1.0f, 0, 0, 1.0f);
+        m_soundPool.play(m_droidEatStarSnd, 1.0f, 1.0f, 0, 0, 1.0f);
 
         // increase score
-        m_curScore += Constants.SCORE_PASTRY_BONUS;
+        m_curScore += Constants.SCORE_STAR_BONUS;
 
         // reset pastry and spawn time
         s.setAlive(false);
-        m_spawnPastryTime = System.currentTimeMillis();
+        m_spawnStarTime = System.currentTimeMillis();
     }
 
     public void save(SharedPreferences.Editor map)
@@ -527,7 +526,7 @@ public class Game
         map.putInt("game_lastGameState", Utilities.getOrdinal(m_lastGameState));
         map.putLong("game_pauseStartTime", m_pauseStartTime);
 
-        map.putLong("game_spawnPastryTime", m_spawnPastryTime);
+        map.putLong("game_spawnPastryTime", m_spawnStarTime);
 
         map.putLong("game_scoreTime", m_scoreTime);
         map.putInt("game_curScore", m_curScore);

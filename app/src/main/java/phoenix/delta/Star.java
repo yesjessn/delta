@@ -17,8 +17,8 @@ public class Star
     {
         m_game = game;
 
-        m_w = game.getPastryImage().getWidth();
-        m_h = game.getPastryImage().getHeight();
+        m_w = game.getStarImage().getWidth();
+        m_h = game.getStarImage().getHeight();
 
         m_rect = new RectF();
     }
@@ -61,7 +61,7 @@ public class Star
 
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(m_game.getPastryImage(), m_rect.left, m_rect.top, m_game.getClearPaint());
+        canvas.drawBitmap(m_game.getStarImage(), m_rect.left, m_rect.top, m_game.getClearPaint());
     }
 
     public void save(SharedPreferences.Editor map, int i)

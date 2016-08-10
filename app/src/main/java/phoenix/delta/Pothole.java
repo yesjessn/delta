@@ -84,8 +84,8 @@ public class Pothole {
     public Pothole(int id, Game game) {
         this.id = id;
         this.game = game;
-        y = Constants.GROUND_Y + 170;
-        h = 0;
+        y = Constants.GROUND_Y;
+        h = 5;
         alive = false;
     }
 

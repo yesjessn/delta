@@ -97,11 +97,11 @@ public class Droid
     {
         if (m_isJumping)
         {
-            p_canvas.drawBitmap(m_game.getDroidJumpImage(), m_rect.left, m_y - m_h, m_game.getClearPaint());
+            p_canvas.drawBitmap(m_game.getDroidJumpImage(), m_x, m_y - m_h, m_game.getClearPaint());
         }
         else
         {
-            p_canvas.drawBitmap(m_game.getDroidImages()[m_curFrame], m_rect.left, m_y - m_h,
+            p_canvas.drawBitmap(m_game.getDroidImages()[m_curFrame], m_x, m_y - m_h,
                                 m_game.getClearPaint());
         }
     }
@@ -117,8 +117,8 @@ public class Droid
                 continue;
             }
 
-            float lx = m_rect.left;
-            float rx = m_rect.left + m_w;
+            float lx = m_x;
+            float rx = m_x + m_w;
 
             if ((p.getX() < lx) // am I over the pothole?
                     && ((p.getX() + p.getW()) > rx) // am I still inside the pothole?
@@ -127,15 +127,19 @@ public class Droid
                 m_game.initGameOver();
             }
         }
+        // check for pastry collision
+        m_rect.left = m_x;
+        m_rect.top = m_y - m_h;
+        m_rect.bottom = m_y;
+        m_rect.right = m_x + m_w;
 
         for (int i = 0; i < m_game.getStars().size(); i++) {
 
             Star s = m_game.getStars().get(i);
             if (s.isAlive() && m_rect.intersect(s.getRect()))
             {
-                m_game.doPlayerEatPastry(s);
+                m_game.doPlayerEatStar(s);
             }
-            System.out.println("Result " + m_rect.intersect(s.getRect()));
         }
     }
 
@@ -162,7 +166,7 @@ public class Droid
     }
 
     public void save(SharedPreferences.Editor map) {
-        map.putFloat(Constants.DROID_X, m_rect.left);
+        map.putFloat(Constants.DROID_X, m_x);
         map.putFloat(Constants.DROID_Y, m_y);
         map.putFloat(Constants.DROID_VY, m_vy);
         map.putBoolean(Constants.DROID_JUMPING, m_isJumping);
