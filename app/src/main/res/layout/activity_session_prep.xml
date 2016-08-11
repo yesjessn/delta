@@ -18,7 +18,7 @@
         android:id="@+id/textView2"
         android:text="@string/enter_student"
         android:textSize="48dp"
-        android:background="@android:color/white"/>
+        />
 
     <EditText
         android:layout_width="match_parent"

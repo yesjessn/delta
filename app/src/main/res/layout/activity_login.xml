@@ -22,7 +22,7 @@
             android:text="@string/title_activity_login"
             android:textSize="48dp"
             android:id="@+id/textView"
-            android:background="@android:color/white"/>
+            />
 
         <EditText
             android:layout_width="match_parent"
