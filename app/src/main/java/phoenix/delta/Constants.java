@@ -68,8 +68,8 @@ public class Constants
     public static float MIN_POTHOLE_WIDTH = 127.0f;
 
     public static final String PREFS_NAME                      = "DRJPrefsFile";
-    public static final int    DEFAULT_INIT_TRIAL_DURATION_SEC = 30;
-    public static final int    DEFAULT_DELAYED_GAME_TIME_SEC   = 30;
+    public static final int    DEFAULT_INIT_TRIAL_DURATION_SEC = 30; //total trial time
+    public static final int    DEFAULT_DELAYED_GAME_TIME_SEC   = 30; //
     public static final int    DEFAULT_TRIALS_BEFORE_INC       = 3;
 
 

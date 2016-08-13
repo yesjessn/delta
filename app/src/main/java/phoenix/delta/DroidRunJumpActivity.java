@@ -32,16 +32,7 @@ public class DroidRunJumpActivity extends Activity
             return;
         }
 
-        int gameTime = 2; // to waive the "ready, set, go" time
-
-        if(m_currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
-        {
-            gameTime += m_currSession.getGameTimeDelay();
-        }
-        else
-        {
-            gameTime += m_currSession.getGameTimeInstant();
-        }
+        long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time
 
         new CountDownTimer(gameTime*1000, 1000)
         {

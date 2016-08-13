@@ -19,21 +19,32 @@ public class Session implements Serializable
     private int m_consecutiveDelayCount;
     private Trial m_currentTrial;
 
+    private Block currentBlock;
+    private ArrayList<Block> completedBlocks;
+
     private ArrayList<Trial> m_trials;
     private boolean m_showTimer;
     private boolean m_isAdmin;
 
+    public ProcedureType procedure;
+
+    public WaitTime waitTime;
+
     // constructor
     public Session(boolean p_isAdmin)
     {
+        completedBlocks = new ArrayList<>();
         m_trials = new ArrayList<>();
         m_studID = "";
         m_showTimer = false;
         m_isAdmin = p_isAdmin;
+        waitTime = new WaitTime(this);
         m_consecutiveDelayCount = 0;
         setDefaultSetting();
         m_currTrialTime = m_initTrialDurationTime;
     }
+
+    public ArrayList<Block> getCompletedBlocks() { return completedBlocks;}
 
     public ArrayList<Trial> getAllTrials()
     {
@@ -47,7 +58,9 @@ public class Session implements Serializable
 
     public void resetSession()
     {
+        currentBlock = null;
         m_currentTrial = null;
+        completedBlocks.clear();
         m_trials.clear();
         m_studID = "";
         m_consecutiveDelayCount = 0;
@@ -133,16 +146,8 @@ public class Session implements Serializable
         }
         else
         {
-            if(m_consecutiveDelayCount == m_numTrialPerInc)
-            {
-                // Increment trial time by m_timeIncAmount sec every m_numTrialPerInc consecutive delay choice(s).
-                m_currTrialTime += m_timeIncAmount;
-                p_newTrial.setTrialTime(m_currTrialTime);
-                m_consecutiveDelayCount = 0;
-            }
-            else
-            {
-                p_newTrial.setTrialTime(m_currTrialTime);
+            if (currentBlock == null) {
+                currentBlock = new Block(completedBlocks.size()+1, procedure);
             }
             m_currentTrial = p_newTrial;
             return true;
@@ -159,12 +164,15 @@ public class Session implements Serializable
     {
         if(m_currentTrial != null)
         {
-            if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
-            {
-                m_consecutiveDelayCount++;
-            }
             m_trials.add(m_currentTrial);
+            currentBlock.add(m_currentTrial);
             m_currentTrial = null;
+
+            if(currentBlock.isComplete()) {
+                completedBlocks.add(currentBlock);
+                currentBlock = null;
+            }
+
             return true;
         }
         return false;
@@ -221,42 +229,42 @@ public class Session implements Serializable
         return m_numTrial;
     }
 
-    public int getInitTrialDurationTime()
-    {
-        return m_initTrialDurationTime;
-    }
-
-    public int getTimeIncAmount()
-    {
-        return m_timeIncAmount;
-    }
-
-    public int getGameTimeDelay()
-    {
-        return m_gameTimeDelay;
-    }
-
-    public int getGameTimeInstant()
-    {
-        return m_gameTimeInstant;
-    }
+//    public int getInitTrialDurationTime()
+//    {
+//        return m_initTrialDurationTime;
+//    }
+//
+//    public int getTimeIncAmount()
+//    {
+//        return m_timeIncAmount;
+//    }
+//
+//    public int getGameTimeDelay()
+//    {
+//        return m_gameTimeDelay;
+//    }
+//
+//    public int getGameTimeInstant()
+//    {
+//        return m_gameTimeInstant;
+//    }
 
     public ScheduleChoice getCurrTrialChoice()
     {
         return m_currentTrial.getChoice();
     }
 
-    public int getWaitTime()
-    {
-        if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
-        {
-            return m_currentTrial.getWaitTime(m_gameTimeDelay);
-        }
-        else
-        {
-            return m_currentTrial.getWaitTime(m_gameTimeInstant);
-        }
-    }
+//    public int getWaitTime()
+//    {
+//        if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
+//        {
+//            return m_currentTrial.getWaitTime(m_gameTimeDelay);
+//        }
+//        else
+//        {
+//            return m_currentTrial.getWaitTime(m_gameTimeInstant);
+//        }
+//    }
 
     public void setTimerVisible()
     {

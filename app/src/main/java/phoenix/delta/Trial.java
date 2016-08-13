@@ -8,8 +8,8 @@ public class Trial implements Serializable {
     private int trialTime;
     // trial data
     private double responseTime;
-    private ScheduleChoice choice;// true if choose instant game access,
-                                // false if choose to wait before game
+    private ScheduleChoice choice;
+    private TrialType trialType;
 
     // constructor
     public Trial(int trialTime) {
@@ -18,6 +18,10 @@ public class Trial implements Serializable {
     public Trial() {}
 
     public ScheduleChoice getChoice() {return choice;}
+
+    public TrialType getTrialType() {
+        return trialType;
+    }
 
     // set response time
     public void setResponseTime(double responseTime) {this.responseTime = responseTime;}

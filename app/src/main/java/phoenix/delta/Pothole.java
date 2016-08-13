@@ -84,8 +84,8 @@ public class Pothole {
     public Pothole(int id, Game game) {
         this.id = id;
         this.game = game;
-        y = Constants.GROUND_Y;
-        h = 5;
+        y = 416; //numbers based on height of background image (where ground starts)
+        h = 64; //where ground ends
         alive = false;
     }
 
