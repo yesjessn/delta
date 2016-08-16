@@ -26,6 +26,8 @@
     <string name="free_play">Free Play</string>
     <!-- Game Selection -->
     <string name="title_activity_game_selection">Game Selection</string>
+    <string name="free_play_select">Free Play!</string>
+    <string name="select_game">Select Game!</string>
     <!-- Admin Registration -->
     <string name="title_activity_reg_admin">Register New Administrator</string>
     <string name="admin_registration">Administrator Registration</string>

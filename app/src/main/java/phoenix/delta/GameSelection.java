@@ -16,7 +16,7 @@ public class GameSelection extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_game_selection);
+        setContentView(R.layout.activity_freeplay_selection);
 
         Intent thisIntent = getIntent();
         final Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
