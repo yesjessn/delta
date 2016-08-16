@@ -1,7 +1,10 @@
 package phoenix.delta;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -19,13 +22,15 @@ public class TrialMain extends ActionBarActivity {
 
     Button start_trial_btn, save_quit_btn, nosave_quit_btn;
     Session currSession;
+    MediaPlayer alertSnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_trial_main);
-
+        alertSnd = MediaPlayer.create(this, R.raw.save);
+        alertSnd.start();
 
 
         Intent thisIntent = getIntent();

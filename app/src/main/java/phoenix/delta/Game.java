@@ -399,9 +399,9 @@ public class Game
 
     private void loadSounds(Context context)
     {
-        m_droidCrashSnd = m_soundPool.load(context, R.raw.droidcrash, 1);
-        m_droidEatStarSnd = m_soundPool.load(context, R.raw.eatpastry, 1);
-        m_droidJumpSnd = m_soundPool.load(context, R.raw.droidjump, 1);
+        m_droidCrashSnd = m_soundPool.load(context, R.raw.sfx_deathscream_robot1, 1);
+        m_droidEatStarSnd = m_soundPool.load(context, R.raw.positive, 1);
+        m_droidJumpSnd = m_soundPool.load(context, R.raw.sfx_movement_jump6, 1);
     }
 
     private void loadImages(Context context)
