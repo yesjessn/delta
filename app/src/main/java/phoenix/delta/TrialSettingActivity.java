@@ -38,10 +38,10 @@ public class TrialSettingActivity extends ActionBarActivity {
 
         // set to display current values
         total_num_trial.setText(Integer.toString(currSession.getNumTrial()));
-        init_trial_time.setText(Integer.toString(currSession.getInitTrialDurationTime()));
-        game_time_delay.setText(Integer.toString(currSession.getGameTimeDelay()));
-        game_time_instant.setText(Integer.toString(currSession.getGameTimeInstant()));
-        wait_time_inc.setText(Integer.toString(currSession.getTimeIncAmount()));
+//        init_trial_time.setText(Integer.toString(currSession.getInitTrialDurationTime()));
+//        game_time_delay.setText(Integer.toString(currSession.getGameTimeDelay()));
+//        game_time_instant.setText(Integer.toString(currSession.getGameTimeInstant()));
+//        wait_time_inc.setText(Integer.toString(currSession.getTimeIncAmount()));
 
         total_num_trial.setGravity(Gravity.CENTER);
         init_trial_time.setGravity(Gravity.CENTER);

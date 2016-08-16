@@ -1,8 +1,9 @@
 package phoenix.delta;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Block {
+public class Block implements Serializable {
     private ArrayList<Trial> trials;
     private int blockNumber;
     private ProcedureType procedureType;

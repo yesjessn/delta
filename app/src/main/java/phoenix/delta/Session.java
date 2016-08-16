@@ -15,8 +15,6 @@ public class Session implements Serializable
     private int m_gameTimeDelay;
     private int m_gameTimeInstant;
     private int m_numTrialPerInc;
-    private int m_currTrialTime;
-    private int m_consecutiveDelayCount;
     private Trial m_currentTrial;
 
     private Block currentBlock;
@@ -39,9 +37,8 @@ public class Session implements Serializable
         m_showTimer = false;
         m_isAdmin = p_isAdmin;
         waitTime = new WaitTime(this);
-        m_consecutiveDelayCount = 0;
         setDefaultSetting();
-        m_currTrialTime = m_initTrialDurationTime;
+        procedure = ProcedureType.ESTABLISH_INDIFFERENCE;
     }
 
     public ArrayList<Block> getCompletedBlocks() { return completedBlocks;}
@@ -63,7 +60,6 @@ public class Session implements Serializable
         completedBlocks.clear();
         m_trials.clear();
         m_studID = "";
-        m_consecutiveDelayCount = 0;
     }
 
     public void setDefaultSetting()
@@ -126,7 +122,6 @@ public class Session implements Serializable
     {
         m_numTrial = p_numTrial;
         m_initTrialDurationTime = p_initTrialDurationTime;
-        m_currTrialTime = p_initTrialDurationTime;
         m_gameTimeDelay = p_gameTimeDelay;
         m_gameTimeInstant = p_gameTimeInstant;
         m_timeIncAmount = p_timeIncAmount;

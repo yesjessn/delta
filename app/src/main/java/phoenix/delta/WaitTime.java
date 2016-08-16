@@ -1,9 +1,11 @@
 package phoenix.delta;
 
-public class WaitTime {
+import java.io.Serializable;
+
+public class WaitTime implements Serializable {
     private Session session;
 
-    public static long INIT_PREREWARD_DELAY = -1L;
+    public static long INIT_PREREWARD_DELAY = 15*1000L;
     public static long LLR_GAMETIME = 15*1000L;
     public static long SSR_GAMETIME = 5*1000L;
 
@@ -12,7 +14,13 @@ public class WaitTime {
     }
 
     public long getPrerewardDelay() {
-        return INIT_PREREWARD_DELAY;
+        if (session.getCurrTrialChoice() == ScheduleChoice.INSTANT_GAME_ACCESS){
+            return 0;
+        }
+        else if (session.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME){
+            return INIT_PREREWARD_DELAY;
+        }
+        return 0;
     }
 
     public long getGameTime() {

@@ -32,33 +32,6 @@ public class DroidRunJumpActivity extends Activity
             return;
         }
 
-        long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time
-
-        new CountDownTimer(gameTime*1000, 1000)
-        {
-            public void onTick(long millisUntilFinished)
-            {
-
-            }
-
-            public void onFinish()
-            {
-
-                Intent nextAct;
-                if(m_currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
-                {
-                    nextAct = new Intent(DroidRunJumpActivity.this, TrialMain.class);
-                }
-                else
-                {
-                    nextAct = new Intent(DroidRunJumpActivity.this, TrialWaitActivity.class);
-                }
-
-                nextAct.putExtra(Constants.SESSION, m_currSession);
-                startActivity(nextAct);
-            }
-        }.start();
-
     }
 
     @Override

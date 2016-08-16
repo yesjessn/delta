@@ -84,6 +84,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class TrialWaitActivity extends ActionBarActivity {
@@ -100,33 +101,71 @@ public class TrialWaitActivity extends ActionBarActivity {
 
         Intent thisIntent = getIntent();
         currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        final boolean prerewardDelay = thisIntent.getBooleanExtra("prerewardDelay", true);
         gifView = (GIFView)findViewById(R.id.gifView);
 
-        int waitTime = currSession.getWaitTime();
-
         msg = (TextView) findViewById(R.id.countdown_msg);
-        new CountDownTimer(waitTime * 1000, 1000) {
+
+        if(prerewardDelay) {
+            final long waitTime = currSession.waitTime.getPrerewardDelay();
+            new CountDownTimer(waitTime, 1000) {
+
+                public void onTick(long millisUntilFinished) {
+                    if (currSession.isTimerVisible())
+                        msg.setText(Integer.toString((int) millisUntilFinished / 1000));
+                }
+
+                public void onFinish() {
+                    Intent nextAct = new Intent(TrialWaitActivity.this, DroidRunJumpActivity.class);
+                    nextAct.putExtra("SESSION", currSession);
+
+                    long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time
+
+                    gameTime += currSession.waitTime.getGameTime();
+
+                    new CountDownTimer(gameTime, 1000) {
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+
+                            Intent nextAct = new Intent(TrialWaitActivity.this, TrialWaitActivity.class);
+
+                            nextAct.putExtra(Constants.SESSION, currSession);
+                            nextAct.putExtra("prerewardDelay", false);
+                            startActivity(nextAct);
+                        }
+                    }.start();
+                    startActivity(nextAct);
+
+                    //startActivity(new Intent(TrialWaitActivity.this,TrialMain.class));
+                }
+
+            }.start();
+        }
+        else {
+            final long waitTime = currSession.waitTime.getEndTrialTime();
+
+            new CountDownTimer(waitTime, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if(currSession.isTimerVisible())
-                    msg.setText(Integer.toString((int)millisUntilFinished / 1000));
+                if (currSession.isTimerVisible())
+                    msg.setText(Integer.toString((int) millisUntilFinished / 1000));
             }
 
             public void onFinish() {
 
-                Intent nextAct;
-                if(currSession.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME)
-                    nextAct = new Intent(TrialWaitActivity.this,DroidRunJumpActivity.class);
-                else
-                    nextAct = new Intent(TrialWaitActivity.this,TrialMain.class);
-
+                Intent nextAct = new Intent(TrialWaitActivity.this, TrialMain.class);
                 nextAct.putExtra("SESSION", currSession);
+
                 startActivity(nextAct);
 
                 //startActivity(new Intent(TrialWaitActivity.this,TrialMain.class));
             }
 
         }.start();
+
+        }
     }
 
     @Override
