@@ -18,6 +18,26 @@ public class Block implements Serializable {
         return (trials.size() == procedureType.trialsPerBlock);
     }
 
+    public boolean allWait() {
+        for (int i = 2; i < trials.size(); i++) {
+        Trial t = trials.get(i);
+            if (t.getChoice() == ScheduleChoice.INSTANT_GAME_ACCESS){
+                return false;
+        }
+        }
+        return true;
+    }
+
+    public boolean allNow() {
+        for (int i = 2; i < trials.size(); i++) {
+            Trial t = trials.get(i);
+            if (t.getChoice() == ScheduleChoice.WAIT_FOR_GAME){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void add(Trial m_currentTrial) {
         trials.add(m_currentTrial);
     }

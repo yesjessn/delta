@@ -10,11 +10,6 @@ public class Session implements Serializable
 {
     private String m_studID;
     private int m_numTrial;
-    private int m_initTrialDurationTime;
-    private int m_timeIncAmount;
-    private int m_gameTimeDelay;
-    private int m_gameTimeInstant;
-    private int m_numTrialPerInc;
     private Trial m_currentTrial;
 
     private Block currentBlock;
@@ -27,6 +22,11 @@ public class Session implements Serializable
     public ProcedureType procedure;
 
     public WaitTime waitTime;
+
+    public long initDelay = 45*1000L;
+    public long delayChange = 25714L; //25.714 seconds (25714 ms) -> 90 = 45 + DC * [(0.5^0) + (0.5^1) + (0.5^2)]
+    public float adjustment = 0.5f;
+
 
     // constructor
     public Session(boolean p_isAdmin)
@@ -65,21 +65,12 @@ public class Session implements Serializable
     public void setDefaultSetting()
     {
         m_numTrial = Constants.DEFAULT_NUM_TRIALS;
-        m_initTrialDurationTime = Constants.DEFAULT_INIT_TRIAL_DURATION_SEC;
-        m_gameTimeInstant = Constants.DEFAULT_INSTANT_GAME_TIME_SEC;
-        m_gameTimeDelay = Constants.DEFAULT_DELAYED_GAME_TIME_SEC;
-        m_timeIncAmount = Constants.DEFAULT_TIME_INC_SEC;
-        m_numTrialPerInc = Constants.DEFAULT_TRIALS_BEFORE_INC;
     }
 
     public String printableTrialSetting()
     {
         return "Current Trial Setting:"
-             + "\nNumber of trials: " + m_numTrial
-             + "\nInitial trial duration time (sec): " + m_initTrialDurationTime
-             + "\nIncrement trial time by " + m_timeIncAmount + " sec every " + m_numTrialPerInc + " consecutive delay choice(s)."
-             + "\nGame Time for Delay Choice (sec): " + m_gameTimeDelay
-             + "\nGame Time for Instant Choice (sec): " + m_gameTimeInstant;
+             + "\nNumber of trials: " + m_numTrial;
     }
 
     /*********************************************************************************
@@ -121,10 +112,6 @@ public class Session implements Serializable
                                int p_gameTimeDelay, int p_gameTimeInstant, int p_timeIncAmount)
     {
         m_numTrial = p_numTrial;
-        m_initTrialDurationTime = p_initTrialDurationTime;
-        m_gameTimeDelay = p_gameTimeDelay;
-        m_gameTimeInstant = p_gameTimeInstant;
-        m_timeIncAmount = p_timeIncAmount;
     }
 
     /*********************************************************************************

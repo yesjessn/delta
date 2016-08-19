@@ -13,14 +13,18 @@ public class WaitTime implements Serializable {
         this.session = session;
     }
 
-    public long getPrerewardDelay() {
+    public long getStartTrialTime() {
         if (session.getCurrTrialChoice() == ScheduleChoice.INSTANT_GAME_ACCESS){
             return 0;
         }
-        else if (session.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME){
-            return INIT_PREREWARD_DELAY;
+        if (session.getCurrTrialChoice() == ScheduleChoice.WAIT_FOR_GAME) {
+            return getPrerewardDelay();
         }
         return 0;
+    }
+
+    public long getPrerewardDelay() {
+        return session.procedure.getDelay(session.initDelay, session.delayChange, session.adjustment, session.getCompletedBlocks());
     }
 
     public long getGameTime() {

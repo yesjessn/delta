@@ -107,7 +107,7 @@ public class TrialWaitActivity extends ActionBarActivity {
         msg = (TextView) findViewById(R.id.countdown_msg);
 
         if(prerewardDelay) {
-            final long waitTime = currSession.waitTime.getPrerewardDelay();
+            final long waitTime = currSession.waitTime.getStartTrialTime();
             new CountDownTimer(waitTime, 1000) {
 
                 public void onTick(long millisUntilFinished) {
