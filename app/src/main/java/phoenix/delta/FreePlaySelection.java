@@ -1,5 +1,6 @@
 package phoenix.delta;
 
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -7,8 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
-
-public class GameSelection extends ActionBarActivity {
+public class FreePlaySelection extends ActionBarActivity{
 
     Button playGame1Btn, playGame2Btn, playGame3Btn, playGame4Btn, continue_btn;
 
@@ -16,7 +16,7 @@ public class GameSelection extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_game_selection);
+        setContentView(R.layout.activity_freeplay_selection);
 
         Intent thisIntent = getIntent();
         final Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
@@ -78,4 +78,3 @@ public class GameSelection extends ActionBarActivity {
     }
 
 }
-

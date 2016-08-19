@@ -24,7 +24,7 @@ public class SessionStartActivity extends ActionBarActivity {
         freePlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent gameSelection = new Intent(SessionStartActivity.this, GameSelection.class);
+                    Intent gameSelection = new Intent(SessionStartActivity.this, FreePlaySelection.class);
                     gameSelection.putExtra("SESSION", currSession);
                     startActivity(gameSelection);
 

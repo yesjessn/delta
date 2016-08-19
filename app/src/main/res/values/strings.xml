@@ -30,6 +30,7 @@
     <!-- Game Selection -->
     <string name="title_activity_game_selection">Game Selection</string>
     <string name="free_play_select">Free Play!</string>
+    <string name="next">Continue</string>
     <string name="select_game">Select Game!</string>
     <!-- Admin Registration -->
     <string name="title_activity_reg_admin">Register New Administrator</string>
