@@ -61,8 +61,17 @@ public class TrialMain extends ActionBarActivity {
         start_trial_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent trialSelection;
                 if(startTrial()) {
-                    Intent trialSelection = new Intent(TrialMain.this,TrialSelection.class);
+                    if (currSession.currentBlock.trials.size() == 0) {
+                        trialSelection = new Intent(TrialMain.this,TrialNow.class);
+                    }
+                    else if (currSession.currentBlock.trials.size() == 1) {
+                        trialSelection = new Intent(TrialMain.this,TrialWait.class);
+                    }
+                    else {
+                    trialSelection = new Intent(TrialMain.this,TrialSelection.class);
+                    }
                     trialSelection.putExtra("SESSION", currSession);
                     Toast.makeText(TrialMain.this, "START TRIAL!", Toast.LENGTH_SHORT).show();
                     startActivity(trialSelection);

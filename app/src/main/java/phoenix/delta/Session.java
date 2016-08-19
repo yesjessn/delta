@@ -11,7 +11,7 @@ public class Session implements Serializable
     private String m_studID;
     private Trial m_currentTrial;
 
-    private Block currentBlock;
+    public Block currentBlock;
     private ArrayList<Block> completedBlocks;
 
     private ArrayList<Trial> m_trials;

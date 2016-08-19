@@ -17,6 +17,9 @@
     <string name="title_activity_teacher">Teacher Homepage</string>
     <string name="manage_teachers">Manage Teachers</string>
     <string name="manage_students">Manage Students</string>
+    <string name="trial_main">Trial Main</string>
+    <string name="trial_now">Trial Now</string>
+    <string name="trial_wait">Trial Wait</string>
     <string name="trial_setting">Trial Setting</string>
     <string name="start_session">Start Session</string>
     <string name="upload_data">Upload Data to Box</string>
