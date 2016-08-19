@@ -37,7 +37,7 @@ public class TrialSettingActivity extends ActionBarActivity {
         wait_time_inc = (EditText) findViewById(R.id.wait_time_inc);
 
         // set to display current values
-        total_num_trial.setText(Integer.toString(currSession.getNumTrial()));
+       // total_num_trial.setText(Integer.toString(currSession.getNumTrial()));
 //        init_trial_time.setText(Integer.toString(currSession.getInitTrialDurationTime()));
 //        game_time_delay.setText(Integer.toString(currSession.getGameTimeDelay()));
 //        game_time_instant.setText(Integer.toString(currSession.getGameTimeInstant()));
@@ -66,7 +66,7 @@ public class TrialSettingActivity extends ActionBarActivity {
                         gameTimeDelay > gameTimeInstant) {
 
                     // save settingw3
-                    currSession.changeSetting(numTrial, trialTime, gameTimeDelay, gameTimeInstant, waitTimeInc);
+                   // currSession.changeSetting(numTrial, trialTime, gameTimeDelay, gameTimeInstant, waitTimeInc);
                     displayToast("Changes Saved!");
                     Intent resultIntent = new Intent(TrialSettingActivity.this, AdminActivity.class);
                     resultIntent.putExtra("SESSION", currSession);
@@ -95,7 +95,7 @@ public class TrialSettingActivity extends ActionBarActivity {
         default_btn = (Button)findViewById(R.id.default_btn);
         default_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                currSession.setDefaultSetting();
+               // currSession.setDefaultSetting();
                 displayToast("Apply Default Setting");
                 Intent resultIntent = new Intent(TrialSettingActivity.this, AdminActivity.class);
                 resultIntent.putExtra("SESSION", currSession);

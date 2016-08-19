@@ -51,7 +51,7 @@ public class Constants
     public static final String DROID_CUR_FRAME_TIME          = "droid_curFrameTime";
     public static final int    ANIMATION_CYCLE_MS            = 150;
     public static final int    MAX_DROID_IMAGES              = 11;
-    public static final int    DEFAULT_NUM_TRIALS            = 10;
+    public static final int    DEFAULT_NUM_TRIALS            = 1;
     public static final int    DEFAULT_INSTANT_GAME_TIME_SEC = 5;//change this back to 5
     // when done
     public static final int    DEFAULT_TIME_INC_SEC          = 5;

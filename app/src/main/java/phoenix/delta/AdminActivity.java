@@ -101,7 +101,7 @@ public class AdminActivity extends ActionBarActivity
 
     public void updateSetting()
     {
-        m_trialSetting.setText(m_currSession.printableTrialSetting());
+       // m_trialSetting.setText(m_currSession.printableTrialSetting());
     }
 
     @Override

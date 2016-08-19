@@ -9,7 +9,6 @@ import java.util.Calendar;
 public class Session implements Serializable
 {
     private String m_studID;
-    private int m_numTrial;
     private Trial m_currentTrial;
 
     private Block currentBlock;
@@ -37,7 +36,6 @@ public class Session implements Serializable
         m_showTimer = false;
         m_isAdmin = p_isAdmin;
         waitTime = new WaitTime(this);
-        setDefaultSetting();
         procedure = ProcedureType.ESTABLISH_INDIFFERENCE;
     }
 
@@ -50,7 +48,7 @@ public class Session implements Serializable
 
     public boolean isSessionDone()
     {
-        return (m_trials.size() >= m_numTrial);
+        return (completedBlocks.size() == 6);
     }
 
     public void resetSession()
@@ -62,16 +60,6 @@ public class Session implements Serializable
         m_studID = "";
     }
 
-    public void setDefaultSetting()
-    {
-        m_numTrial = Constants.DEFAULT_NUM_TRIALS;
-    }
-
-    public String printableTrialSetting()
-    {
-        return "Current Trial Setting:"
-             + "\nNumber of trials: " + m_numTrial;
-    }
 
     /*********************************************************************************
         setStudent: set the student for this session
@@ -102,17 +90,6 @@ public class Session implements Serializable
         m_currentTrial.setResponseTime(p_time);
     }
 
-    /*********************************************************************************
-        changeSetting: change setting for the session
-        in:  number of trial, initial trial's duration time, game time if delay is chosen,
-             game time if instant is chose, and the wait time increment
-        out: NOTHING
-     */
-    public void changeSetting (int p_numTrial, int p_initTrialDurationTime,
-                               int p_gameTimeDelay, int p_gameTimeInstant, int p_timeIncAmount)
-    {
-        m_numTrial = p_numTrial;
-    }
 
     /*********************************************************************************
         startNewTrial: set a new trial as the current trial
@@ -206,47 +183,12 @@ public class Session implements Serializable
                    + hour + "-" + minute + "-" + second + ".csv";
     }
 
-    public int getNumTrial()
-    {
-        return m_numTrial;
-    }
-
-//    public int getInitTrialDurationTime()
-//    {
-//        return m_initTrialDurationTime;
-//    }
-//
-//    public int getTimeIncAmount()
-//    {
-//        return m_timeIncAmount;
-//    }
-//
-//    public int getGameTimeDelay()
-//    {
-//        return m_gameTimeDelay;
-//    }
-//
-//    public int getGameTimeInstant()
-//    {
-//        return m_gameTimeInstant;
-//    }
 
     public ScheduleChoice getCurrTrialChoice()
     {
         return m_currentTrial.getChoice();
     }
 
-//    public int getWaitTime()
-//    {
-//        if(m_currentTrial.getChoice() == ScheduleChoice.WAIT_FOR_GAME)
-//        {
-//            return m_currentTrial.getWaitTime(m_gameTimeDelay);
-//        }
-//        else
-//        {
-//            return m_currentTrial.getWaitTime(m_gameTimeInstant);
-//        }
-//    }
 
     public void setTimerVisible()
     {
