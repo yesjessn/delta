@@ -94,10 +94,30 @@
             android:label="@string/title_activity_done_session" >
         </activity>
 
+        <!--Fruit Ninja Game-->
         <activity
             android:name="dev.emmaguy.fruitninja.ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--Brick Breaker Game-->
+        <activity
+            android:name="br.usp.ime.retrobreaker.GameActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/GameTheme" >
+        </activity>
+        <activity
+            android:name="br.usp.ime.retrobreaker.MainActivity"
+            android:label="@string/title_activity_main"
+            android:screenOrientation="sensorPortrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
