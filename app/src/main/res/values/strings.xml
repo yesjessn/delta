@@ -28,6 +28,7 @@
     <string name="title_activity_session_start">Session Start</string>
     <string name="free_play">Free Play</string>
     <!-- Game Selection -->
+    <string name="title_activity_free_play_selection">Free Play Selection</string>
     <string name="title_activity_game_selection">Game Selection</string>
     <string name="free_play_select">Free Play!</string>
     <string name="next">Continue</string>
@@ -96,7 +97,29 @@
     <string name="start">Start</string>
     <string name="button_home">Home</string>
 
+    <!--Brick Breaker-->
+    <string name="high_score">"High score: "</string>
+    <string name="new_game">New game</string>
+    <string name="reset_high_score">Reset high score</string>
+    <string name="score">"Score: "</string>
+    <string name="multiplier">"Multiplier: "</string>
+    <string name="lives">"Lives: "</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="game_over">Game Over</string>
+    <string name="new_high_score">"New high score: "</string>
+    <string name="do_you_want_to_restart_the_game">Do you want to restart the game?</string>
+    <string name="final_score">"Final score: "</string>
+    <string name="difficult">"Difficulty:"</string>
+    <string name="explosive_brick_explanation">Explosive brick (breaks all bricks around it)</string>
+    <string name="moveable_brick_explanation">Moveable brick (keeps moving from one side to another)</string>
+    <string name="hard_brick_explanation">Hard brick (need 2 hits to break it)</string>
+    <string name="special_bricks">Special bricks:</string>
+    <string name="ready">Ready?</string>
+    <string name="psss_just_between_you_and_me">Psss&#8230; Just between you and me</string>
+    <string name="do_you_want_to_get_the_maximum_score_for_free">Do you want to get the maximum score for free?</string>
+    <string name="enable_sound_effects">Enable sound effects</string>
 
 
 
-</resources>
+    </resources>

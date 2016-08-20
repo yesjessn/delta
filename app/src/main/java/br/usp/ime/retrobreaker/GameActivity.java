@@ -23,6 +23,7 @@ import android.widget.TextView;
 import br.usp.ime.retrobreaker.game.TouchSurfaceView;
 import br.usp.ime.retrobreaker.game.Constants.Config;
 import br.usp.ime.retrobreaker.game.Game.State;
+import phoenix.delta.R;
 
 public class GameActivity extends Activity {
 

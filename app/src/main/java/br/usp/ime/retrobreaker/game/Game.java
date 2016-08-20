@@ -11,7 +11,6 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
-import br.usp.ime.retrobreaker.R;
 import br.usp.ime.retrobreaker.effects.Explosion;
 import br.usp.ime.retrobreaker.forms.Ball;
 import br.usp.ime.retrobreaker.forms.Brick;
@@ -26,6 +25,7 @@ import br.usp.ime.retrobreaker.game.Constants.Hit;
 import br.usp.ime.retrobreaker.game.Constants.Lives;
 import br.usp.ime.retrobreaker.game.Constants.Score;
 import br.usp.ime.retrobreaker.game.Constants.ScoreMultiplier;
+import phoenix.delta.R;
 
 public class Game {
 	

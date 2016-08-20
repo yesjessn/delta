@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import br.usp.ime.retrobreaker.game.Game.State;
+import phoenix.delta.R;
 
 public class MainActivity extends Activity implements OnItemSelectedListener {
 	
@@ -33,7 +34,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_main_fn);
 		
 		mHighScoreTextView = (TextView) findViewById(R.id.mainHighScore);
 		mNewGameButton = (Button) findViewById(R.id.newGameButton);
