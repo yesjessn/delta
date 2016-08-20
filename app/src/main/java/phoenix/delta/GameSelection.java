@@ -25,7 +25,8 @@ public class GameSelection extends ActionBarActivity {
         playGame1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
+                currSession.selectedGame = DroidRunJumpActivity.class;
+                Intent game = new Intent(GameSelection.this, TrialMain.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
 
@@ -36,7 +37,8 @@ public class GameSelection extends ActionBarActivity {
         playGame2Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent game = new Intent(FreePlaySelection.this, dev.emmaguy.fruitninja.ui.MainActivity.class);
+                currSession.selectedGame = dev.emmaguy.fruitninja.ui.MainActivity.class;
+                Intent game = new Intent(GameSelection.this, TrialMain.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
             }
@@ -46,7 +48,8 @@ public class GameSelection extends ActionBarActivity {
         playGame3Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
+                currSession.selectedGame = DroidRunJumpActivity.class;
+                Intent game = new Intent(GameSelection.this, TrialMain.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
 
@@ -57,7 +60,8 @@ public class GameSelection extends ActionBarActivity {
         playGame4Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
+                currSession.selectedGame = DroidRunJumpActivity.class;
+                Intent game = new Intent(GameSelection.this, TrialMain.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
 
@@ -68,8 +72,8 @@ public class GameSelection extends ActionBarActivity {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Intent game = new Intent(FreePlaySelection.this, GameSelection.class);
+                currSession.selectedGame = DroidRunJumpActivity.class;
+                Intent game = new Intent(GameSelection.this, TrialMain.class);
                 game.putExtra("SESSION", currSession);
                 startActivity(game);
             }

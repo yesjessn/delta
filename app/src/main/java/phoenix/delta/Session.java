@@ -1,5 +1,6 @@
 package phoenix.delta;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.io.Serializable;
@@ -26,6 +27,7 @@ public class Session implements Serializable
     public long delayChange = 25714L; //25.714 seconds (25714 ms) -> 90 = 45 + DC * [(0.5^0) + (0.5^1) + (0.5^2)]
     public float adjustment = 0.5f;
 
+    public Class<? extends Activity> selectedGame;
 
     // constructor
     public Session(boolean p_isAdmin)

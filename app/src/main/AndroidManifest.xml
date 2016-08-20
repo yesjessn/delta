@@ -42,6 +42,10 @@
         </activity>
         <activity
             android:name=".FreePlaySelection"
+            android:label="@string/title_activity_free_play_selection" >
+        </activity>
+        <activity
+            android:name=".GameSelection"
             android:label="@string/title_activity_game_selection" >
         </activity>
         <activity

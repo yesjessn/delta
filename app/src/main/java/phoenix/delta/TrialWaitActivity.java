@@ -116,7 +116,7 @@ public class TrialWaitActivity extends ActionBarActivity {
                 }
 
                 public void onFinish() {
-                    Intent nextAct = new Intent(TrialWaitActivity.this, DroidRunJumpActivity.class);
+                    Intent nextAct = new Intent(TrialWaitActivity.this, currSession.selectedGame);
                     nextAct.putExtra("SESSION", currSession);
 
                     long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time

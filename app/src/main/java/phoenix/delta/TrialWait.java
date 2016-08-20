@@ -11,9 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-/**
- * Created by jessica on 8/18/2016.
- */
+
 public class TrialWait extends ActionBarActivity {
 
     Button wait_btn, pause_btn, resume_btn;
