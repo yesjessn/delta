@@ -63,14 +63,25 @@ public class TrialMain extends ActionBarActivity {
             public void onClick(View view) {
                 Intent trialSelection;
                 if(startTrial()) {
-                    if (currSession.currentBlock.trials.size() == 0) {
-                        trialSelection = new Intent(TrialMain.this,TrialNow.class);
-                    }
-                    else if (currSession.currentBlock.trials.size() == 1) {
-                        trialSelection = new Intent(TrialMain.this,TrialWait.class);
-                    }
-                    else {
-                    trialSelection = new Intent(TrialMain.this,TrialSelection.class);
+                    int completedTrials = currSession.currentBlock.trials.size();
+                    if (completedTrials > 1) {
+                        trialSelection = new Intent(TrialMain.this,TrialSelection.class);
+                    } else {
+                        boolean blockMod = currSession.currentBlock.blockNumber % 2 == 0;
+                        boolean trialMod = completedTrials == 0;
+                        /*
+                        | blockMod | trialMod | result
+                        |----------|----------|-------
+                        |    0     |    0     | Now
+                        |    0     |    1     | Wait
+                        |    1     |    0     | Wait
+                        |    1     |    1     | Now
+                        */
+                        if (blockMod ^ trialMod) {
+                            trialSelection = new Intent(TrialMain.this,TrialWait.class);
+                        } else {
+                            trialSelection = new Intent(TrialMain.this,TrialNow.class);
+                        }
                     }
                     trialSelection.putExtra("SESSION", currSession);
                     Toast.makeText(TrialMain.this, "START TRIAL!", Toast.LENGTH_SHORT).show();

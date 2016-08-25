@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Block implements Serializable {
     public ArrayList<Trial> trials;
-    private int blockNumber;
+    public int blockNumber;
     private ProcedureType procedureType;
 
     public Block(int blockNumber, ProcedureType procedureType) {
