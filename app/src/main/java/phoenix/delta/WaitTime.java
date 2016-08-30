@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class WaitTime implements Serializable {
     private Session session;
 
-    public static long INIT_PREREWARD_DELAY = 15*1000L;
     public static long LLR_GAMETIME = 15*1000L;
     public static long SSR_GAMETIME = 5*1000L;
 

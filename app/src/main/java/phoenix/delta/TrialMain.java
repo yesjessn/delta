@@ -1,18 +1,13 @@
 package phoenix.delta;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -67,21 +62,7 @@ public class TrialMain extends ActionBarActivity {
                     if (completedTrials > 1) {
                         trialSelection = new Intent(TrialMain.this,TrialSelection.class);
                     } else {
-                        boolean blockMod = currSession.currentBlock.blockNumber % 2 == 0;
-                        boolean trialMod = completedTrials == 0;
-                        /*
-                        | blockMod | trialMod | result
-                        |----------|----------|-------
-                        |    0     |    0     | Now
-                        |    0     |    1     | Wait
-                        |    1     |    0     | Wait
-                        |    1     |    1     | Now
-                        */
-                        if (blockMod ^ trialMod) {
-                            trialSelection = new Intent(TrialMain.this,TrialWait.class);
-                        } else {
-                            trialSelection = new Intent(TrialMain.this,TrialNow.class);
-                        }
+                            trialSelection = new Intent(TrialMain.this,ForcedTrial.class);
                     }
                     trialSelection.putExtra("SESSION", currSession);
                     Toast.makeText(TrialMain.this, "START TRIAL!", Toast.LENGTH_SHORT).show();

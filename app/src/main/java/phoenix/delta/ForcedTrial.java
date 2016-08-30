@@ -11,18 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
-public class TrialWait extends ActionBarActivity {
-
-    Button wait_btn, pause_btn, resume_btn;
+public class ForcedTrial extends ActionBarActivity {
+    Button now_btn, wait_btn, pause_btn, resume_btn;
     Session currSession;
     private long startTime, timeWhenPaused, responseTime;
+    ScheduleChoice forcedChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        setContentView(R.layout.activity_forced_wait);
+        setContentView(R.layout.activity_forced);
 
         Intent thisIntent = getIntent();
         currSession = (Session) thisIntent.getSerializableExtra("SESSION");
@@ -32,9 +31,32 @@ public class TrialWait extends ActionBarActivity {
         timeWhenPaused = 0;
         responseTime = 0;
 
-
+        now_btn = (Button)findViewById(R.id.btn_now);
         wait_btn = (Button)findViewById(R.id.btn_wait);
-        wait_btn.setOnClickListener(new View.OnClickListener() {
+
+        int completedTrials = currSession.currentBlock.trials.size();
+        boolean blockMod = currSession.currentBlock.blockNumber % 2 == 0;
+        boolean trialMod = completedTrials == 0;
+        /*
+        | blockMod | trialMod | result
+        |----------|----------|-------
+        |    0     |    0     | Now
+        |    0     |    1     | Wait
+        |    1     |    0     | Wait
+        |    1     |    1     | Now
+        */
+        if (blockMod ^ trialMod) {
+            // wait
+            now_btn.setVisibility(View.GONE);
+            wait_btn.setVisibility(View.VISIBLE);
+            forcedChoice = ScheduleChoice.WAIT_FOR_GAME;
+        } else {
+            // now
+            now_btn.setVisibility(View.VISIBLE);
+            wait_btn.setVisibility(View.GONE);
+            forcedChoice = ScheduleChoice.INSTANT_GAME_ACCESS;
+        }
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -43,17 +65,20 @@ public class TrialWait extends ActionBarActivity {
                 responseTime += timeWhenPaused;
 
                 // save the data
-                currSession.setStudentResponseTime(responseTime / 1000.00);
-                currSession.setStudentSelection(ScheduleChoice.WAIT_FOR_GAME);
+                currSession.setStudentResponseTime(responseTime / 1000.0);
+                currSession.setStudentSelection(forcedChoice);
                 //currSession.endTrial();
 
                 // go to next activity
-                Intent waitAct = new Intent(TrialWait.this,TrialWaitActivity.class);
-                waitAct.putExtra("SESSION", currSession);
-                Toast.makeText(TrialWait.this, "*" + responseTime / 1000.0 + " sec* Wait to Play for Longer", Toast.LENGTH_SHORT).show();
-                startActivity(waitAct);
+                Intent playNowAct = new Intent(ForcedTrial.this, TrialWaitActivity.class);
+                playNowAct.putExtra("SESSION", currSession);
+                Toast.makeText(ForcedTrial.this, "*" + responseTime / 1000.0 + " sec* " + forcedChoice, Toast.LENGTH_SHORT).show();
+                startActivity(playNowAct);
             }
-        });
+        };
+
+        now_btn.setOnClickListener(listener);
+        wait_btn.setOnClickListener(listener);
 
         pause_btn = (Button)findViewById(R.id.btn_pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,11 +88,11 @@ public class TrialWait extends ActionBarActivity {
                 timeWhenPaused = SystemClock.elapsedRealtime() - startTime;
                 responseTime += timeWhenPaused;
 
-                wait_btn.setClickable(false);
+                now_btn.setClickable(false);
                 pause_btn.setVisibility(View.INVISIBLE);
                 resume_btn.setVisibility(View.VISIBLE);
 
-                Toast.makeText(TrialWait.this, "Paused", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForcedTrial.this, "Paused", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -79,11 +104,11 @@ public class TrialWait extends ActionBarActivity {
 
                 startTime = SystemClock.elapsedRealtime();
 
-                wait_btn.setClickable(true);
+                now_btn.setClickable(true);
                 pause_btn.setVisibility(View.VISIBLE);
                 resume_btn.setVisibility(View.INVISIBLE);
 
-                Toast.makeText(TrialWait.this, "Resumed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ForcedTrial.this, "Resumed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -115,4 +140,5 @@ public class TrialWait extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

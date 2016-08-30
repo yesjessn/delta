@@ -54,12 +54,8 @@
             android:theme="@style/SessionMenuTheme" >
         </activity>
         <activity
-            android:name=".TrialNow"
-            android:label="@string/trial_now" >
-        </activity>
-        <activity
-            android:name=".TrialWait"
-            android:label="@string/trial_wait" >
+            android:name=".ForcedTrial"
+            android:label="@string/trial_forced" >
         </activity>
         <activity
             android:name=".TrialSelection"

@@ -23,7 +23,7 @@ public class Session implements Serializable
 
     public WaitTime waitTime;
 
-    public long initDelay = 45*1000L;
+    public long initDelay = 15*1000L;
     public long delayChange = 25714L; //25.714 seconds (25714 ms) -> 90 = 45 + DC * [(0.5^0) + (0.5^1) + (0.5^2)]
     public float adjustment = 0.5f;
 
