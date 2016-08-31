@@ -2,7 +2,7 @@ package phoenix.delta;
 
 import java.util.ArrayList;
 
-public enum ProcedureType {
+public enum SessionType {
     ESTABLISH_INDIFFERENCE(4) {
         @Override
         public long getDelay(long initDelay, long delayChange, float adjustment, ArrayList<Block> completedBlocks) {
@@ -29,7 +29,7 @@ public enum ProcedureType {
 
     public int trialsPerBlock;
 
-    ProcedureType(int trialsPerBlock) {
+    SessionType(int trialsPerBlock) {
         this.trialsPerBlock = trialsPerBlock;
     }
 
