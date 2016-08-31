@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 //import android.os.Bundle;
@@ -78,6 +79,24 @@ public class TrialSelection extends ActionBarActivity {
                 startActivity(waitAct);
             }
         });
+
+        int trialNum = currSession.getAllTrials().size();
+        if (trialNum % 2 == 0) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)now_btn.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_START);
+            params = (RelativeLayout.LayoutParams)wait_btn.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_END);
+        }
+        else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)now_btn.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_END);
+            params = (RelativeLayout.LayoutParams)wait_btn.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_START);
+        }
 
         pause_btn = (Button)findViewById(R.id.btn_pause);
         pause_btn.setOnClickListener(new View.OnClickListener() {
