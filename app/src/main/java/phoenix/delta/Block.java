@@ -6,16 +6,16 @@ import java.util.ArrayList;
 public class Block implements Serializable {
     public ArrayList<Trial> trials;
     public int blockNumber;
-    private ProcedureType procedureType;
+    private SessionType sessionType;
 
-    public Block(int blockNumber, ProcedureType procedureType) {
+    public Block(int blockNumber, SessionType sessionType) {
         trials = new ArrayList<Trial>();
         this.blockNumber = blockNumber;
-        this.procedureType = procedureType;
+        this.sessionType = sessionType;
     }
 
     public boolean isComplete() {
-        return (trials.size() == procedureType.trialsPerBlock);
+        return (trials.size() == sessionType.trialsPerBlock);
     }
 
     public boolean allWait() {

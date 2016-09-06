@@ -18,14 +18,14 @@ public class SessionStartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_session_start);
 
         Intent thisIntent = getIntent();
-        final Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
 
         freePlayBtn = (Button) findViewById(R.id.free_play_btn);
         freePlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                     Intent gameSelection = new Intent(SessionStartActivity.this, FreePlaySelection.class);
-                    gameSelection.putExtra("SESSION", currSession);
+                    gameSelection.putExtra("PROCEDURE", currProcedure);
                     startActivity(gameSelection);
 
             }
@@ -36,7 +36,6 @@ public class SessionStartActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startSession = new Intent(SessionStartActivity.this, TrialMain.class);
-                startSession.putExtra("SESSION", currSession);
                 startActivity(startSession);
             }
         });
@@ -46,7 +45,7 @@ public class SessionStartActivity extends ActionBarActivity {
             public void onClick(View view) {
 
                 Intent nextAct = new Intent(SessionStartActivity.this, SessionPrep.class);
-                nextAct.putExtra("SESSION", currSession);
+                nextAct.putExtra("PROCEDURE", currProcedure);
                 startActivity(nextAct);
 
             }

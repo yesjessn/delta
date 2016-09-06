@@ -24,7 +24,7 @@ public class DroidRunJumpActivity extends Activity
         m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
         if(m_currSession == null)
         {
-            //if session isn't set up yet, return early and don't execute wait logic
+            //if sessionType isn't set up yet, return early and don't execute wait logic
             return;
         }
         if(m_currSession.isTrialNull()){

@@ -9,7 +9,8 @@ import java.util.Calendar;
 
 public class Session implements Serializable
 {
-    private String m_studID;
+    public int sessionID;
+
     private Trial m_currentTrial;
 
     public Block currentBlock;
@@ -17,9 +18,8 @@ public class Session implements Serializable
 
     private ArrayList<Trial> m_trials;
     private boolean m_showTimer;
-    private boolean m_isAdmin;
 
-    public ProcedureType procedure;
+    public SessionType sessionType;
 
     public WaitTime waitTime;
 
@@ -30,15 +30,13 @@ public class Session implements Serializable
     public Class<? extends Activity> selectedGame;
 
     // constructor
-    public Session(boolean p_isAdmin)
+    public Session(int sessionID)
     {
         completedBlocks = new ArrayList<>();
         m_trials = new ArrayList<>();
-        m_studID = "";
+        this.sessionID = sessionID;
         m_showTimer = false;
-        m_isAdmin = p_isAdmin;
         waitTime = new WaitTime(this);
-        procedure = ProcedureType.ESTABLISH_INDIFFERENCE;
     }
 
     public ArrayList<Block> getCompletedBlocks() { return completedBlocks;}
@@ -50,7 +48,7 @@ public class Session implements Serializable
 
     public boolean isSessionDone()
     {
-        return (completedBlocks.size() == 6);
+        return (completedBlocks.size() == 1);
     }
 
     public void resetSession()
@@ -59,19 +57,8 @@ public class Session implements Serializable
         m_currentTrial = null;
         completedBlocks.clear();
         m_trials.clear();
-        m_studID = "";
     }
 
-
-    /*********************************************************************************
-        setStudent: set the student for this session
-        in:  student's code
-        out: NOTHING
-     */
-    public void setStudent (String p_stud)
-    {
-        m_studID = p_stud;
-    }
 
     /*********************************************************************************
         setStudentSelection: set student's selection, wait or play instantly
@@ -99,24 +86,34 @@ public class Session implements Serializable
         out: return true if newTrial is set to current successfully
              return false if newTrial is null OR if current trial is not finished
      */
-    public boolean startNewTrial (Trial p_newTrial)
+    public boolean startNewTrial ()
     {
-        if(p_newTrial == null || m_currentTrial != null)
+        if( m_currentTrial != null)
         {
             return false;
         }
         else
         {
             if (currentBlock == null) {
-                currentBlock = new Block(completedBlocks.size()+1, procedure);
+                currentBlock = new Block(completedBlocks.size()+1, sessionType);
             }
-            m_currentTrial = p_newTrial;
+            int completedTrials = this.currentBlock.trials.size();
+            TrialType trialType;
+            if (completedTrials> 1)
+            {
+                trialType = TrialType.FREE_CHOICE;
+            }
+            else
+            {
+                trialType = TrialType.FORCED_CHOICE;
+            }
+            m_currentTrial = new Trial(trialType,waitTime.getPrerewardDelay());
             return true;
         }
     }
 
     /*********************************************************************************
-        endTrial: mark the end of a trial (save trial in the session's )
+        endTrial: mark the end of a trial (save trial in the sessionType's )
         in:  NOTHING
         out: return true if current trial is not null and added to the storing list
              return false if current trial is null
@@ -139,26 +136,8 @@ public class Session implements Serializable
         return false;
     }
 
-    /*********************************************************************************
-        endSession: save all trails to database
-        in:  NOTHING
-        OUT: return true if save successfully; return false otherwise
-     */
-    public boolean endSession (Context context)
-    {
 
-        if(m_currentTrial != null)
-        {
-            endTrial();
-        }
-        // save all trials to file
-        String filename = generateFilename();
-        FileHandling fh = new FileHandling();
-        return fh.fileWriter(context, filename, fileWriteable());
-
-    }
-
-    public String fileWriteable()
+    public String fileContents()
     {
         String content = "";
         for(Trial t : m_trials)
@@ -168,23 +147,13 @@ public class Session implements Serializable
         return content;
     }
 
-    private String generateFilename()
+    public void loadFromString(String fileContents)
     {
-        Calendar today = Calendar.getInstance();
-        int year = today.get(Calendar.YEAR);
-        int month = today.get(Calendar.MONTH);
-        int day = today.get(Calendar.DATE);
-        int hour = today.get(Calendar.HOUR_OF_DAY);
-        int minute = today.get(Calendar.MINUTE);
-        int second = today.get(Calendar.SECOND);
+        for (String line : fileContents.split("\n")) {
+            startNewTrial();
 
-        // i.e.: at 2015 june 3rd, 6:16:60 pm
-        // filename = timmy895_2015-6-3_18-16-60.csv
-        return m_studID + "_"
-                   + year + "-" + month + "-" + day + "_"
-                   + hour + "-" + minute + "-" + second + ".csv";
+        }
     }
-
 
     public ScheduleChoice getCurrTrialChoice()
     {
@@ -210,11 +179,6 @@ public class Session implements Serializable
     public boolean isTrialNull()
     {
         return (m_currentTrial == null);
-    }
-
-    public boolean isStartedByAdmin()
-    {
-        return m_isAdmin;
     }
 
     public boolean isNewSession()

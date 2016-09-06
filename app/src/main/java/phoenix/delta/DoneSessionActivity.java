@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class DoneSessionActivity extends ActionBarActivity {
 
     private long m_inPW;
-    private Session m_currSession;
+    Procedure currProcedure;
     private EditText m_editTextInPW;
     private ArrayList<Trial> m_allTrialEntries;
 
@@ -31,7 +31,8 @@ public class DoneSessionActivity extends ActionBarActivity {
         setContentView(R.layout.activity_done_session);
 
         Intent thisIntent = getIntent();
-        m_currSession = (Session) thisIntent.getSerializableExtra(Constants.SESSION);
+        currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        final Session currSession = currProcedure.currentSession;
 
         TextView allTrials = (TextView) findViewById(R.id.allTrials);
         TextView prompt = (TextView) findViewById(R.id.prompt);
@@ -39,7 +40,7 @@ public class DoneSessionActivity extends ActionBarActivity {
 
         m_editTextInPW = (EditText) findViewById(R.id.passphrase);
 
-        m_allTrialEntries = m_currSession.getAllTrials();
+        m_allTrialEntries = currSession.getAllTrials();
         allTrials.setText(printAllTrials());
 
         Button doneBtn = (Button) findViewById(R.id.done_btn);
@@ -60,20 +61,14 @@ public class DoneSessionActivity extends ActionBarActivity {
                     {
 
                         // read all data to file ()
-                        if(!m_currSession.endSession(getApplicationContext()))
+                        if(!currProcedure.endSession(getApplicationContext()))
                         {
                             Toast.makeText(DoneSessionActivity.this, "Cannot write to file", Toast.LENGTH_LONG).show();
-                        }
-                        else if(m_currSession.isStartedByAdmin())
-                        {
-                            Intent adminAct = new Intent(DoneSessionActivity.this,AdminActivity.class);
-                            adminAct.putExtra(Constants.SESSION, m_currSession);
-                            startActivity(adminAct);
                         }
                         else
                         {
                             Intent teacherAct = new Intent(DoneSessionActivity.this,SessionPrep.class);
-                            teacherAct.putExtra(Constants.SESSION, m_currSession);
+                            teacherAct.putExtra("PROCEDURE", currProcedure);
                             startActivity(teacherAct);
                         }
                     }

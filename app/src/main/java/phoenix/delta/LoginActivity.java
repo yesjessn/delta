@@ -23,7 +23,6 @@ public class LoginActivity extends ActionBarActivity {
     private EditText m_etUsername, m_etPassword;
     private TextView m_errMsg;
     private String m_username, m_password;
-    private Session m_newSession;
 
 
     @Override
@@ -48,9 +47,7 @@ public class LoginActivity extends ActionBarActivity {
             {
                 if(authentication(UserType.TEACHER))
                 {
-                    m_newSession = new Session(false);
                     Intent teacherActivity = new Intent(LoginActivity.this, SessionPrep.class);
-                    teacherActivity.putExtra("SESSION", m_newSession);
                     Toast.makeText(LoginActivity.this, "Logged in as TEACHER",
                                    Toast.LENGTH_SHORT).show();
                     startActivity(teacherActivity);
@@ -67,9 +64,7 @@ public class LoginActivity extends ActionBarActivity {
             {
                 if(authentication(UserType.ADMINISTRATOR))
                 {
-                    m_newSession = new Session(true);
                     Intent adminActivity = new Intent(LoginActivity.this, AdminActivity.class);
-                    adminActivity.putExtra("SESSION", m_newSession);
                     Toast.makeText(LoginActivity.this, "Logged in as ADMINISTRATOR",
                                    Toast.LENGTH_SHORT).show();
                     startActivity(adminActivity);

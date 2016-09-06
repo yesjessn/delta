@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 public class TrialMain extends ActionBarActivity {
 
-    Button start_trial_btn, save_quit_btn, nosave_quit_btn;
-    Session currSession;
+    Button start_trial_btn;
+    Procedure currProcedure;
     MediaPlayer alertSnd;
 
     @Override
@@ -29,7 +29,8 @@ public class TrialMain extends ActionBarActivity {
 
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        final Session currSession = currProcedure.currentSession;
 
         if(!currSession.isTrialNull())
             currSession.endTrial();
@@ -37,16 +38,16 @@ public class TrialMain extends ActionBarActivity {
         if(currSession.isNewSession())
             currSession.setTimerInvisible();
 
-        // check if session is finished
+        // check if sessionType is finished
         if(currSession.isSessionDone()) {
 
 
             // go back to the admin/ teacher page
             Toast.makeText(TrialMain.this, "Done with Session", Toast.LENGTH_SHORT).show();
 
-            // go to done session activity
+            // go to done sessionType activity
             Intent doneSesAct = new Intent(TrialMain.this,DoneSessionActivity.class);
-            doneSesAct.putExtra("SESSION", currSession);
+            doneSesAct.putExtra("PROCEDURE", currProcedure);
             startActivity(doneSesAct);
 
 
@@ -64,7 +65,7 @@ public class TrialMain extends ActionBarActivity {
                     } else {
                             trialSelection = new Intent(TrialMain.this,ForcedTrial.class);
                     }
-                    trialSelection.putExtra("SESSION", currSession);
+                    trialSelection.putExtra("PROCEDURE", currProcedure);
                     Toast.makeText(TrialMain.this, "START TRIAL!", Toast.LENGTH_SHORT).show();
                     startActivity(trialSelection);
                 }
@@ -77,10 +78,7 @@ public class TrialMain extends ActionBarActivity {
 
     // set up new trial
     public boolean startTrial () {
-        //int numTrial = currSession.getNextTrialTime();
-        //Trial newTrial = new Trial(numTrial);
-        Trial newTrial = new Trial();
-        return currSession.startNewTrial(newTrial);
+        return currProcedure.currentSession.startNewTrial();
     }
 
     @Override
@@ -102,31 +100,26 @@ public class TrialMain extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent goBack;
+        final Session currSession = currProcedure.currentSession;
         //noinspection SimplifiableIfStatement
         switch(id){
             case R.id.quitSave_trial :
-                if(currSession.isStartedByAdmin())
-                    goBack = new Intent(TrialMain.this,AdminActivity.class);
-                else
-                    goBack = new Intent(TrialMain.this,SessionPrep.class);
+                goBack = new Intent(TrialMain.this,SessionPrep.class);
 
                 // save data & reset
-                currSession.endSession(getApplicationContext());
+                currProcedure.endSession(getApplicationContext());
 
-                goBack.putExtra("SESSION", currSession);
+                goBack.putExtra("PROCEDURE", currProcedure);
                 Toast.makeText(TrialMain.this, "Data is Saved!", Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
                 break;
             case R.id.quitNoSave_trial :
-                if(currSession.isStartedByAdmin())
-                    goBack = new Intent(TrialMain.this,AdminActivity.class);
-                else
-                    goBack = new Intent(TrialMain.this,SessionPrep.class);
+                goBack = new Intent(TrialMain.this,SessionPrep.class);
 
                 // reset
                 currSession.resetSession();
 
-                goBack.putExtra("SESSION", currSession);
+                goBack.putExtra("PROCEDURE", currProcedure);
                 Toast.makeText(TrialMain.this, "Data is not Saved!", Toast.LENGTH_SHORT).show();
                 startActivity(goBack);
                 break;

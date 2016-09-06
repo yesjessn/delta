@@ -47,9 +47,7 @@ public class RegAdminActivity extends ActionBarActivity {
         register_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if(addAdmin()) {
-                    newSession = new Session(true);
                     Intent adminActivity = new Intent(RegAdminActivity.this,AdminActivity.class);
-                    adminActivity.putExtra("SESSION", newSession);
                     Toast.makeText(RegAdminActivity.this, "Registered & Logged in as ADMINISTRATOR", Toast.LENGTH_SHORT).show();
                     //startActivity(new Intent(RegAdminActivity.this, AdminActivity.class));
                     startActivity(adminActivity);

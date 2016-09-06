@@ -19,15 +19,16 @@ public class GameSelection extends ActionBarActivity {
         setContentView(R.layout.activity_game_selection);
 
         Intent thisIntent = getIntent();
-        final Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
 
         playGame1Btn = (Button) findViewById(R.id.play_game1_btn);
         playGame1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currSession.selectedGame = DroidRunJumpActivity.class;
+                currProcedure.startNewSession();
+                currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
                 Intent game = new Intent(GameSelection.this, TrialMain.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -37,9 +38,10 @@ public class GameSelection extends ActionBarActivity {
         playGame2Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currSession.selectedGame = dev.emmaguy.fruitninja.ui.MainActivity.class;
+                currProcedure.startNewSession();
+                currProcedure.currentSession.selectedGame = dev.emmaguy.fruitninja.ui.MainActivity.class;
                 Intent game = new Intent(GameSelection.this, TrialMain.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
             }
         });
@@ -48,9 +50,10 @@ public class GameSelection extends ActionBarActivity {
         playGame3Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currSession.selectedGame = DroidRunJumpActivity.class;
+                currProcedure.startNewSession();
+                currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
                 Intent game = new Intent(GameSelection.this, TrialMain.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -60,9 +63,10 @@ public class GameSelection extends ActionBarActivity {
         playGame4Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currSession.selectedGame = DroidRunJumpActivity.class;
+                currProcedure.startNewSession();
+                currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
                 Intent game = new Intent(GameSelection.this, TrialMain.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -72,9 +76,10 @@ public class GameSelection extends ActionBarActivity {
         continue_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currSession.selectedGame = DroidRunJumpActivity.class;
+                currProcedure.startNewSession();
+                currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
                 Intent game = new Intent(GameSelection.this, TrialMain.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
             }
         });

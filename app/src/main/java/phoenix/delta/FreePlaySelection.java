@@ -19,14 +19,14 @@ public class FreePlaySelection extends ActionBarActivity{
         setContentView(R.layout.activity_freeplay_selection);
 
         Intent thisIntent = getIntent();
-        final Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
 
         playGame1Btn = (Button) findViewById(R.id.play_game1_btn);
         playGame1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -37,7 +37,7 @@ public class FreePlaySelection extends ActionBarActivity{
             @Override
             public void onClick(View v) {
                 Intent game = new Intent(FreePlaySelection.this, dev.emmaguy.fruitninja.ui.MainActivity.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
             }
         });
@@ -47,7 +47,7 @@ public class FreePlaySelection extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -58,7 +58,7 @@ public class FreePlaySelection extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 Intent game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
 
             }
@@ -70,7 +70,7 @@ public class FreePlaySelection extends ActionBarActivity{
             public void onClick(View view) {
 
                 Intent game = new Intent(FreePlaySelection.this, GameSelection.class);
-                game.putExtra("SESSION", currSession);
+                game.putExtra("PROCEDURE", currProcedure);
                 startActivity(game);
             }
         });

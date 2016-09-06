@@ -15,20 +15,8 @@ import java.util.*;
 
 public class SessionPrep extends ActionBarActivity {
 
-    /*
-    Button select_student_btn, add_student_btn, enter_id_btn, cancel_btn;
-    TableLayout add_stud_layout;
-    Spinner studList;
-    List<String> list;
-    ArrayAdapter<String> dataAdapter;
-    EditText getNewStud;
-    TextView msg;
-    String sel_student;*/
-
     Button start_btn, cancel_btn;
     EditText et_studID;
-
-    Session currSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +25,6 @@ public class SessionPrep extends ActionBarActivity {
         setContentView(R.layout.activity_session_prep);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
 
         et_studID = (EditText) findViewById(R.id.studentID);
 
@@ -49,9 +36,9 @@ public class SessionPrep extends ActionBarActivity {
                 if(studID.compareTo("") == 0)
                     Toast.makeText(SessionPrep.this, "Invalid Input: Enter a Student ID!", Toast.LENGTH_SHORT).show();
                 else {
-                    currSession.setStudent(studID);
+                    Procedure newProcedure = new Procedure(getApplicationContext(), studID);
                     Intent trialMain = new Intent(SessionPrep.this,SessionStartActivity.class);
-                    trialMain.putExtra("SESSION", currSession);
+                    trialMain.putExtra("PROCEDURE", newProcedure);
                     Toast.makeText(SessionPrep.this, "Starting trial for: " + studID, Toast.LENGTH_LONG).show();
                     startActivity(trialMain);
                 }
@@ -64,7 +51,6 @@ public class SessionPrep extends ActionBarActivity {
             public void onClick(View view) {
 
                 Intent nextAct = new Intent(SessionPrep.this, LoginActivity.class);
-                nextAct.putExtra("SESSION", currSession);
                 startActivity(nextAct);
 
             }

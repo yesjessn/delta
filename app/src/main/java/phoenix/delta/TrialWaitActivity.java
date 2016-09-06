@@ -90,7 +90,7 @@ import android.widget.Toast;
 public class TrialWaitActivity extends ActionBarActivity {
 
     TextView msg;
-    Session currSession;
+    Procedure currProcedure;
     GIFView gifView;
 
     @Override
@@ -100,7 +100,8 @@ public class TrialWaitActivity extends ActionBarActivity {
         setContentView(R.layout.activity_trial_wait);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        final Session currSession = currProcedure.currentSession;
         final boolean prerewardDelay = thisIntent.getBooleanExtra("prerewardDelay", true);
         gifView = (GIFView)findViewById(R.id.gifView);
 
@@ -117,7 +118,7 @@ public class TrialWaitActivity extends ActionBarActivity {
 
                 public void onFinish() {
                     Intent nextAct = new Intent(TrialWaitActivity.this, currSession.selectedGame);
-                    nextAct.putExtra("SESSION", currSession);
+                    nextAct.putExtra("PROCEDURE", currProcedure);
 
                     long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time
 
@@ -131,7 +132,7 @@ public class TrialWaitActivity extends ActionBarActivity {
 
                             Intent nextAct = new Intent(TrialWaitActivity.this, TrialWaitActivity.class);
 
-                            nextAct.putExtra(Constants.SESSION, currSession);
+                            nextAct.putExtra("PROCEDURE", currProcedure);
                             nextAct.putExtra("prerewardDelay", false);
                             startActivity(nextAct);
                         }
@@ -156,7 +157,7 @@ public class TrialWaitActivity extends ActionBarActivity {
             public void onFinish() {
 
                 Intent nextAct = new Intent(TrialWaitActivity.this, TrialMain.class);
-                nextAct.putExtra("SESSION", currSession);
+                nextAct.putExtra("PROCEDURE", currProcedure);
 
                 startActivity(nextAct);
 

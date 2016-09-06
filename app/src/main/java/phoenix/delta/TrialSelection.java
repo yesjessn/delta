@@ -19,7 +19,7 @@ import android.widget.Toast;
 public class TrialSelection extends ActionBarActivity {
 
     Button wait_btn, now_btn, pause_btn, resume_btn;
-    Session currSession;
+    Procedure currProcedure;
     private long startTime, timeWhenPaused, responseTime;
 
     @Override
@@ -29,7 +29,8 @@ public class TrialSelection extends ActionBarActivity {
         setContentView(R.layout.activity_trial_selection);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        final Session currSession = currProcedure.currentSession;
 
         // create a timer to time the response time of the participant
         startTime = SystemClock.elapsedRealtime();
@@ -52,7 +53,7 @@ public class TrialSelection extends ActionBarActivity {
 
                 // go to next activity
                 Intent playNowAct = new Intent(TrialSelection.this,TrialWaitActivity.class);
-                playNowAct.putExtra("SESSION", currSession);
+                playNowAct.putExtra("PROCEDURE", currProcedure);
                 Toast.makeText(TrialSelection.this, "*" + responseTime / 1000.0 + " sec* Instant Game Access", Toast.LENGTH_SHORT).show();
                 startActivity(playNowAct);
             }
@@ -74,7 +75,7 @@ public class TrialSelection extends ActionBarActivity {
 
                 // go to next activity
                 Intent waitAct = new Intent(TrialSelection.this,TrialWaitActivity.class);
-                waitAct.putExtra("SESSION", currSession);
+                waitAct.putExtra("PROCEDURE", currProcedure);
                 Toast.makeText(TrialSelection.this, "*" + responseTime / 1000.0 + " sec* Wait to Play for Longer", Toast.LENGTH_SHORT).show();
                 startActivity(waitAct);
             }

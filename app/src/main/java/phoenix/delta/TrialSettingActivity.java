@@ -25,7 +25,7 @@ public class TrialSettingActivity extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_trial_setting);
 
-        //////////// get session from admin activity
+        //////////// get sessionType from admin activity
         Intent thisIntent = getIntent();
         currSession = (Session) thisIntent.getSerializableExtra("SESSION");
         //Toast.makeText(TrialSettingActivity.this, currSession.toString(), Toast.LENGTH_SHORT).show();

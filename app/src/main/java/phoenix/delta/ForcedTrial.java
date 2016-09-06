@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class ForcedTrial extends ActionBarActivity {
     Button now_btn, wait_btn, pause_btn, resume_btn;
-    Session currSession;
+    Procedure currProcedure;
     private long startTime, timeWhenPaused, responseTime;
     ScheduleChoice forcedChoice;
 
@@ -24,7 +24,8 @@ public class ForcedTrial extends ActionBarActivity {
         setContentView(R.layout.activity_forced);
 
         Intent thisIntent = getIntent();
-        currSession = (Session) thisIntent.getSerializableExtra("SESSION");
+        currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        final Session currSession = currProcedure.currentSession;
 
         // create a timer to time the response time of the participant
         startTime = SystemClock.elapsedRealtime();
@@ -34,8 +35,18 @@ public class ForcedTrial extends ActionBarActivity {
         now_btn = (Button)findViewById(R.id.btn_now);
         wait_btn = (Button)findViewById(R.id.btn_wait);
 
-        int completedTrials = currSession.currentBlock.trials.size();
-        boolean blockMod = currSession.currentBlock.blockNumber % 2 == 0;
+        int completedTrials;
+        int blockNumber;
+        if (currSession.currentBlock == null)
+        {
+            completedTrials = 0;
+            blockNumber = 0;
+        }
+        else {
+            completedTrials = currSession.currentBlock.trials.size();
+            blockNumber = currSession.currentBlock.blockNumber;
+        }
+        boolean blockMod = blockNumber % 2 == 0;
         boolean trialMod = completedTrials == 0;
         /*
         | blockMod | trialMod | result
@@ -46,15 +57,15 @@ public class ForcedTrial extends ActionBarActivity {
         |    1     |    1     | Now
         */
         if (blockMod ^ trialMod) {
-            // wait
-            now_btn.setVisibility(View.GONE);
-            wait_btn.setVisibility(View.VISIBLE);
-            forcedChoice = ScheduleChoice.WAIT_FOR_GAME;
-        } else {
             // now
             now_btn.setVisibility(View.VISIBLE);
             wait_btn.setVisibility(View.GONE);
             forcedChoice = ScheduleChoice.INSTANT_GAME_ACCESS;
+        } else {
+            // wait
+            now_btn.setVisibility(View.GONE);
+            wait_btn.setVisibility(View.VISIBLE);
+            forcedChoice = ScheduleChoice.WAIT_FOR_GAME;
         }
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -71,7 +82,7 @@ public class ForcedTrial extends ActionBarActivity {
 
                 // go to next activity
                 Intent playNowAct = new Intent(ForcedTrial.this, TrialWaitActivity.class);
-                playNowAct.putExtra("SESSION", currSession);
+                playNowAct.putExtra("PROCEDURE", currProcedure);
                 Toast.makeText(ForcedTrial.this, "*" + responseTime / 1000.0 + " sec* " + forcedChoice, Toast.LENGTH_SHORT).show();
                 startActivity(playNowAct);
             }
