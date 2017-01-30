@@ -93,7 +93,7 @@ public class Procedure implements Serializable{
     }
 
     private void writeSessionToFile(Context context, Session currentSession) {
-        String fileLocation = currentSession.sessionID + ".csv";
+        String fileLocation = subjectID + "-" + currentSession.sessionID + ".csv";
         FileHandling fh = new FileHandling();
         fh.fileWriter(context, subjectID, fileLocation, currentSession.fileContents());
     }
