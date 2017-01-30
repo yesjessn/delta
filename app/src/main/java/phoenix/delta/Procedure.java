@@ -16,9 +16,15 @@ public class Procedure implements Serializable{
     public Session currentSession;
 
     private String subjectID;
+    private String school;
+    private String RAID;
+    private String dateString;
 
-    public Procedure(Context context, String subjectID) {
+    public Procedure(Context context, String subjectID, String school, String RAID, String dateString) {
         this.subjectID = subjectID;
+        this.school = school;
+        this.RAID = RAID;
+        this.dateString = dateString;
         File root = context.getFilesDir();
         File subjectFile = new File(root, subjectID);
         if (!subjectFile.exists())
@@ -99,8 +105,8 @@ public class Procedure implements Serializable{
     }
 
     private void writeProgressToFile (Context context, Session currentSession){
-        String fileLocation = "progress.csv";
+        String fileLocation = subjectID + "-" + "progress.csv";
         FileHandling fh = new FileHandling();
-        fh.fileAppender(context, subjectID, fileLocation, currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "\n");
+        fh.fileAppender(context, subjectID, fileLocation, this.school + "," + this.RAID + "," + this.dateString + "," + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "\n");
     }
 }

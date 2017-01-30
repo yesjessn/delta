@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/textView2"
+        android:id="@+id/enter_student_id"
         android:text="@string/enter_student"
         android:textSize="48dp"
         />
@@ -23,13 +23,42 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:id="@+id/studentID"
         android:hint="@string/enter_studID_here"
-        android:imeOptions="flagNoExtractUi"/>
+        android:imeOptions="flagNoExtractUi"
+        android:background="#64ffffff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/select_schools"
+        android:text="@string/select_schools"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:spinnerMode="dropdown"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:clickable="true"
+        android:background="#64ffffff"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/RA"
+        android:hint="@string/enter_initials_here"
+        android:imeOptions="flagNoExtractUi"
+        android:background="#64ffffff"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="@string/start_session"
         android:id="@+id/start_btn"
         android:layout_gravity="center_horizontal"

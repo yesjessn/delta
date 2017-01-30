@@ -52,6 +52,14 @@
     <string name="title_activity_session_prep">Select Student to Start</string>
     <string name="select_student">Select Student for Session</string>
     <string name="enter_student">Enter Student ID for Session</string>
+    <string name="select_schools">Select School</string>
+    <string-array name="school_names">
+        <item>Triumph Preschool</item>
+        <item>Sacramento Country Day School</item>
+        <item>Natomas Unified School District</item>
+        <item>UC Davis Early Childhood Lab School</item>
+    </string-array>
+    <string name="enter_initials_here">Enter Initials Here (RA)</string>
     <string name="select">Select</string>
     <string name="add_new_student">Add New Student</string>
     <string name="enter_studID_here">Enter Student ID Here</string>

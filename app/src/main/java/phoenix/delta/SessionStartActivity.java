@@ -35,7 +35,7 @@ public class SessionStartActivity extends ActionBarActivity {
         startSessionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startSession = new Intent(SessionStartActivity.this, TrialMain.class);
+                Intent startSession = new Intent(SessionStartActivity.this, GameSelection.class);
                 startSession.putExtra("PROCEDURE", currProcedure);
                 currProcedure.startNewSession();
                 startActivity(startSession);

@@ -10,13 +10,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.*;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
 public class SessionPrep extends ActionBarActivity {
 
     Button start_btn, cancel_btn;
+    Spinner spinner;
+    ArrayAdapter<CharSequence> adapter;
     EditText et_studID;
+    EditText et_RAID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +32,44 @@ public class SessionPrep extends ActionBarActivity {
         Intent thisIntent = getIntent();
 
         et_studID = (EditText) findViewById(R.id.studentID);
+        et_RAID = (EditText) findViewById(R.id.RA);
 
         start_btn = (Button)findViewById(R.id.start_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
                 String studID = et_studID.getText().toString();
-                if(studID.compareTo("") == 0)
-                    Toast.makeText(SessionPrep.this, "Invalid Input: Enter a Student ID!", Toast.LENGTH_SHORT).show();
+                String school = spinner.getSelectedItem().toString();
+                String RAID = et_RAID.getText().toString();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                String dateString = dateFormat.format(cal.getTime());
+
+                if(studID.compareTo("") == 0 & RAID.compareTo("") == 0)
+                    Toast.makeText(SessionPrep.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 else {
-                    Procedure newProcedure = new Procedure(getApplicationContext(), studID);
+                    Procedure newProcedure = new Procedure(getApplicationContext(), studID, school, RAID, dateString);
                     Intent trialMain = new Intent(SessionPrep.this,SessionStartActivity.class);
                     trialMain.putExtra("PROCEDURE", newProcedure);
                     Toast.makeText(SessionPrep.this, "Starting trial for: " + studID, Toast.LENGTH_LONG).show();
                     startActivity(trialMain);
                 }
+
+            }
+        });
+
+        spinner = (Spinner)findViewById(R.id.spinner);
+        adapter = ArrayAdapter.createFromResource(this,R.array.school_names,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position)+" selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
