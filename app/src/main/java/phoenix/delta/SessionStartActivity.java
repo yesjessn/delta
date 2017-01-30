@@ -36,6 +36,8 @@ public class SessionStartActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent startSession = new Intent(SessionStartActivity.this, TrialMain.class);
+                startSession.putExtra("PROCEDURE", currProcedure);
+                currProcedure.startNewSession();
                 startActivity(startSession);
             }
         });
