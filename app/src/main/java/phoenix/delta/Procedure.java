@@ -2,6 +2,8 @@ package phoenix.delta;
 
 import android.content.Context;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -107,6 +109,6 @@ public class Procedure implements Serializable{
     private void writeProgressToFile (Context context, Session currentSession){
         String fileLocation = subjectID + "-" + "progress.csv";
         FileHandling fh = new FileHandling();
-        fh.fileAppender(context, subjectID, fileLocation, this.school + "," + this.RAID + "," + this.dateString + "," + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "\n");
+        fh.fileAppender(context, subjectID, fileLocation, this.school + "," + this.RAID + "," + this.dateString + "," + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," +  StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
     }
 }

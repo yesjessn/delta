@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="@string/manage_teachers"
             android:id="@+id/manage_teachers"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/manage_students"
             android:id="@+id/manage_students"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
 
@@ -36,22 +36,16 @@
             android:layout_height="wrap_content"
             android:text="@string/trial_setting"
             android:id="@+id/trial_setting"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/curr_trial_setting" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_session"
             android:id="@+id/start_session"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -63,7 +57,7 @@
             android:layout_height="wrap_content"
             android:text="@string/upload_data"
             android:id="@+id/upload_data"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_above="@+id/logout"
             android:layout_alignParentLeft="true"
@@ -75,7 +69,7 @@
             android:layout_height="wrap_content"
             android:text="@string/logout"
             android:id="@+id/logout"
-            android:textSize="24dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"

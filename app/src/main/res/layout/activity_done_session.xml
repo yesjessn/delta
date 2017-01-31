@@ -17,29 +17,26 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/allTrials" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:text="@string/prompt_pw_done"
+            android:text="@string/prompt_done"
             android:id="@+id/prompt"
             android:layout_gravity="center_horizontal"
             android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:textSize="20sp"/>
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="numberPassword"
-            android:ems="10"
-            android:id="@+id/passphrase"
-            android:hint="@string/hint_pw_done"
+            android:id="@+id/comments"
+            android:hint="@string/enter_comments_here"
             android:layout_gravity="center_horizontal"
-            android:imeOptions="flagNoExtractUi"/>
+            android:textSize="20sp"
+            android:ems="20"
+            android:background="#64ffffff"
+            android:layout_marginTop="15dp"/>
 
         <Button
             android:layout_width="212dp"
@@ -48,6 +45,8 @@
             android:id="@+id/done_btn"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/white_button"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="15dp"/>
     </LinearLayout>
 </ScrollView>

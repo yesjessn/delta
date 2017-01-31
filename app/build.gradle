@@ -27,4 +27,5 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile project(':box-content-sdk')
+    compile 'org.apache.commons:commons-lang3:3.4'
 }

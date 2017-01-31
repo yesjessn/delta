@@ -17,7 +17,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/enter_student_id"
         android:text="@string/enter_student"
-        android:textSize="48dp"
+        android:textSize="50sp"
+        android:textColor="@android:color/black"
         />
 
     <EditText
@@ -27,15 +28,17 @@
         android:id="@+id/studentID"
         android:hint="@string/enter_studID_here"
         android:imeOptions="flagNoExtractUi"
-        android:background="#64ffffff"/>
+        android:background="#64ffffff"
+        android:textSize="20sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/select_schools"
-        android:text="@string/select_schools"/>
+        android:text="@string/select_schools"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"/>
 
     <Spinner
         android:layout_width="match_parent"
@@ -44,6 +47,7 @@
         android:spinnerMode="dropdown"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:clickable="true"
+        android:textSize="20sp"
         android:background="#64ffffff"/>
 
     <EditText
@@ -53,7 +57,7 @@
         android:id="@+id/RA"
         android:hint="@string/enter_initials_here"
         android:imeOptions="flagNoExtractUi"
-        android:background="#64ffffff"/>
+        android:textSize="20sp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -62,7 +66,8 @@
         android:text="@string/start_session"
         android:id="@+id/start_btn"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/white_button"/>
+        android:background="@drawable/white_button"
+        android:textSize="20sp"/>
 
     <Button
         android:layout_width="match_parent"
@@ -71,7 +76,8 @@
         android:text="@string/cancel"
         android:id="@+id/cancel_btn"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/white_button"/>
+        android:background="@drawable/white_button"
+        android:textSize="20sp"/>
 
     <!--Spinner
         android:layout_width="match_parent"

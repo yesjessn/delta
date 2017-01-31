@@ -95,9 +95,9 @@
     <string name="done">Done</string>
     <string name="accounts">Accounts</string>
     <string name="title_activity_done_session">DoneSessionActivity</string>
-
-    <string name="hint_pw_done">Numeric Password</string>
-    <string name="prompt_pw_done">Session is finished!\nEnter the (numeric) password to exit!</string>
+    <!--Done Session Activity-->
+    <string name="prompt_done">Session is finished!\nEnter comments if any or click Done to finish.</string>
+    <string name="enter_comments_here">Comments</string>
 
     <!--Fruit Ninja-->
     <string name="game2_name">Fruit Ninja</string>

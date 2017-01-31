@@ -16,7 +16,8 @@
         android:id="@+id/game_selection"
         android:layout_gravity="center_horizontal"
         android:text="@string/select_game"
-        android:textSize="48dp"/>
+        android:textSize="50sp"
+        android:textColor="@android:color/black"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -71,7 +72,7 @@
         android:layout_height="wrap_content"
         android:text="@string/next"
         android:id="@+id/btn_continue"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:background="@drawable/white_button"
         android:layout_gravity="right"/>
 </LinearLayout>

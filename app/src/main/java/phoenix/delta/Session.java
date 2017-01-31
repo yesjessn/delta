@@ -11,6 +11,8 @@ public class Session implements Serializable
 {
     public int sessionID;
 
+    public String comments;
+
     private Trial m_currentTrial;
 
     public Block currentBlock;
@@ -159,6 +161,7 @@ public class Session implements Serializable
     {
         return m_currentTrial.getChoice();
     }
+
 
 
     public void setTimerVisible()

@@ -64,9 +64,6 @@ public class AdminActivity extends ActionBarActivity
             }
         });
 
-        m_trialSetting = (TextView)findViewById(R.id.curr_trial_setting);
-        updateSetting();
-
         Button startSessionBtn = (Button)findViewById(R.id.start_session);
         startSessionBtn.setOnClickListener(new View.OnClickListener() {
             @Override

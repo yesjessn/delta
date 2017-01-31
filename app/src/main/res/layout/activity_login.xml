@@ -20,8 +20,9 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/title_activity_login"
-            android:textSize="48dp"
+            android:textSize="50sp"
             android:id="@+id/textView"
+            android:layout_marginTop="15dp"
             />
 
         <EditText
@@ -29,28 +30,32 @@
             android:layout_height="wrap_content"
             android:imeOptions="flagNoExtractUi"
             android:id="@+id/username"
-            android:hint="@string/prompt_username"/>
+            android:hint="@string/prompt_username"
+            android:textSize="20sp"
+            android:background="#64ffffff"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="flagNoExtractUi"
             android:inputType="textPassword"
-            android:ems="10"
             android:id="@+id/password"
-            android:hint="@string/prompt_password"/>
+            android:hint="@string/prompt_password"
+            android:background="#64ffffff"
+            android:enabled="false"
+            android:textSize="20sp"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_error_msg" />
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/login_error_msg" />
 
-        <Button
+         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/teacher_login"
             android:id="@+id/teacher_login_btn"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
 
@@ -59,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="@string/admin_login"
             android:id="@+id/admin_login_btn"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>
 
@@ -69,7 +74,7 @@
             android:layout_height="wrap_content"
             android:text="@string/reg_admin"
             android:id="@+id/reg_admin_btn"
-            android:textSize="18dp"
+            android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
