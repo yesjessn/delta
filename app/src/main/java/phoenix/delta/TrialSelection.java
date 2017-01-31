@@ -69,7 +69,7 @@ public class TrialSelection extends ActionBarActivity {
                 responseTime += timeWhenPaused;
 
                 // save the data
-                currSession.setStudentResponseTime(responseTime / 1000.00);
+                currSession.setStudentResponseTime(responseTime / 1000.0);
                 currSession.setStudentSelection(ScheduleChoice.WAIT_FOR_GAME);
                 //currSession.endTrial();
 
