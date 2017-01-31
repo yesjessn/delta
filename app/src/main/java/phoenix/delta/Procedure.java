@@ -34,7 +34,7 @@ public class Procedure implements Serializable{
             subjectFile.mkdir();
         }
         try {
-            FileInputStream fis = context.openFileInput(subjectID + File.pathSeparator + "progress.csv");
+            FileInputStream fis = context.openFileInput(subjectID + File.pathSeparator + subjectID + "-progress.csv");
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
             String line = reader.readLine();
             while(line != null){
@@ -107,8 +107,8 @@ public class Procedure implements Serializable{
     }
 
     private void writeProgressToFile (Context context, Session currentSession){
-        String fileLocation = subjectID + "-" + "progress.csv";
+        String fileLocation = subjectID + "-progress.csv";
         FileHandling fh = new FileHandling();
-        fh.fileAppender(context, subjectID, fileLocation, this.school + "," + this.RAID + "," + this.dateString + "," + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," +  StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
+        fh.fileAppender(context, subjectID, fileLocation, currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
     }
 }
