@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/teacher_login"
-            android:id="@+id/teacher_login_btn"
+            android:id="@+id/continue_RA_login_btn"
             android:textSize="20sp"
             android:background="@drawable/white_button"
             android:layout_marginTop="15dp"/>

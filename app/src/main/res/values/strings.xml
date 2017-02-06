@@ -9,7 +9,7 @@
     <string name="title_activity_login">Log In</string>
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password (6-12 characters)</string>
-    <string name="teacher_login">Teacher Login</string>
+    <string name="teacher_login">Continue to RA Login</string>
     <string name="admin_login">Administrator Login</string>
     <string name="reg_admin">Register New Administrator</string>
     <!-- Admin/Teacher -->

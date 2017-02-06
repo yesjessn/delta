@@ -11,12 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-//import android.database.sqlite.*;
 
 public class LoginActivity extends ActionBarActivity {
 
     private DUser m_adminShared;
-    private DUser m_teacherShared;
 
     //temporarily set password min length to zero for debugging
     private static final int MIN_LENGTH = 0, MAX_LENGTH = 12;
@@ -33,27 +31,19 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         m_adminShared = new DUser("", "", UserType.ADMINISTRATOR);
-        m_teacherShared = new DUser("", "", UserType.TEACHER);
 
         m_etUsername = (EditText) findViewById(R.id.username);
         m_etPassword = (EditText) findViewById(R.id.password);
         m_errMsg = (TextView) findViewById(R.id.login_error_msg);
         m_errMsg.setText("");
 
-        Button teacherLoginBtn = (Button) findViewById(R.id.teacher_login_btn);
-        teacherLoginBtn.setOnClickListener(new View.OnClickListener()
+        Button ContinueRALoginBtn = (Button) findViewById(R.id.continue_RA_login_btn);
+        ContinueRALoginBtn.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-                if(authentication(UserType.TEACHER))
-                {
-                    Intent teacherActivity = new Intent(LoginActivity.this, SessionPrep.class);
-                    Toast.makeText(LoginActivity.this, "Logged in as TEACHER",
-                                   Toast.LENGTH_SHORT).show();
-                    startActivity(teacherActivity);
-                }
-                else Toast.makeText(LoginActivity.this, "Cannot Log in as TEACHER",
-                                    Toast.LENGTH_SHORT).show();
+                    Intent RAActivity = new Intent(LoginActivity.this, SessionPrep.class);
+                    startActivity(RAActivity);
             }
         });
 
@@ -92,10 +82,6 @@ public class LoginActivity extends ActionBarActivity {
         return (username.compareTo(m_adminShared.getUsername()) == 0 && m_adminShared.checkPassword(password));
     }
 
-    private boolean checkAsTeacher (String username, String password) {
-        return (username.compareTo(m_teacherShared.getUsername()) == 0 && m_teacherShared.checkPassword(password));
-    }
-
 
     private boolean authentication(UserType userType) {
 
@@ -105,11 +91,12 @@ public class LoginActivity extends ActionBarActivity {
         if(!validInput())
             return false;
 
-        if(userType == UserType.ADMINISTRATOR) {
-            return checkAsAdmin(m_username, m_password);
+        switch (userType){
+            case ADMINISTRATOR:
+                return checkAsAdmin(m_username, m_password);
+            default:
+                return false;
         }
-        else
-            return checkAsTeacher(m_username, m_password);
     }
 
     private boolean isNumeric(char c) {
