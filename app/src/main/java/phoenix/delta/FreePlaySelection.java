@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
+import droidrunjump.DroidRunJumpActivity;
+
 public class FreePlaySelection extends ActionBarActivity{
 
     Button playGame1Btn, playGame2Btn, playGame3Btn, playGame4Btn, continue_btn;

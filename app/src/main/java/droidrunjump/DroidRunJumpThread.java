@@ -1,4 +1,4 @@
-package phoenix.delta;
+package droidrunjump;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -9,7 +9,7 @@ public class DroidRunJumpThread extends Thread
 {
     private final SurfaceHolder m_surfaceHolder;
     private boolean       m_run;
-    private Game          m_game;
+    private Game m_game;
 
     public DroidRunJumpThread(SurfaceHolder p_surfaceHolder, Game p_game)
     {

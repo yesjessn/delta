@@ -1,8 +1,11 @@
-package phoenix.delta;
+package droidrunjump;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.RectF;
+
+import phoenix.delta.Constants;
+import phoenix.delta.Utilities;
 
 public class Star
 {
@@ -10,7 +13,7 @@ public class Star
     private float m_w, m_h;
     private boolean m_alive;
 
-    private Game  m_game;
+    private Game m_game;
     private RectF m_rect;
 
     public Star(Game game)
@@ -31,7 +34,7 @@ public class Star
     public void spawn()
     {
         m_x = m_game.getWidth() + m_w;
-        m_y = Utilities.random(Constants.GROUND_Y - m_game.getDroid().getHeight() + Constants.JUMP_HEIGHT, Constants.GROUND_Y - m_h);
+        m_y = Utilities.random(DroidConstants.GROUND_Y - m_game.getDroid().getHeight() + DroidConstants.JUMP_HEIGHT, DroidConstants.GROUND_Y - m_h);
         m_rect.top = m_y;
         m_rect.bottom = m_y + m_h;
         m_alive = true;
@@ -39,7 +42,7 @@ public class Star
 
     public void update()
     {
-        m_x -= Constants.MOVEMENT_RATE;
+        m_x -= DroidConstants.MOVEMENT_RATE;
         m_rect.left = m_x;
         m_rect.right = m_x + m_w;
 

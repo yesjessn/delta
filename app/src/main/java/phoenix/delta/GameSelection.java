@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 
+import droidrunjump.DroidRunJumpActivity;
+
 
 public class GameSelection extends ActionBarActivity {
 

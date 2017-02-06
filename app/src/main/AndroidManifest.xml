@@ -62,7 +62,7 @@
             android:label="@string/title_activity_trial_selection" >
         </activity>
         <activity
-            android:name=".DroidRunJumpActivity"
+            android:name="droidrunjump.DroidRunJumpActivity"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
