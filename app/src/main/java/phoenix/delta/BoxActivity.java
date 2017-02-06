@@ -50,7 +50,6 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
     private BoxApiFolder m_folderApi;
     private BoxApiFile m_fileApi;
 
-    private Intent m_adminAct;
 
     @Override
     protected void onCreate(Bundle p_savedInstanceState)
@@ -62,8 +61,7 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
         Intent thisIntent = getIntent();
         Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
 
-        m_adminAct = new Intent(BoxActivity.this,AdminActivity.class);
-        m_adminAct.putExtra("SESSION",currSession);
+        final Intent startOver = new Intent(BoxActivity.this,LoginActivity.class);
 
         m_adapter = new BoxItemAdapter(this);
 
@@ -82,22 +80,12 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
             }
         });
 
-        Button logoutBtn = (Button)findViewById(R.id.logout_btn);
-        logoutBtn.setOnClickListener(new View.OnClickListener()
-        {
-            public void onClick(View view)
-            {
-                m_session.logout();
-                initialize();
-            }
-        });
-
         Button doneBtn = (Button)findViewById(R.id.done_btn);
         doneBtn.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-                startActivity(m_adminAct);
+                startActivity(startOver);
             }
         });
 
@@ -322,7 +310,6 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
     public boolean onPrepareOptionsMenu(Menu p_menu)
     {
         int numAccounts = BoxAuthentication.getInstance().getStoredAuthInfo(this).keySet().size();
-        p_menu.findItem(R.id.logout).setVisible(numAccounts > 0);
         return true;
     }
 
@@ -340,14 +327,10 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
             uploadFile();
             return true;
         }
-        else if (id == R.id.logout)
+        else
         {
-            m_session.logout();
-            initialize();
-            return true;
+            return super.onOptionsItemSelected(p_item);
         }
-
-        return super.onOptionsItemSelected(p_item);
     }
 
     private class BoxItemAdapter extends ArrayAdapter<BoxItem>

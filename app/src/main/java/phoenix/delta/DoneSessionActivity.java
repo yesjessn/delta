@@ -45,9 +45,9 @@ public class DoneSessionActivity extends ActionBarActivity {
                     Toast.makeText(DoneSessionActivity.this, "Cannot write to file", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Intent startOver = new Intent(DoneSessionActivity.this, SessionPrep.class);
-                    //no use of putExtra to not transfer procedure
-                    startActivity(startOver);
+                    Intent boxAct = new Intent(DoneSessionActivity.this,BoxActivity.class);
+                    boxAct.putExtra("PROCEDURE", currProcedure);
+                    startActivity(boxAct);
                 }
             }
         });
