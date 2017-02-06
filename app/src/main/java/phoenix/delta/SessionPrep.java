@@ -39,17 +39,16 @@ public class SessionPrep extends ActionBarActivity {
                 Calendar cal = Calendar.getInstance();
                 String studID = et_studID.getText().toString();
                 String RAID = et_RAID.getText().toString();
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-                String dateString = dateFormat.format(cal.getTime());
 
                 if(studID.compareTo("") == 0 | spinner.getSelectedItem() == null)
                     Toast.makeText(SessionPrep.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 else {
                     String school = spinner.getSelectedItem().toString();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+                    String dateString = dateFormat.format(cal.getTime());
                     Procedure newProcedure = new Procedure(getApplicationContext(), studID, school, RAID, dateString);
                     Intent trialMain = new Intent(SessionPrep.this,SessionStartActivity.class);
                     trialMain.putExtra("PROCEDURE", newProcedure);
-                    Toast.makeText(SessionPrep.this, "Starting trial for: " + studID, Toast.LENGTH_LONG).show();
                     startActivity(trialMain);
                 }
 
