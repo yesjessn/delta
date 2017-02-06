@@ -29,8 +29,6 @@ public class SessionPrep extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_session_prep);
 
-        Intent thisIntent = getIntent();
-
         et_studID = (EditText) findViewById(R.id.studentID);
         et_RAID = (EditText) findViewById(R.id.RA);
 
