@@ -40,14 +40,14 @@ public class SessionPrep extends ActionBarActivity {
             public void onClick(View view) {
                 Calendar cal = Calendar.getInstance();
                 String studID = et_studID.getText().toString();
-                String school = spinner.getSelectedItem().toString();
                 String RAID = et_RAID.getText().toString();
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
                 String dateString = dateFormat.format(cal.getTime());
 
-                if(studID.compareTo("") == 0 & RAID.compareTo("") == 0)
+                if(studID.compareTo("") == 0 | spinner.getSelectedItem() == null)
                     Toast.makeText(SessionPrep.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 else {
+                    String school = spinner.getSelectedItem().toString();
                     Procedure newProcedure = new Procedure(getApplicationContext(), studID, school, RAID, dateString);
                     Intent trialMain = new Intent(SessionPrep.this,SessionStartActivity.class);
                     trialMain.putExtra("PROCEDURE", newProcedure);
@@ -61,18 +61,12 @@ public class SessionPrep extends ActionBarActivity {
         spinner = (Spinner)findViewById(R.id.spinner);
         adapter = ArrayAdapter.createFromResource(this,R.array.school_names,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position)+" selected", Toast.LENGTH_LONG).show();
-            }
+        spinner.setPrompt("Select School");
+        spinner.setAdapter(
+                new NothingSelectedSpinnerAdapter(
+                        adapter,
+                        R.layout.contact_spinner_row_nothing_selected,this));
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         cancel_btn = (Button)findViewById(R.id.cancel_btn);
         cancel_btn.setOnClickListener(new View.OnClickListener() {
