@@ -26,6 +26,7 @@ public class Session implements Serializable
     public WaitTime waitTime;
 
     public long initDelay = 15*1000L;
+    public long delayChange = 23226L; //23.2258064516 seconds -> 90 = 45 + DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)]
     public float adjustment = 0.5f;
 
     public Class<? extends Activity> selectedGame;
