@@ -54,10 +54,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:id="@+id/RA"
-        android:hint="@string/enter_initials_here"
+        android:id="@+id/RAID"
+        android:hint="@string/enter_RAID_here"
         android:imeOptions="flagNoExtractUi"
         android:textSize="20sp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:textSize="20sp"
+        android:id="@+id/RAPassword"
+        android:hint="@string/enter_RAPassword_here"/>
 
     <Button
         android:layout_width="match_parent"

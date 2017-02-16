@@ -30,7 +30,7 @@ public class SessionPrep extends ActionBarActivity {
         setContentView(R.layout.activity_session_prep);
 
         et_studID = (EditText) findViewById(R.id.studentID);
-        et_RAID = (EditText) findViewById(R.id.RA);
+        et_RAID = (EditText) findViewById(R.id.RAID);
 
         start_btn = (Button)findViewById(R.id.start_btn);
         start_btn.setOnClickListener(new View.OnClickListener() {

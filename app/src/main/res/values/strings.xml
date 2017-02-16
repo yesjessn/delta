@@ -59,7 +59,8 @@
         <item>Natomas Unified School District</item>
         <item>UC Davis Early Childhood Lab School</item>
     </string-array>
-    <string name="enter_initials_here">Enter Initials Here (RA)</string>
+    <string name="enter_RAID_here">Enter RA Username</string>
+    <string name="enter_RAPassword_here">Enter RA Password</string>
     <string name="select">Select</string>
     <string name="add_new_student">Add New Student</string>
     <string name="enter_studID_here">Enter Student ID Here</string>
