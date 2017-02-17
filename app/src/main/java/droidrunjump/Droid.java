@@ -148,9 +148,7 @@ public class Droid
     private void doPlayerJump(long p_millisSinceLastUpdate)
     {
         float secsSinceLastUpdate = p_millisSinceLastUpdate / 1000.0f;
-        System.out.println("delta m_vy: " + (secsSinceLastUpdate * DroidConstants.DROID_FALL_ACCEL));
         m_vy += secsSinceLastUpdate * DroidConstants.DROID_FALL_ACCEL;
-        System.out.println("delta m_y: " + (secsSinceLastUpdate * m_vy));
         m_y += secsSinceLastUpdate * m_vy;
         if (m_y > DroidConstants.GROUND_Y)
         {
