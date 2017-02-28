@@ -62,7 +62,7 @@ public class RegAdminActivity extends ActionBarActivity {
         cancel_btn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Toast.makeText(RegAdminActivity.this, "Cancel Registration", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(RegAdminActivity.this,LoginActivity.class));
+                startActivity(new Intent(RegAdminActivity.this,SessionPrep.class));
             }
         });
 

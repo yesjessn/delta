@@ -28,4 +28,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile project(':box-content-sdk')
     compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'commons-io:commons-io:2.5'
+    compile ('com.google.code.gson:gson:2.3.1')
+    compile('com.microsoft.graph:msgraph-sdk-android:1.2.+')
+    compile 'com.microsoft.graph:msa-auth-for-android-adapter:0.9.+'
 }

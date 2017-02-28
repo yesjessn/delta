@@ -87,91 +87,15 @@
         android:background="@drawable/white_button"
         android:textSize="20sp"/>
 
-    <!--Spinner
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/white_button"
-        android:id="@+id/spinner_students_list"
-        android:layout_marginTop="65dp"/>
-
     <Button
-        android:layout_width="163dp"
-        android:layout_height="wrap_content"
-        android:text="@string/select"
-        android:id="@+id/btn_sel_stud"
-        android:textSize="18dp"
-        android:background="@drawable/white_button"
-        android:layout_marginTop="15dp"/>
-
-    <Button
-        android:layout_width="163dp"
-        android:layout_height="wrap_content"
-        android:text="@string/add_student"
-        android:id="@+id/btn_add_stud"
-        android:textSize="18dp"
-        android:background="@drawable/white_button"
-        android:layout_marginTop="15dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text=""
-        android:id="@+id/message" />
-
-    <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/add_student_layout"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_marginTop="15dp"
+        android:text="@string/onedrive_login"
+        android:id="@+id/onedrive_btn"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/white_button"
+        android:textSize="20sp"/>
 
-        <TableRow>
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:imeOptions="flagNoExtractUi"
-                android:id="@+id/new_stud_id"
-                android:hint="@string/get_new_stud"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/btn_enter"
-                android:layout_toStartOf="@+id/btn_enter"
-                android:layout_column="0" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/enter"
-                android:id="@+id/btn_enter"
-                android:background="@drawable/white_button"
-                android:layout_column="32"
-                android:layout_alignBottom="@+id/new_stud_id"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-        </TableRow>
-
-    </TableLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"
-            android:id="@+id/cancel_btn"
-            android:textSize="24dp"
-            android:background="@drawable/white_button"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout-->
 
 </LinearLayout>

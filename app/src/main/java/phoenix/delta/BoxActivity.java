@@ -61,7 +61,7 @@ public class BoxActivity extends ActionBarActivity implements BoxAuthentication.
         Intent thisIntent = getIntent();
         Session currSession = (Session) thisIntent.getSerializableExtra("SESSION");
 
-        final Intent startOver = new Intent(BoxActivity.this,LoginActivity.class);
+        final Intent startOver = new Intent(BoxActivity.this,SessionPrep.class);
 
         m_adapter = new BoxItemAdapter(this);
 

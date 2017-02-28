@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="phoenix.delta" >
 
-    <!-- Internet permission for Box -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Internet permission for OneDrive -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <!-- No permission needed for -->
     <application
@@ -12,7 +13,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".LoginActivity"
+            android:name=".SessionPrep"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +32,6 @@
         <activity
             android:name=".TrialSettingActivity"
             android:label="@string/title_activity_trial_setting" >
-        </activity>
-        <activity
-            android:name=".SessionPrep"
-            android:label="@string/title_activity_session_prep" >
         </activity>
         <activity
             android:name=".SessionStartActivity"

@@ -23,6 +23,7 @@
     <string name="start_session">Start Session</string>
     <string name="upload_data">Upload Data to Box</string>
     <string name="logout">Log Out</string>
+    <string name="onedrive_login">Login to Onedrive</string>
     <!-- Session Start -->
     <string name="title_activity_session_start">Session Start</string>
     <string name="free_play">Free Play</string>
@@ -129,5 +130,4 @@
     <string name="enable_sound_effects">Enable sound effects</string>
 
 
-
-    </resources>
+</resources>
