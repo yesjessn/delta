@@ -124,4 +124,50 @@ public class DeltaOneDriveClient {
             Log.i("ODC", "Could not silent log in", e);
         }
     }
+
+    public boolean DownloadProgress (Context context, String subjectID) {
+        File root = context.getFilesDir();
+        File subjectFile = new File(root, subjectID);
+        if (!subjectFile.exists())
+        {
+            subjectFile.mkdir();
+        }
+
+        final InputStream inputStream;
+
+        try {
+            // This file's details can be found here via the explorer (https://graph.microsoft.io/en-us/graph-explorer)
+            // https://graph.microsoft.com/v1.0/me/drive/
+            inputStream = oneDriveClient
+                    .getMe()
+                    .getDrive()
+                    .getRoot().getItemWithPath("/Apps/DeLTA/" + subjectID + "/" + subjectID + "-progress.csv")
+                    .getContent()
+                    .buildRequest()
+                    .get();
+        } catch (Exception e) {
+            if (e instanceof ClientException) {
+                ClientException ce = (ClientException) e;
+                if (ce.isError(GraphErrorCodes.ItemNotFound)) {
+                    // Don't write error to log, needs log in
+                    return true;
+                }
+            }
+            Log.e("ODC", "Error getting progress csv file", e);
+            return false;
+        }
+        Log.i("ODC", "Password csv download successful");
+
+        try {
+            FileOutputStream outputStream = context.openFileOutput(subjectID + File.pathSeparator + subjectID + "-progress.csv", Context.MODE_PRIVATE);
+            IOUtils.copy(inputStream, outputStream);
+            inputStream.close();
+            outputStream.close();
+        } catch (java.io.IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        Log.i("ODC", "Wrote csv to file");
+        return true;
+    }
 }

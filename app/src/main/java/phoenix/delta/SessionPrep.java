@@ -31,7 +31,7 @@ public class SessionPrep extends ActionBarActivity {
     Button onedrive_btn;
     Spinner spinner;
     ArrayAdapter<CharSequence> adapter;
-    EditText et_studID;
+    EditText et_subjectD;
     EditText et_RAID;
     EditText et_RAPassword;
     DeltaOneDriveClient oneDriveCilent;
@@ -43,7 +43,7 @@ public class SessionPrep extends ActionBarActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_session_prep);
 
-        et_studID = (EditText) findViewById(R.id.studentID);
+        et_subjectD = (EditText) findViewById(R.id.subjectID);
         et_RAID = (EditText) findViewById(R.id.RAID);
         et_RAPassword = (EditText) findViewById(R.id.RAPassword);
 
@@ -99,11 +99,11 @@ public class SessionPrep extends ActionBarActivity {
             public void onClick(View view) {
 
                 Calendar cal = Calendar.getInstance();
-                String studID = et_studID.getText().toString();
+                String subjectID = et_subjectD.getText().toString().toLowerCase();
                 String RAID = et_RAID.getText().toString();
                 String RAPassword = et_RAPassword.getText().toString();
 
-                if (studID.compareTo("") == 0 | spinner.getSelectedItem() == null) {
+                if (subjectID.compareTo("") == 0 | spinner.getSelectedItem() == null) {
                     Toast.makeText(SessionPrep.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -120,11 +120,10 @@ public class SessionPrep extends ActionBarActivity {
                         Toast.makeText(SessionPrep.this, "Username not found", Toast.LENGTH_SHORT).show();
                     } else {
                         cursor.moveToFirst();
-                        if (RAPassword.equals(cursor.getString(0))) {
-                            Procedure newProcedure = new Procedure(getApplicationContext(), studID, school, RAID, dateString);
-                            Intent trialMain = new Intent(SessionPrep.this, SessionStartActivity.class);
-                            trialMain.putExtra("PROCEDURE", newProcedure);
-                            startActivity(trialMain);
+                        String passwordInDB = cursor.getString(0);
+                        if (RAPassword.equals(passwordInDB)) {
+                            asyncDownloadProgress(oneDriveCilent, subjectID, school, RAID, dateString);
+                            Toast.makeText(SessionPrep.this, "Loading progress csv, may take some time", Toast.LENGTH_LONG).show();
                         } else {
                             Toast.makeText(SessionPrep.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                         }
@@ -195,5 +194,31 @@ public class SessionPrep extends ActionBarActivity {
             }
         };
         task.execute(oneDriveCilent);
+    }
+
+    private void asyncDownloadProgress (final DeltaOneDriveClient oneDriveCilent, final String subjectID, final String school, final String RAID, final String dateString) {
+        AsyncTask<DeltaOneDriveClient, Void, Boolean> task = new AsyncTask<DeltaOneDriveClient, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(DeltaOneDriveClient... params) {
+                Log.i("SessionPrep", "Starting progress csv download");
+                DeltaOneDriveClient client = params[0];
+                return client.DownloadProgress(getApplicationContext(), subjectID);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                Log.i("SessionPrep", "Progress csv import complete");
+                if(result) {
+                    Procedure newProcedure = new Procedure(getApplicationContext(), subjectID, school, RAID, dateString);
+                    Intent trialMain = new Intent(SessionPrep.this, SessionStartActivity.class);
+                    trialMain.putExtra("PROCEDURE", newProcedure);
+                    startActivity(trialMain);
+                } else {
+                    Toast.makeText(SessionPrep.this, "Progress file download failed, please try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        task.execute(oneDriveCilent);
+
     }
 }

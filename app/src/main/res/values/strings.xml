@@ -64,7 +64,7 @@
     <string name="enter_RAPassword_here">Enter RA Password</string>
     <string name="select">Select</string>
     <string name="add_new_student">Add New Student</string>
-    <string name="enter_studID_here">Enter Student ID Here</string>
+    <string name="enter_studID_here">Enter Subject ID Here</string>
     <string name="enter">Enter</string>
     <string name="get_new_stud">Enter New Student (id)</string>
     <!--  -->

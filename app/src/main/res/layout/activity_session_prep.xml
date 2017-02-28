@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:id="@+id/studentID"
+        android:id="@+id/subjectID"
         android:hint="@string/enter_studID_here"
         android:imeOptions="flagNoExtractUi"
         android:background="#64ffffff"
