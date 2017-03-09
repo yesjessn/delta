@@ -63,7 +63,7 @@ public class DroidRunJumpView extends SurfaceView
 
     public boolean onTouchEvent(@NonNull MotionEvent p_event)
     {
-        return m_thread.doTouchEvent(p_event);
+        return getThread().doTouchEvent(p_event);
     }
 
     public DroidRunJumpThread getThread()
