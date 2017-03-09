@@ -14,6 +14,9 @@ import com.microsoft.graph.core.GraphErrorCodes;
 import com.microsoft.graph.core.IClientConfig;
 import com.microsoft.graph.extensions.GraphServiceClient;
 import com.microsoft.graph.extensions.IGraphServiceClient;
+import com.microsoft.graph.http.GraphError;
+import com.microsoft.graph.http.GraphErrorResponse;
+import com.microsoft.graph.http.GraphServiceException;
 import com.microsoft.graph.logger.LoggerLevel;
 
 import org.apache.commons.io.IOUtils;
@@ -21,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class DeltaOneDriveClient {
@@ -145,15 +149,37 @@ public class DeltaOneDriveClient {
                     .getContent()
                     .buildRequest()
                     .get();
-        } catch (Exception e) {
-            if (e instanceof ClientException) {
-                ClientException ce = (ClientException) e;
-                if (ce.isError(GraphErrorCodes.ItemNotFound)) {
-                    // Don't write error to log, needs log in
-                    return true;
+        } catch (GraphServiceException clientException) {
+            if (clientException.isError(GraphErrorCodes.ItemNotFound)) {
+                // Don't write error to log, needs log in
+                return true;
+            }
+            // This block to make up for the cases when the error doesn't deserialize properly.
+            // Example JSON object:
+            /*
+            {
+                "error": {
+                    "code": "itemNotFound",
+                    "message": "The resource could not be found.",
+                    "innerError": {
+                        "request-id": "fbdad64b-42f2-4773-9524-ed5d65628988",
+                        "date": "2017-03-08T04:04:45"
+                    }
                 }
             }
-            Log.e("ODC", "Error getting progress csv file", e);
+             */
+            try {
+                Field f = GraphServiceException.class.getDeclaredField("mError");
+                f.setAccessible(true);
+                GraphErrorResponse errResponse = (GraphErrorResponse) f.get(clientException);
+                if (errResponse.rawObject.getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase(GraphErrorCodes.ItemNotFound.toString())) {
+                    return true;
+                }
+            } catch (Exception ignored) { Log.e("ODC", "error with hacking the response code: ", ignored);}
+            Log.e("ODC", "Error received from graph server: " + clientException.getServiceError().code, clientException);
+            return false;
+        } catch (Exception e) {
+            Log.e("ODC", "Unknown error getting progress csv file", e);
             return false;
         }
         Log.i("ODC", "Password csv download successful");
