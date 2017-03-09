@@ -9,6 +9,14 @@ import java.io.FileOutputStream;
 
 public class FileHandling extends Activity
 {
+    public boolean fileExists (Context p_context,String subjectID, String p_filename)
+    {
+        File rootDir=new File(p_context.getFilesDir(), subjectID);
+        rootDir.mkdirs();
+        File f = new File(rootDir, p_filename);
+        return f.exists();
+    }
+
     public boolean fileWriter (Context p_context,String subjectID, String p_filename, String p_content)
     {
         try

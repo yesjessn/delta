@@ -109,6 +109,11 @@ public class Procedure implements Serializable{
     private void writeProgressToFile (Context context, Session currentSession){
         String fileLocation = subjectID + "-progress.csv";
         FileHandling fh = new FileHandling();
-        fh.fileAppender(context, subjectID, fileLocation, currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
+        String content = "";
+        if (!fh.fileExists(context, subjectID, fileLocation))
+        {
+            content += "session_id, final_wait_time, school, ra, date_time, comments" + "\n";
+        }
+        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
     }
 }

@@ -207,7 +207,7 @@ public class SessionPrep extends ActionBarActivity {
 
             @Override
             protected void onPostExecute(Boolean result) {
-                Log.i("SessionPrep", "Progress csv import complete");
+                Log.i("SessionPrep", "Progress csv import complete with result: " + result);
                 if(result) {
                     Procedure newProcedure = new Procedure(getApplicationContext(), subjectID, school, RAID, dateString);
                     Intent trialMain = new Intent(SessionPrep.this, SessionStartActivity.class);

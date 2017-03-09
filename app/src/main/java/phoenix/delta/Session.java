@@ -25,7 +25,7 @@ public class Session implements Serializable
 
     public WaitTime waitTime;
 
-    public long initDelay = 15*1000L;
+    public long initDelay = 15*1000L; //TODO: change to 45 seconds
     public long delayChange = 23226L; //23.2258064516 seconds -> 90 = 45 + DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)]
     public float adjustment = 0.5f;
 
@@ -142,6 +142,7 @@ public class Session implements Serializable
     public String fileContents()
     {
         String content = "";
+        content += "trial_type, prereward_delay, response_time, choice" + "\n";
         for(Trial t : m_trials)
         {
             content += t.toString() + "\n";
