@@ -155,13 +155,15 @@ public class Droid
             m_y = DroidConstants.GROUND_Y;
             m_vy = 0;
             m_isJumping = false;
+
+            // Do this here instead of at start so double tap doesn't result in double jump
+            m_game.setPlayerTapFlag(false);
         }
     }
 
     private void startPlayerJump()
     {
         m_isJumping = true;
-        m_game.setPlayerTapFlag(false);
         m_vy = DroidConstants.INITIAL_JUMP_VELOCITY;
     }
 

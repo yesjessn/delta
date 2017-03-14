@@ -9,11 +9,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.util.Log;
 
 import java.util.ArrayList;
 
-import phoenix.delta.Constants;
-import phoenix.delta.GetReadyGoState;
 import phoenix.delta.R;
 import phoenix.delta.Utilities;
 
@@ -29,8 +28,6 @@ public class Game
     
     private long            m_tapToStartTime;
     private boolean         m_showTapToStart;
-    private long            m_getReadyGoTime;
-    private GetReadyGoState m_getReadyGoState;
     
     private long m_gameOverTime;
     
@@ -38,9 +35,7 @@ public class Game
     
     private int     m_width;
     private int     m_height;
-    private boolean m_initStart;
-    
-    private boolean m_first;
+
     private Paint   m_blackPaint;
 
     private int   m_highScore;
@@ -149,6 +144,7 @@ public class Game
         {
             m_potholes[i] = new Pothole(i, this);
         }
+        m_spawnPotholeTime = 0;
 
         m_blackPaint = new Paint();
         m_blackPaint.setAntiAlias(true);
@@ -156,13 +152,10 @@ public class Game
         m_blackPaint.setFakeBoldText(true);
         m_blackPaint.setTextSize(100.0f);
 
-        m_stars = new ArrayList<Star>();
+        m_stars = new ArrayList<>();
         m_road = new Road(this);
 
         m_highScore = DroidConstants.SCORE_DEFAULT;
-
-        m_first = true;
-        m_initStart = true;
 
         initOrResetGame();
     }
@@ -194,9 +187,6 @@ public class Game
                 case GAME_MENU:
                     gameMenu(p_canvas);
                     break;
-                case GAME_READY:
-                    gameReady(p_canvas);
-                    break;
                 case GAME_PLAY:
                     gamePlay(p_canvas);
                     break;
@@ -220,24 +210,18 @@ public class Game
         m_playerTapFlag = false;
         m_droid.reset();
 
-        m_spawnPotholeTime = System.currentTimeMillis();
         for (Pothole p : m_potholes)
         {
             p.reset();
         }
+        m_spawnPotholeTime = 0;
 
         m_lastPothole = null;
         m_gameState = GameState.GAME_MENU;
         m_lastGameState = m_gameState;
-        if (!m_initStart)
-        {
-            m_first = false;
-        }
-        m_getReadyGoState = GetReadyGoState.FIRST_TIME_IN_GAME_READY;
-        m_getReadyGoTime = 0;
 
         m_stars.clear();
-        m_spawnStarTime = System.currentTimeMillis();
+        m_spawnStarTime = 0;
         m_road.reset();
     }
     
@@ -285,63 +269,12 @@ public class Game
         spawnStar();
     }
 
-    private void gameReady(Canvas p_canvas)
-    {
-        long now;
-
-        switch (m_getReadyGoState)
-        {
-            case FIRST_TIME_IN_GAME_READY:
-                if (m_first)
-                {
-                    m_initStart = false;
-                    m_getReadyGoTime = System.currentTimeMillis();
-                    m_getReadyGoState = GetReadyGoState.SHOW_GET_READY;
-                }
-                else
-                {
-                    m_gameState = GameState.GAME_PLAY;
-                }
-                break;
-            case SHOW_GET_READY:
-                drawCenteredText(p_canvas, DroidConstants.READY_SET);
-                now = System.currentTimeMillis() - m_getReadyGoTime;
-                if (now > DroidConstants.GET_READY_TIME_MS)
-                {
-                    m_getReadyGoTime = System.currentTimeMillis();
-                    m_getReadyGoState = GetReadyGoState.SHOW_GO;
-                }
-                break;
-            case SHOW_GO:
-                drawCenteredText(p_canvas, DroidConstants.GO);
-                now = System.currentTimeMillis() - m_getReadyGoTime;
-                if (now > DroidConstants.GO_TIME_MS)
-                {
-                    m_gameState = GameState.GAME_PLAY;
-                    m_scoreTime = System.currentTimeMillis();
-                }
-                break;
-        }
-
-        m_road.draw(p_canvas);
-        m_droid.draw(p_canvas);
-    }
-
-    private void drawCenteredText(Canvas p_canvas, String p_toDraw)
-    {
-        float textWidth = m_blackPaint.measureText(p_toDraw);
-        p_canvas.drawText(p_toDraw, (m_width - textWidth) / 2, m_height / 2, m_blackPaint);
-    }
-
     private void gameMenu(Canvas p_canvas)
     {
         m_road.draw(p_canvas);
 
-        m_playerTapFlag = true;
-        m_gameState = GameState.GAME_READY;
+        m_gameState = GameState.GAME_PLAY;
         m_playerTapFlag = false;
-        m_getReadyGoState = GetReadyGoState.FIRST_TIME_IN_GAME_READY;
-        m_getReadyGoTime = System.currentTimeMillis();
 
         // spawn 1st chasm so player sees something at start of game
         m_potholes[0].spawn(0);
@@ -350,9 +283,10 @@ public class Game
 
     private void spawnPothole()
     {
-        long now = System.currentTimeMillis() - m_spawnPotholeTime;
+        long now = System.currentTimeMillis();
+        long timeSinceLastSpawn = now - m_spawnPotholeTime;
 
-        if (now > DroidConstants.SPAWN_POTHOLE_TIME)
+        if (timeSinceLastSpawn > DroidConstants.SPAWN_POTHOLE_TIME)
         {
             // randomly determine whether or not to spawn a new pothole
             if (Utilities.nextFloat() > DroidConstants.SPAWN_POTHOLE_CHANCE)
@@ -373,21 +307,21 @@ public class Game
                     // give the player some breathing room.
                     //
 
-                    if (m_lastPothole.isAlive())
+                    if (m_lastPothole != null && m_lastPothole.isAlive())
                     {
-                        float tmp = m_lastPothole.getX() + m_lastPothole.getW();
+                        float rightX = m_lastPothole.getX() + m_lastPothole.getW();
 
-                        if (tmp > m_width)
+                        if (rightX > m_width)
                         {
-                            tmp = tmp - m_width;
-                            xOffset = tmp + Utilities.random(10.0f);
+                            rightX = rightX - m_width;
+                            xOffset = rightX + Utilities.random(10.0f);
                         }
                         else
                         {
-                            tmp = m_width - tmp;
-                            if (tmp < 20.0f)
+                            rightX = m_width - rightX;
+                            if (rightX < 20.0f)
                             {
-                                xOffset = tmp + Utilities.random(10.0f);
+                                xOffset = rightX + Utilities.random(10.0f);
                             }
                         }
                     }
@@ -398,7 +332,7 @@ public class Game
                 }
             }
 
-            m_spawnPotholeTime = System.currentTimeMillis();
+            m_spawnPotholeTime = now;
         }
     }
 
@@ -449,7 +383,6 @@ public class Game
             // adjust timer variables based on elapsed time delta
             m_spawnPotholeTime += deltaTime;
             m_tapToStartTime += deltaTime;
-            m_getReadyGoTime += deltaTime;
             m_gameOverTime += deltaTime;
             m_scoreTime += deltaTime;
             m_spawnStarTime += deltaTime;
@@ -477,14 +410,14 @@ public class Game
 
         if (timeSinceLastSpawn > DroidConstants.SPAWN_STAR_TIME)
         {
-            // randomly determine whether or not to spawn a new pastry
-            if ((int) Utilities.random(10) > 3)
+            // randomly determine whether or not to spawn a new star
+            if (Utilities.nextFloat() > DroidConstants.SPAWN_STAR_CHANCE)
             {
-               Star s = new Star(this);
+                Star s = new Star(this);
                 s.spawn();
                 m_stars.add(s);
             }
-            m_spawnStarTime = System.currentTimeMillis();
+            m_spawnStarTime = now;
         }
     }
 
@@ -528,8 +461,6 @@ public class Game
         map.putInt("game_gameState", Utilities.getOrdinal(m_gameState));
         map.putLong("game_tapToStartTime", m_tapToStartTime);
         map.putBoolean("game_showTapToStart", m_showTapToStart);
-        map.putLong("game_getReadyGoTime", m_getReadyGoTime);
-        map.putInt("game_getReadyGoState", Utilities.getOrdinal(m_getReadyGoState));
         map.putLong("game_gameOverTime", m_gameOverTime);
 
         map.putInt("game_lastGameState", Utilities.getOrdinal(m_lastGameState));

@@ -120,9 +120,7 @@ public class TrialWaitActivity extends ActionBarActivity {
                     Intent nextAct = new Intent(TrialWaitActivity.this, currSession.selectedGame);
                     nextAct.putExtra("PROCEDURE", currProcedure);
 
-                    long gameTime = 0; //TODO: change to 2 seconds when ready set go works-to waive the "ready, set, go" time
-
-                    gameTime += currSession.waitTime.getGameTime();
+                    long gameTime = currSession.waitTime.getGameTime();
 
                     new CountDownTimer(gameTime, 1000) {
                         public void onTick(long millisUntilFinished) {

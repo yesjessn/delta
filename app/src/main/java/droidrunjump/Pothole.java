@@ -2,6 +2,7 @@ package droidrunjump;
 
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import phoenix.delta.Constants;
 
@@ -52,7 +53,8 @@ public class Pothole {
         //
 
         w = DroidConstants.MIN_POTHOLE_WIDTH;
-        x = game.getWidth() + w + xOffset;
+        x = game.getWidth() + xOffset;
+        Log.i("DRJ", "Spawning pothole at " + x);
         alive = true;
     }
 

@@ -27,21 +27,19 @@ public class DroidConstants {
     public static final int    DEFAULT_PRIORITY              = 0;
     public static final int    LOOP_INDICATOR                = 0;
     public static final float  PLAYBACK_RATE                 = 1.0f;
-    public static final String READY_SET                     = "READY SET";
-    public static final String GO                            = "GO!";
-    public static final int    GO_TIME_MS                    = 500;
-    public static final double SPAWN_POTHOLE_CHANCE          = .5;
-    public static float MIN_POTHOLE_WIDTH = 127.0f;
 
     public static final String PREFS_NAME                      = "DRJPrefsFile";
 
     public static final int   MAX_POTHOLES       = 1;
-    public static final long  SPAWN_POTHOLE_TIME = 750;
+    public static final long  SPAWN_POTHOLE_TIME = 350;
+    public static final double SPAWN_POTHOLE_CHANCE  = 0.5;
+    public static float MIN_POTHOLE_WIDTH = 127.0f;
 
     public static final int  SCORE_DEFAULT      = 5000;
+
     public static final int SCORE_STAR_BONUS = 200;
-    public static final long SPAWN_STAR_TIME = 750;
+    public static final long SPAWN_STAR_TIME = 300;
+    public static final double SPAWN_STAR_CHANCE = 0.7;
 
     public static final int MAX_STREAMS       = 4;
-    public static final int GET_READY_TIME_MS = 1000;
 }
