@@ -2,8 +2,10 @@ package phoenix.delta;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,9 +47,7 @@ public class DoneSessionActivity extends ActionBarActivity {
                     Toast.makeText(DoneSessionActivity.this, "Cannot write to file", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    Intent boxAct = new Intent(DoneSessionActivity.this,BoxActivity.class);
-                    boxAct.putExtra("PROCEDURE", currProcedure);
-                    startActivity(boxAct);
+                    asyncUploadSubjectData(DeltaOneDriveClient.INSTANCE, currProcedure, currSession);
                 }
             }
         });
@@ -77,5 +77,28 @@ public class DoneSessionActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(p_item);
+    }
+
+    private void asyncUploadSubjectData (final DeltaOneDriveClient oneDriveClient, final Procedure currProcedure, final Session currSession) {
+        AsyncTask<DeltaOneDriveClient, Void, Boolean> task = new AsyncTask<DeltaOneDriveClient, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(DeltaOneDriveClient... params) {
+                Log.i("DoneSessionActivity", "Starting subject data upload");
+                DeltaOneDriveClient client = params[0];
+                return client.UploadSubjectData(getApplicationContext(), currProcedure.subjectID, String.valueOf(currSession.sessionID));
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result) {
+                Log.i("DoneSessionActivity", "Subject data upload complete with result: " + result);
+                if(result) {
+                    Intent startOver = new Intent(DoneSessionActivity.this, SessionPrep.class);
+                    startActivity(startOver);
+                } else {
+                    Toast.makeText(DoneSessionActivity.this, "Failed to upload data, please try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+        task.execute(oneDriveClient);
     }
 }

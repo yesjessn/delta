@@ -7,14 +7,18 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.microsoft.graph.authentication.MSAAuthAndroidAdapter;
+import com.microsoft.graph.concurrency.ChunkedUploadProvider;
 import com.microsoft.graph.concurrency.ICallback;
+import com.microsoft.graph.concurrency.IProgressCallback;
 import com.microsoft.graph.core.ClientException;
 import com.microsoft.graph.core.DefaultClientConfig;
 import com.microsoft.graph.core.GraphErrorCodes;
 import com.microsoft.graph.core.IClientConfig;
+import com.microsoft.graph.extensions.DriveItem;
+import com.microsoft.graph.extensions.DriveItemUploadableProperties;
+import com.microsoft.graph.extensions.Folder;
 import com.microsoft.graph.extensions.GraphServiceClient;
 import com.microsoft.graph.extensions.IGraphServiceClient;
-import com.microsoft.graph.http.GraphError;
 import com.microsoft.graph.http.GraphErrorResponse;
 import com.microsoft.graph.http.GraphServiceException;
 import com.microsoft.graph.logger.LoggerLevel;
@@ -22,12 +26,18 @@ import com.microsoft.graph.logger.LoggerLevel;
 import org.apache.commons.io.IOUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DeltaOneDriveClient {
+    public static DeltaOneDriveClient INSTANCE;
+
     public final MSAAuthAndroidAdapter authenticationAdapter;
     public final IGraphServiceClient oneDriveClient;
 
@@ -195,5 +205,133 @@ public class DeltaOneDriveClient {
         }
         Log.i("ODC", "Wrote csv to file");
         return true;
+    }
+
+    public boolean UploadSubjectData (Context context, String subjectID, String sessionID) {
+        File subjectFolder = context.getFileStreamPath(subjectID);
+
+        // ----------------------------
+        // Currently these fail with 500 errors
+        // See https://github.com/microsoftgraph/msgraph-sdk-android/issues/43 for the thread created to resolve this issue
+        // ----------------------------
+
+        boolean subjectFolderExists;
+        try {
+            oneDriveClient.getMe().getDrive()
+                    .getSpecial("approot")
+                    .getItemWithPath(subjectID)
+                    .buildRequest()
+                    .get();
+            subjectFolderExists = true;
+        } catch (ClientException e) {
+            Log.d("ODC", "Subject folder not found", e);
+            subjectFolderExists = false;
+        }
+
+        if (!subjectFolderExists) {
+            try {
+                DriveItem driveSubjectFolder = new DriveItem();
+                driveSubjectFolder.name = subjectID;
+                driveSubjectFolder.folder = new Folder();
+                oneDriveClient
+                        .getMe()
+                        .getDrive()
+                        .getSpecial("approot")
+                        .getChildren()
+                        .buildRequest()
+                        .post(driveSubjectFolder);
+            } catch (ClientException e) {
+                Log.e("ODC", "Failed to create subject folder", e);
+                return false;
+            }
+        }
+
+        try {
+            final File progressFile = new File(subjectFolder, subjectID + "-progress.csv");
+            final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
+            uploadSubjectFile(progressFile, new IProgressCallback<DriveItem>(){
+                @Override
+                public void success(DriveItem driveItem) {
+                    Log.i("ODC", "Successfully uploaded " + progressFile.getName());
+                }
+
+                @Override
+                public void failure(ClientException ex) {
+                    uploadFailure.set(ex);
+                }
+
+                @Override
+                public void progress(long current, long max) {
+                    Log.i("ODC", "Wrote " + current + " of " + max + " bytes of " + progressFile.getName());
+                }
+            });
+            ClientException ce = uploadFailure.get();
+            if (ce != null) {
+                Log.e("ODC", "Progress file upload failed", ce);
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("ODC", "Progress file not found", e);
+            return false;
+        } catch (IOException e) {
+            Log.e("ODC", "Error uploading progress file", e);
+            return false;
+        }
+
+        try {
+            final File sessionFile = new File(subjectFolder, subjectID + "-" + sessionID + ".csv");
+            final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
+            uploadSubjectFile(sessionFile, new IProgressCallback<DriveItem>(){
+                @Override
+                public void success(DriveItem driveItem) {
+                    Log.i("ODC", "Successfully uploaded " + sessionFile.getName());
+                }
+
+                @Override
+                public void failure(ClientException ex) {
+                    uploadFailure.set(ex);
+                }
+
+                @Override
+                public void progress(long current, long max) {
+                    Log.i("ODC", "Wrote " + current + " of " + max + " bytes of " + sessionFile.getName());
+                }
+            });
+            ClientException ce = uploadFailure.get();
+            if (ce != null) {
+                Log.e("ODC", "Session file upload failed", ce);
+                return false;
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("ODC", "Session file not found", e);
+            return false;
+        } catch (IOException e) {
+            Log.e("ODC", "Error uploading session file", e);
+            return false;
+        }
+
+        return true;
+    }
+
+    private void uploadSubjectFile(File file, IProgressCallback<DriveItem> callback) throws IOException {
+        Log.i("ODC", "Starting upload of " + file.getAbsolutePath());
+        String subjectID = file.getParentFile().getName();
+        String name = file.getName();
+        int size = (int) file.length();
+        InputStream input = new FileInputStream(file);
+
+        DriveItemUploadableProperties uploadableProperties = new DriveItemUploadableProperties();
+        uploadableProperties.name = name;
+        ChunkedUploadProvider uploader = oneDriveClient
+                .getMe()
+                .getDrive()
+                .getSpecial("approot")
+                .getItemWithPath(subjectID + "/" + name)
+                .getCreateUploadSession(uploadableProperties)
+                .buildRequest()
+                .post()
+                .createUploadProvider(oneDriveClient, input, size, DriveItem.class);
+
+        uploader.upload(null, callback);
     }
 }

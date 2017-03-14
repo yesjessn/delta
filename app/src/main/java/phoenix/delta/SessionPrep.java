@@ -63,6 +63,7 @@ public class SessionPrep extends ActionBarActivity {
                     @Override
                     public void success(Void aVoid) {
                         Log.i("ODC", "Login success");
+                        DeltaOneDriveClient.INSTANCE = oneDriveCilent;
                         asyncDownloadPasswordDB(oneDriveCilent);
                     }
 
@@ -78,6 +79,7 @@ public class SessionPrep extends ActionBarActivity {
             @Override
             public void success(Void aVoid) {
                 Log.i("ODC", "Silent login success");
+                DeltaOneDriveClient.INSTANCE = oneDriveCilent;
                 asyncDownloadPasswordDB(oneDriveCilent);
             }
 
@@ -196,7 +198,7 @@ public class SessionPrep extends ActionBarActivity {
         task.execute(oneDriveCilent);
     }
 
-    private void asyncDownloadProgress (final DeltaOneDriveClient oneDriveCilent, final String subjectID, final String school, final String RAID, final String dateString) {
+    private void asyncDownloadProgress (final DeltaOneDriveClient oneDriveClient, final String subjectID, final String school, final String RAID, final String dateString) {
         AsyncTask<DeltaOneDriveClient, Void, Boolean> task = new AsyncTask<DeltaOneDriveClient, Void, Boolean>() {
             @Override
             protected Boolean doInBackground(DeltaOneDriveClient... params) {
@@ -218,7 +220,7 @@ public class SessionPrep extends ActionBarActivity {
                 }
             }
         };
-        task.execute(oneDriveCilent);
+        task.execute(oneDriveClient);
 
     }
 }

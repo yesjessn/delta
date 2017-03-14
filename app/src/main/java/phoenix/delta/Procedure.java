@@ -17,7 +17,7 @@ public class Procedure implements Serializable{
     private long lastSessionPrerewardDelay;
     public Session currentSession;
 
-    private String subjectID;
+    public String subjectID;
     private String school;
     private String RAID;
     private String dateString;
