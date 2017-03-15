@@ -51,11 +51,9 @@ public class Procedure implements Serializable{
             }
         } catch (FileNotFoundException e) {
             //first session, leave
-            Log.i("prg", "", e);
             lastSessionID = -1;
         } catch (IOException e) {
             Log.i("prg", "", e);
-            e.printStackTrace();
             lastSessionID = -1;
         }
 
