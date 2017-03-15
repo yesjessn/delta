@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:background="@drawable/bg"
-    tools:context="phoenix.delta.CHANGE"
+    tools:context="phoenix.delta.FreePlaySelection"
     android:orientation="vertical">
 
     <TextView
@@ -20,13 +20,15 @@
         android:textSize="50sp"
         android:textColor="@android:color/black"/>
 
-    <LinearLayout
+    <phoenix.delta.GameGrid
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight=".5">
+        <TableRow
+            android:layout_weight="0.5">
 
-            <Button
+            <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/play_game1_btn"
@@ -34,39 +36,38 @@
                 android:layout_weight=".5"
                 android:layout_margin="@dimen/activity_horizontal_margin"/>
 
-            <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/play_game2_btn"
-            android:background="@drawable/game_screenshot2"
-            android:layout_weight=".5"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_game2_btn"
+                android:background="@drawable/game_screenshot2"
+                android:layout_weight=".5"
+                android:layout_margin="@dimen/activity_horizontal_margin"/>
+        </TableRow>
 
-    </LinearLayout>
+        <TableRow
+            android:layout_weight="0.5">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight=".5">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/play_game3_btn"
-            android:background="@drawable/game_screenshot1"
-            android:layout_weight=".5"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_game3_btn"
+                android:background="@drawable/game_screenshot1"
+                android:layout_weight=".5"
+                android:layout_margin="@dimen/activity_horizontal_margin"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/play_game4_btn"
-            android:background="@drawable/game_screenshot1"
-            android:layout_weight=".5"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/play_game4_btn"
+                android:background="@drawable/game_screenshot1"
+                android:layout_weight=".5"
+                android:layout_margin="@dimen/activity_horizontal_margin"/>
+        </TableRow>
 
-    </LinearLayout>
+
+    </phoenix.delta.GameGrid>
 
     <Button
         style="?android:attr/buttonStyleSmall"
