@@ -52,6 +52,7 @@ public class FreePlaySelection extends ActionBarActivity{
                     return;
                 }
                 game.putExtra("PROCEDURE", currProcedure);
+                game.putExtra("IsFreePlay", true);
                 startActivity(game);
             }
         });

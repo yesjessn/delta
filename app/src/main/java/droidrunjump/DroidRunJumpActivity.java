@@ -6,17 +6,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import phoenix.delta.Constants;
+import phoenix.delta.FreePlaySelection;
+import phoenix.delta.Procedure;
 import phoenix.delta.R;
 import phoenix.delta.Session;
 
-public class DroidRunJumpActivity extends Activity
-{
+public class DroidRunJumpActivity extends Activity {
     private DroidRunJumpView m_drjView;
     private DroidRunJumpThread m_drjThread;
 
     @Override
-    public void onCreate(Bundle p_savedInstanceState)
-    {
+    public void onCreate(Bundle p_savedInstanceState) {
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.main);
 
@@ -36,8 +36,7 @@ public class DroidRunJumpActivity extends Activity
         // if player wants to quit then reset the game
         if (isFinishing()) {
             m_drjThread.resetGame();
-        }
-        else {
+        } else {
             m_drjThread.pause();
         }
 
@@ -46,15 +45,21 @@ public class DroidRunJumpActivity extends Activity
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         m_drjThread = m_drjView.getThread();
     }
 
     @Override
-    public void onBackPressed ()
-    {
-        // do nothing
+    public void onBackPressed() {
+        Intent thisIntent = getIntent();
+        final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+        if (thisIntent.getBooleanExtra("IsFreePlay", false)) {
+            Intent gameSelection = new Intent(DroidRunJumpActivity.this, FreePlaySelection.class);
+            gameSelection.putExtra("PROCEDURE", currProcedure);
+            startActivity(gameSelection);
+        } else {
+            //do nothing
+        }
     }
 }
