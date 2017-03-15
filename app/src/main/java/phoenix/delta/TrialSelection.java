@@ -54,7 +54,6 @@ public class TrialSelection extends ActionBarActivity {
                 // go to next activity
                 Intent playNowAct = new Intent(TrialSelection.this,TrialWaitActivity.class);
                 playNowAct.putExtra("PROCEDURE", currProcedure);
-                Toast.makeText(TrialSelection.this, "*" + responseTime / 1000.0 + " sec* Instant Game Access", Toast.LENGTH_SHORT).show();
                 startActivity(playNowAct);
             }
         });
@@ -76,7 +75,6 @@ public class TrialSelection extends ActionBarActivity {
                 // go to next activity
                 Intent waitAct = new Intent(TrialSelection.this,TrialWaitActivity.class);
                 waitAct.putExtra("PROCEDURE", currProcedure);
-                Toast.makeText(TrialSelection.this, "*" + responseTime / 1000.0 + " sec* Wait to Play for Longer", Toast.LENGTH_SHORT).show();
                 startActivity(waitAct);
             }
         });
