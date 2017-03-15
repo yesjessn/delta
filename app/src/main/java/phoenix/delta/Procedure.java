@@ -112,8 +112,8 @@ public class Procedure implements Serializable{
         String content = "";
         if (!fh.fileExists(context, subjectID, fileLocation))
         {
-            content += "session_id, final_wait_time, school, ra, date_time, comments" + "\n";
+            content += "session_id, final_wait_time, selected_game, school, ra, date_time, comments" + "\n";
         }
-        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
+        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + currentSession.selectedGame.toString() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
     }
 }
