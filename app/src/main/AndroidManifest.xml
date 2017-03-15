@@ -22,10 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TrialSettingActivity"
-            android:label="@string/title_activity_trial_setting" >
-        </activity>
-        <activity
             android:name=".SessionStartActivity"
             android:label="@string/title_activity_session_start" >
         </activity>
@@ -55,14 +51,6 @@
             android:label="@string/app_name"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
-        <activity
-            android:name=".ManageTeacherActivity"
-            android:label="@string/title_activity_manage_teacher" >
-        </activity>
-        <activity
-            android:name=".ManageStudentActivity"
-            android:label="@string/title_activity_manage_student" >
         </activity>
         <activity
             android:name=".TrialWaitActivity"
