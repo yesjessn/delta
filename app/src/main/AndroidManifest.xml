@@ -22,14 +22,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AdminActivity"
-            android:label="@string/title_activity_admin" >
-        </activity>
-        <activity
-            android:name=".RegAdminActivity"
-            android:label="@string/title_activity_reg_admin" >
-        </activity>
-        <activity
             android:name=".TrialSettingActivity"
             android:label="@string/title_activity_trial_setting" >
         </activity>
