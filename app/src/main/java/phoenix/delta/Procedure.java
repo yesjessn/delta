@@ -1,6 +1,7 @@
 package phoenix.delta;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -27,28 +28,33 @@ public class Procedure implements Serializable{
         this.school = school;
         this.RAID = RAID;
         this.dateString = dateString;
-        File root = context.getFilesDir();
-        File subjectFile = new File(root, subjectID);
+        File subjectFile = context.getFileStreamPath(subjectID);
         if (!subjectFile.exists())
         {
             subjectFile.mkdir();
         }
         try {
-            FileInputStream fis = context.openFileInput(subjectID + File.pathSeparator + subjectID + "-progress.csv");
+            File progressFile = new File(subjectFile, subjectID + "-progress.csv");
+            FileInputStream fis = new FileInputStream(progressFile);
             BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+            Log.d("prg", "Reading " + progressFile.getPath());
+            reader.readLine(); // skip the header row
             String line = reader.readLine();
             while(line != null){
                 String[] parts = line.split(",");
                 String sessionID = parts[0];
                 String prerewardDelay = parts[1];
+                Log.d("prg", "line " + line + "\n= " + sessionID + ", " + prerewardDelay);
                 lastSessionID = Integer.parseInt(sessionID);
                 lastSessionPrerewardDelay = Long.parseLong(prerewardDelay);
                 line = reader.readLine();
             }
         } catch (FileNotFoundException e) {
             //first session, leave
+            Log.i("prg", "", e);
             lastSessionID = -1;
         } catch (IOException e) {
+            Log.i("prg", "", e);
             e.printStackTrace();
             lastSessionID = -1;
         }
