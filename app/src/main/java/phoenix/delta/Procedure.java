@@ -77,7 +77,7 @@ public class Procedure implements Serializable{
             {
                 currentSession = new Session(lastSessionID + 1);
                 currentSession.initDelay = lastSessionPrerewardDelay;
-                if (currentSession.sessionID <= 25) {
+                if (currentSession.sessionID <= 25)  {
                     currentSession.sessionType = SessionType.SHAPING;
                 }
                 else
@@ -118,6 +118,6 @@ public class Procedure implements Serializable{
         {
             content += "session_id, final_wait_time, selected_game, school, ra, date_time, comments" + "\n";
         }
-        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + currentSession.selectedGame.toString() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
+        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + currentSession.selectedGame.getSimpleName() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
     }
 }
