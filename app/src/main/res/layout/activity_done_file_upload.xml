@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp"
+        android:text="@string/upload_done"
         android:id="@+id/file_upload_done"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
