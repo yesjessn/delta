@@ -20,6 +20,7 @@ import java.util.List;
 public class Procedure implements Serializable{
     private int lastSessionID;
     private long lastSessionPrerewardDelay;
+    public boolean lastSessionAllNow;
     public Session currentSession;
 
     public String subjectID;
