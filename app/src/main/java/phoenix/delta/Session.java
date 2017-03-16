@@ -51,7 +51,7 @@ public class Session implements Serializable
     public boolean isSessionDone()
     {
         return (completedBlocks.size() == 1);
-    }
+    } //TODO: change back to 6
 
     public void resetSession()
     {
@@ -138,6 +138,14 @@ public class Session implements Serializable
         return false;
     }
 
+    public boolean allBlockNow() {
+        for (Block b : completedBlocks) {
+            if (!b.allNow()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public String fileContents()
     {
@@ -150,20 +158,10 @@ public class Session implements Serializable
         return content;
     }
 
-    public void loadFromString(String fileContents)
-    {
-        for (String line : fileContents.split("\n")) {
-            startNewTrial();
-
-        }
-    }
-
     public ScheduleChoice getCurrTrialChoice()
     {
         return m_currentTrial.getChoice();
     }
-
-
 
     public void setTimerVisible()
     {

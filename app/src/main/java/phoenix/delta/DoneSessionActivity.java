@@ -34,12 +34,11 @@ public class DoneSessionActivity extends ActionBarActivity {
         final Session currSession = currProcedure.currentSession;
 
         TextView prompt = (TextView) findViewById(R.id.prompt);
-        prompt.setGravity(Gravity.CENTER);
 
         comments = (EditText) findViewById(R.id.comments);
 
-        Button doneBtn = (Button) findViewById(R.id.done_btn);
-        doneBtn.setOnClickListener(new View.OnClickListener() {
+        Button uploadBtn = (Button) findViewById(R.id.upload_btn);
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 currSession.comments = comments.getText().toString();
                 if(!currProcedure.endSession(getApplicationContext()))
@@ -92,8 +91,9 @@ public class DoneSessionActivity extends ActionBarActivity {
             protected void onPostExecute(Boolean result) {
                 Log.i("DoneSessionActivity", "Subject data upload complete with result: " + result);
                 if(result) {
-                    Intent startOver = new Intent(DoneSessionActivity.this, SessionPrep.class);
-                    startActivity(startOver);
+                    Intent uploadFile = new Intent(DoneSessionActivity.this, DoneFileUpload.class);
+                    uploadFile.putExtra("PROCEDURE", currProcedure);
+                    startActivity(uploadFile);
                 } else {
                     Toast.makeText(DoneSessionActivity.this, "Failed to upload data, please try again", Toast.LENGTH_LONG).show();
                 }

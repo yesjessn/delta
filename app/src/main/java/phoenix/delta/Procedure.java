@@ -1,9 +1,11 @@
 package phoenix.delta;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.util.Log;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Procedure implements Serializable{
     private int lastSessionID;
@@ -44,9 +48,11 @@ public class Procedure implements Serializable{
                 String[] parts = line.split(",");
                 String sessionID = parts[0];
                 String prerewardDelay = parts[1];
+                String allNow = parts[8];
                 Log.d("prg", "line " + line + "\n= " + sessionID + ", " + prerewardDelay);
                 lastSessionID = Integer.parseInt(sessionID);
                 lastSessionPrerewardDelay = Long.parseLong(prerewardDelay);
+                lastSessionAllNow = Boolean.parseBoolean(allNow);
                 line = reader.readLine();
             }
         } catch (FileNotFoundException e) {
@@ -113,11 +119,23 @@ public class Procedure implements Serializable{
     private void writeProgressToFile (Context context, Session currentSession){
         String fileLocation = subjectID + "-progress.csv";
         FileHandling fh = new FileHandling();
-        String content = "";
+        String header = "";
+        String deviceName = Settings.System.getString(context.getContentResolver(), "device_name");
         if (!fh.fileExists(context, subjectID, fileLocation))
         {
-            content += "session_id, final_wait_time, selected_game, school, ra, date_time, comments" + "\n";
+            header += "session_id, final_wait_time, selected_game, school, ra, date_time, comments, device_name, all_now_flag\n";
         }
-        fh.fileAppender(context, subjectID, fileLocation, content + currentSession.sessionID + "," + currentSession.waitTime.getPrerewardDelay() + "," + currentSession.selectedGame.getSimpleName() + "," + this.school + "," + this.RAID + "," + this.dateString + "," + StringEscapeUtils.escapeCsv(currentSession.comments) + "\n");
+        List<String> rowData = new ArrayList<>();
+        rowData.add(String.valueOf(currentSession.sessionID));
+        rowData.add(String.valueOf(currentSession.waitTime.getPrerewardDelay()));
+        rowData.add(currentSession.selectedGame.getSimpleName());
+        rowData.add(this.school);
+        rowData.add(this.RAID);
+        rowData.add(this.dateString);
+        rowData.add(StringEscapeUtils.escapeCsv(currentSession.comments));
+        rowData.add(deviceName);
+        rowData.add(String.valueOf(currentSession.allBlockNow()));
+
+        fh.fileAppender(context, subjectID, fileLocation, header + StringUtils.join(rowData, ",") + "\n");
     }
 }

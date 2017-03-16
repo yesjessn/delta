@@ -58,10 +58,6 @@
             android:label="@string/title_activity_trial_wait" >
         </activity>
         <activity
-            android:name=".BoxActivity"
-            android:label="@string/title_activity_box" >
-        </activity>
-        <activity
             android:name="com.box.androidsdk.content.auth.OAuthActivity"
             android:label="@string/accounts"
             android:screenOrientation="landscape">
@@ -70,6 +66,11 @@
             android:name=".DoneSessionActivity"
             android:label="@string/title_activity_done_session" >
         </activity>
+
+         <activity
+             android:name=".DoneFileUpload"
+             android:label="@string/title_activity_done_file_upload">
+         </activity>
 
         <!--Fruit Ninja Game-->
         <activity

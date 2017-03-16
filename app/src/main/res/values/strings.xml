@@ -100,6 +100,10 @@
     <!--Done Session Activity-->
     <string name="prompt_done">Session is finished!\nEnter comments if any or click Done to finish.</string>
     <string name="enter_comments_here">Comments</string>
+    <!--Done File Upload Activity-->>
+    <string name="title_activity_done_file_upload">DoneFileUploadActivity</string>
+    <string name="upload_done">File upload is successfully completed..</string>
+    <string name="flagged">Participant is flagged.\nPlease inform participant.</string>
 
     <!--Fruit Ninja-->
     <string name="game2_name">Fruit Ninja</string>

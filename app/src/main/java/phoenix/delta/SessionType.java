@@ -24,6 +24,7 @@ public enum SessionType {
         @Override
         public long getDelay(long initDelay, long delayChange, float adjustment, ArrayList<Block> completedBlocks) {
             return 0;
+            //TODO: calculate delay here
         }
     };
 

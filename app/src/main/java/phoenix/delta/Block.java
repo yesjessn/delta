@@ -19,7 +19,7 @@ public class Block implements Serializable {
     }
 
     public boolean allWait() {
-        for (int i = 2; i < trials.size(); i++) {
+        for (int i = 2; i < trials.size(); i++) { //start at 2 to skip the first two forced trials
         Trial t = trials.get(i);
             if (t.getChoice() == ScheduleChoice.INSTANT_GAME_ACCESS){
                 return false;
