@@ -26,7 +26,6 @@ public class Session implements Serializable
     public WaitTime waitTime;
 
     public long initDelay = 0*1000L; //TODO: change to 45 seconds
-    public float adjustment = 0.5f;
 
     public Class<? extends Activity> selectedGame;
 
