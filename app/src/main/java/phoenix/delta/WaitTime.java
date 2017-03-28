@@ -23,7 +23,7 @@ public class WaitTime implements Serializable {
     }
 
     public long getPrerewardDelay() {
-        return session.sessionType.getDelay(session.initDelay, session.delayChange, session.adjustment, session.getCompletedBlocks());
+        return session.sessionType.getDelay(session.initDelay, session.getCompletedBlocks());
     }
 
     public long getGameTime() {

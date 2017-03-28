@@ -77,13 +77,12 @@ public class Procedure implements Serializable{
             if (lastSessionID == -1)
             {
                 currentSession = new Session(0);
-                currentSession.initDelay = 1*1000L;
                 currentSession.sessionType = SessionType.ESTABLISH_INDIFFERENCE;
             }
             else
             {
                 currentSession = new Session(lastSessionID + 1);
-                currentSession.initDelay = lastSessionPrerewardDelay;
+                currentSession.initDelay = lastSessionPrerewardDelay; //TODO: clear up with julie
                 if (currentSession.sessionID <= 25)  {
                     currentSession.sessionType = SessionType.SHAPING;
                 }
