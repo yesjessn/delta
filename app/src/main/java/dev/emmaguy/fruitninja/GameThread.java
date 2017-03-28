@@ -102,7 +102,6 @@ public class GameThread implements Runnable {
 			    canvas.drawARGB(255, 0, 0, 0);
 
 			    projectileManager.draw(canvas);
-			    timer.draw(canvas);
 			    canvas.drawText("Score: " + score, width - 160, 50, scorePaint);
 
 			    if (paths != null) {

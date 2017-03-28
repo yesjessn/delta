@@ -1,5 +1,6 @@
 package dev.emmaguy.fruitninja.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -7,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import dev.emmaguy.fruitninja.ui.GameFragment.OnGameOver;
 import dev.emmaguy.fruitninja.ui.MainMenuFragment.OnMainMenuButtonClicked;
+import phoenix.delta.FreePlaySelection;
+import phoenix.delta.Procedure;
 import phoenix.delta.R;
 
 public class MainActivity extends FragmentActivity implements OnMainMenuButtonClicked, OnGameOver {
@@ -17,7 +20,7 @@ public class MainActivity extends FragmentActivity implements OnMainMenuButtonCl
 
 	setContentView(R.layout.activity_main_fn);
 
-	showMainMenu();
+	onPlayButtonClicked();
     }
 
     private void showMainMenu() {
@@ -50,11 +53,14 @@ public class MainActivity extends FragmentActivity implements OnMainMenuButtonCl
     
     @Override
     public void onBackPressed() {
-	if (getSupportFragmentManager().findFragmentByTag("Results") != null) {
-	    getSupportFragmentManager().popBackStack();
-	    showMainMenu();
-	} else {
-	    super.onBackPressed();
+		Intent thisIntent = getIntent();
+		final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+		if (thisIntent.getBooleanExtra("IsFreePlay", false)) {
+			Intent gameSelection = new Intent(MainActivity.this, FreePlaySelection.class);
+			gameSelection.putExtra("PROCEDURE", currProcedure);
+			startActivity(gameSelection);
+		} else {
+			//do nothing
+		}
 	}
-    }
 }

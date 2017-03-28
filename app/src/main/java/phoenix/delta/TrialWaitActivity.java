@@ -128,7 +128,7 @@ public class TrialWaitActivity extends ActionBarActivity {
                         }
 
                         public void onFinish() {
-
+                            Log.i("TWA", "Game time completed");
                             Intent nextAct = new Intent(TrialWaitActivity.this, TrialWaitActivity.class);
 
                             nextAct.putExtra("PROCEDURE", currProcedure);
