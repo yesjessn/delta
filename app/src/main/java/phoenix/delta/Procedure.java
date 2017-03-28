@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Procedure implements Serializable{
-    private int lastSessionID;
+    public int lastSessionID;
     private long lastSessionPrerewardDelay;
     public boolean lastSessionAllNow;
     public Session currentSession;

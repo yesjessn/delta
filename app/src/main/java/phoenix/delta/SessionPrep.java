@@ -1,5 +1,7 @@
 package phoenix.delta;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -189,10 +191,30 @@ public class SessionPrep extends ActionBarActivity {
             protected void onPostExecute(Boolean result) {
                 Log.i("SessionPrep", "Progress csv import complete with result: " + result);
                 if(result) {
-                    Procedure newProcedure = new Procedure(getApplicationContext(), subjectID, school, RAID, dateString);
-                    Intent trialMain = new Intent(SessionPrep.this, SessionStartActivity.class);
-                    trialMain.putExtra("PROCEDURE", newProcedure);
-                    startActivity(trialMain);
+                    final Procedure newProcedure = new Procedure(getApplicationContext(), subjectID, school, RAID, dateString);
+                    int nextSessionID = newProcedure.lastSessionID + 1;
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SessionPrep.this);
+                    alertDialogBuilder.setTitle("Confirm Subject");
+                    alertDialogBuilder
+                            .setMessage("Is subject on session number " + (nextSessionID + 1 /* add an extra 1 to convert from starting at 0 to 1 for readability */) + "?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    Intent trialMain = new Intent(SessionPrep.this, SessionStartActivity.class);
+                                    trialMain.putExtra("PROCEDURE", newProcedure);
+                                    startActivity(trialMain);
+                                }
+                            })
+                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
                 } else {
                     Toast.makeText(SessionPrep.this, "Progress file download failed, please try again", Toast.LENGTH_LONG).show();
                 }
