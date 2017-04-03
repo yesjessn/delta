@@ -50,6 +50,8 @@ public class GIFView extends View
         setMeasuredDimension(m_movieWidth, m_movieHeight);
     }
 
+    public static final int    DEFAULT_GIF_LENGTH            = 1000;
+
     @Override
     protected void onDraw(Canvas p_canvas)
     {
@@ -64,7 +66,7 @@ public class GIFView extends View
             int dur = m_gifMovie.duration();
             if (dur == 0)
             {
-                dur = Constants.DEFAULT_GIF_LENGTH;
+                dur = DEFAULT_GIF_LENGTH;
             }
 
             int relTime = (int)((now - m_mMovieStart) % dur);

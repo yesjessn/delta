@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import phoenix.delta.Constants;
 import phoenix.delta.FreePlaySelection;
 import phoenix.delta.Procedure;
 import phoenix.delta.R;

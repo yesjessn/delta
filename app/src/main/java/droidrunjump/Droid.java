@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import phoenix.delta.Constants;
 
 public class Droid
 {

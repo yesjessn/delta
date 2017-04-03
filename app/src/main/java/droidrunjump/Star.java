@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.Log;
 
-import phoenix.delta.Constants;
 import phoenix.delta.Utilities;
 
 public class Star

@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import phoenix.delta.Constants;
-
 
 public class Pothole {
 
