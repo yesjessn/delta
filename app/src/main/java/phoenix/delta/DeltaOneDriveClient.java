@@ -50,7 +50,7 @@ public class DeltaOneDriveClient {
 
             @Override
             public String[] getScopes() {
-                return new String[]{"Files.ReadWrite.AppFolder", "offline_access"};
+                return new String[]{"Files.ReadWrite.All", "offline_access"};
             }
         };
         final IClientConfig oneDriveConfig = DefaultClientConfig.createWithAuthenticationProvider(authenticationAdapter);
@@ -155,7 +155,8 @@ public class DeltaOneDriveClient {
             inputStream = oneDriveClient
                     .getMe()
                     .getDrive()
-                    .getRoot().getItemWithPath("/Apps/DeLTA/" + subjectID + "/" + subjectID + "-progress.csv")
+                    .getSpecial("approot")
+                    .getItemWithPath(subjectID + "/" + subjectID + "-progress.csv")
                     .getContent()
                     .buildRequest()
                     .get();
@@ -195,7 +196,8 @@ public class DeltaOneDriveClient {
         Log.i("ODC", "Password csv download successful");
 
         try {
-            FileOutputStream outputStream = context.openFileOutput(subjectID + File.pathSeparator + subjectID + "-progress.csv", Context.MODE_PRIVATE);
+            File rootDir=new File(context.getFilesDir(), subjectID);
+            FileOutputStream outputStream = new FileOutputStream(new File(rootDir, subjectID + "-progress.csv"));
             IOUtils.copy(inputStream, outputStream);
             inputStream.close();
             outputStream.close();
@@ -249,22 +251,7 @@ public class DeltaOneDriveClient {
         try {
             final File progressFile = new File(subjectFolder, subjectID + "-progress.csv");
             final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
-            uploadSubjectFile(progressFile, new IProgressCallback<DriveItem>(){
-                @Override
-                public void success(DriveItem driveItem) {
-                    Log.i("ODC", "Successfully uploaded " + progressFile.getName());
-                }
-
-                @Override
-                public void failure(ClientException ex) {
-                    uploadFailure.set(ex);
-                }
-
-                @Override
-                public void progress(long current, long max) {
-                    Log.i("ODC", "Wrote " + current + " of " + max + " bytes of " + progressFile.getName());
-                }
-            });
+            uploadSubjectFile(progressFile);
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Progress file upload failed", ce);
@@ -281,22 +268,7 @@ public class DeltaOneDriveClient {
         try {
             final File sessionFile = new File(subjectFolder, subjectID + "-" + sessionID + ".csv");
             final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
-            uploadSubjectFile(sessionFile, new IProgressCallback<DriveItem>(){
-                @Override
-                public void success(DriveItem driveItem) {
-                    Log.i("ODC", "Successfully uploaded " + sessionFile.getName());
-                }
-
-                @Override
-                public void failure(ClientException ex) {
-                    uploadFailure.set(ex);
-                }
-
-                @Override
-                public void progress(long current, long max) {
-                    Log.i("ODC", "Wrote " + current + " of " + max + " bytes of " + sessionFile.getName());
-                }
-            });
+            uploadSubjectFile(sessionFile);
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Session file upload failed", ce);
@@ -313,25 +285,19 @@ public class DeltaOneDriveClient {
         return true;
     }
 
-    private void uploadSubjectFile(File file, IProgressCallback<DriveItem> callback) throws IOException {
+    private void uploadSubjectFile(File file) throws IOException {
         Log.i("ODC", "Starting upload of " + file.getAbsolutePath());
         String subjectID = file.getParentFile().getName();
         String name = file.getName();
-        int size = (int) file.length();
-        InputStream input = new FileInputStream(file);
+        byte[] contents = IOUtils.toByteArray(new FileInputStream(file));
 
-        DriveItemUploadableProperties uploadableProperties = new DriveItemUploadableProperties();
-        uploadableProperties.name = name;
-        ChunkedUploadProvider uploader = oneDriveClient
+        oneDriveClient
                 .getMe()
                 .getDrive()
                 .getSpecial("approot")
                 .getItemWithPath(subjectID + "/" + name)
-                .getCreateUploadSession(uploadableProperties)
+                .getContent()
                 .buildRequest()
-                .post()
-                .createUploadProvider(oneDriveClient, input, size, DriveItem.class);
-
-        uploader.upload(null, callback);
+                .put(contents);
     }
 }

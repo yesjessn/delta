@@ -102,7 +102,7 @@
     <string name="enter_comments_here">Comments</string>
     <!--Done File Upload Activity-->>
     <string name="title_activity_done_file_upload">DoneFileUploadActivity</string>
-    <string name="upload_done">File upload is successfully completed..</string>
+    <string name="upload_done">File upload is successfully completed.</string>
     <string name="flagged">Participant is flagged.\nPlease inform participant.</string>
 
     <!--Fruit Ninja-->
