@@ -88,7 +88,7 @@
             android:name="br.usp.ime.retrobreaker.GameActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:hardwareAccelerated="true"
-            android:screenOrientation="sensorPortrait"
+            android:screenOrientation="sensorLandscape"
             android:theme="@style/GameTheme" >
         </activity>
         <activity

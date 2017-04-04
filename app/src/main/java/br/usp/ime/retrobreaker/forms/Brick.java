@@ -13,10 +13,10 @@ public class Brick extends Quad {
 
 	private static final float SCALE = 0.1f;
 	private static final float[] VERTICES = {
-		-0.5f, -0.2f, // bottom left
-		-0.5f,  0.2f, // top left
-		0.5f, -0.2f, // bottom right
-		0.5f,  0.2f, // top right
+		-1f, -0.2f, // bottom left
+		-1f,  0.2f, // top left
+		1f, -0.2f, // bottom right
+		1f,  0.2f, // top right
 	};
 	
 	private int mLives;

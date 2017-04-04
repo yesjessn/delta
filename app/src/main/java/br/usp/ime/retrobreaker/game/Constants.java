@@ -39,15 +39,15 @@ public class Constants {
 		public static final int NUMBER_OF_LINES_OF_BRICKS = 8;
 		public static final int NUMBER_OF_COLUMNS_OF_BRICKS = 10;
 		public static final int MOBILE_BRICK_SKIP_FRAMES = 3;
-		public static final float SCREEN_RATIO = 9.0f/16.0f; // Widescreen (16:9) on portrait
+		public static final float SCREEN_RATIO = 16.0f/9f; // Widescreen (16:9)
 		public static final float WALL = 0.0f;
 		public static final float BALL_INITIAL_PREVIOUS_POS_X = 0.25f;
 		public static final float BALL_INITIAL_PREVIOUS_POS_Y = 0.4f;
 		public static final float BALL_INITIAL_POS_X = 0.2f;
 		public static final float BALL_INITIAL_POS_Y = 0.2f;
 		public static final float PADDLE_INITIAL_POS_X = 0.0f;
-		public static final float PADDLE_INITIAL_POS_Y = -0.7f;
-		public static final float BRICKS_INITIAL_POS_X = -0.495f;
+		public static final float PADDLE_INITIAL_POS_Y = -0.8f;
+		public static final float BRICKS_INITIAL_POS_X = -(16 - 2) / NUMBER_OF_COLUMNS_OF_BRICKS;
 		public static final float BRICKS_INITIAL_POS_Y = 0.3f;
 		public static final float SPACE_BETWEEN_BRICKS = 0.01f;
 		public static final Collision[] CONSECUTIVE_COLLISION_DETECTION = {
@@ -58,7 +58,7 @@ public class Constants {
 	public static final class Difficult {
 		// 0 = Can't die, 1 = Easy, 2 = Normal, 3 = Hard
 		public static final boolean[] INVINCIBILITY = { true, false, false, false };
-		public static final int[] LIFE_STOCK = { 99, 3, 2, 1 };
+		public static final int[] LIFE_STOCK = { Integer.MAX_VALUE, Integer.MAX_VALUE, 2, 1 };
 		public static final int[] HIT_SCORE = { 0, 50, 100, 150 };
 		public static final int[] LIFE_SCORE_BONUS = { 0, 2500, 5000, 15000 };
 		public static final int[] MAX_SCORE_MULTIPLIER = { 1, 4, 8, 16 };

@@ -117,6 +117,7 @@ public class Game {
 			int sign = 1;
 			for (int j = 0; j < blocksY; j++) {
 				sign *= -1; // Consecutive bricks start moving to different directions
+				Brick b;
 				double prob = Math.random(); // Create special bricks with random probability
 				if (prob <= (Difficult.MOBILE_BRICK_PROB[State.getDifficult()] +
 						Difficult.EX_BRICK_PROB[State.getDifficult()] +
@@ -126,25 +127,27 @@ public class Game {
 						MobileBrick brick = new MobileBrick(Color.GREEN,
 								newPosX, newPosY, Type.MOBILE, Config.MOBILE_BRICK_SKIP_FRAMES,
 								i, j, sign * Difficult.MOBILE_BRICK_SPEED[State.getDifficult()]);
-						mBricks[i][j] = brick;
+						b = brick;
 						mMobileBricks.add(brick);
 					} else if ((prob - Difficult.MOBILE_BRICK_PROB[State.getDifficult()]) <=
 							Difficult.EX_BRICK_PROB[State.getDifficult()])
 					{
-						mBricks[i][j] = new Brick(Color.RED, newPosX, newPosY, Type.EXPLOSIVE);
+						b = new Brick(Color.RED, newPosX, newPosY, Type.EXPLOSIVE);
 					} else {
-						mBricks[i][j] = new Brick(Color.GRAY, newPosX, newPosY, Type.HARD);
+						b = new Brick(Color.GRAY, newPosX, newPosY, Type.HARD);
 					}
 				} else {
-					mBricks[i][j] = new Brick(Color.WHITE, newPosX, newPosY, Type.NORMAL);
+					b = new Brick(Color.WHITE, newPosX, newPosY, Type.NORMAL);
 				}
+				mBricks[i][j] = b;
+				Log.v(TAG, String.format("Spawned %s at (%.3f, %.3f) with (%.3fw x %.3fh)", b.getType(), b.getPosX(), b.getPosY(), b.getWidth(), b.getHeight()));
 				// The position of the next brick on the same line should be on the right side of the last brick
-				newPosX += mBricks[i][j].getSizeX() + Config.SPACE_BETWEEN_BRICKS;
+				newPosX += mBricks[i][j].getWidth() + Config.SPACE_BETWEEN_BRICKS;
 			}
 			// Finished filling a line of bricks, resetting to initial X position to fill the next line
 			newPosX = initialX;
 			// Same as the X position, put the next line of bricks on bottom of the last one
-			newPosY += mBricks[i][0].getSizeY() + Config.SPACE_BETWEEN_BRICKS;
+			newPosY += mBricks[i][0].getHeight() + Config.SPACE_BETWEEN_BRICKS;
 		}
 
 	}

@@ -47,6 +47,9 @@ public class Procedure implements Serializable{
             String line = reader.readLine();
             while(line != null){
                 String[] parts = line.split(",");
+                if (parts.length <= 8) {
+                    continue;
+                }
                 String sessionID = parts[0];
                 String prerewardDelay = parts[1];
                 String allNow = parts[8];
