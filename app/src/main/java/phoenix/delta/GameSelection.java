@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import br.usp.ime.retrobreaker.game.Game;
 import droidrunjump.DroidRunJumpActivity;
 
 
@@ -46,10 +47,11 @@ public class GameSelection extends ActionBarActivity {
                     currProcedure.currentSession.selectedGame = dev.emmaguy.fruitninja.ui.MainActivity.class;
                 } else if (playGame3Btn.isChecked()) {
                     currProcedure.startNewSession();
-                    currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
+                    currProcedure.currentSession.selectedGame = br.usp.ime.retrobreaker.GameActivity.class;
+                    Game.State.setDifficult(2 /* normal */);
                 } else if (playGame4Btn.isChecked()) {
                     currProcedure.startNewSession();
-                    currProcedure.currentSession.selectedGame = DroidRunJumpActivity.class;
+                    currProcedure.currentSession.selectedGame = com.mystery_of_orient_express.game.android.AndroidLauncher.class;
                 } else {
                     Toast.makeText(GameSelection.this.getApplicationContext(), "Please select a game", Toast.LENGTH_SHORT);
                     return;
