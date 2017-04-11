@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import br.usp.ime.retrobreaker.game.Game;
 import droidrunjump.DroidRunJumpActivity;
 
 public class FreePlaySelection extends ActionBarActivity{
@@ -39,14 +41,16 @@ public class FreePlaySelection extends ActionBarActivity{
             @Override
             public void onClick(View view) {
                 Intent game = null;
+                Log.i("FPS", String.format("{%s, %s, %s, %s}", playGame1Btn.isChecked(), playGame2Btn.isChecked(), playGame3Btn.isChecked(), playGame4Btn.isChecked()));
                 if (playGame1Btn.isChecked()) {
                     game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
                 } else if (playGame2Btn.isChecked()) {
                     game = new Intent(FreePlaySelection.this, dev.emmaguy.fruitninja.ui.MainActivity.class);
                 } else if (playGame3Btn.isChecked()) {
-                    game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
+                    game = new Intent(FreePlaySelection.this, br.usp.ime.retrobreaker.GameActivity.class);
+                    Game.State.setDifficult(2 /* normal */);
                 } else if (playGame4Btn.isChecked()) {
-                    game = new Intent(FreePlaySelection.this, DroidRunJumpActivity.class);
+                    game = new Intent(FreePlaySelection.this, com.mystery_of_orient_express.game.android.AndroidLauncher.class);
                 } else {
                     Toast.makeText(FreePlaySelection.this.getApplicationContext(), "Please select a game", Toast.LENGTH_SHORT);
                     return;
