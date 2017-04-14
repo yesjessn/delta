@@ -33,6 +33,7 @@
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
             android:ems="20"
+            android:background="#64ffffff"
             android:layout_marginTop="15dp"/>
 
         <Button

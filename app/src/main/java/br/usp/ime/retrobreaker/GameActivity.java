@@ -71,6 +71,7 @@ public class GameActivity extends Activity {
 		mLivesTextView.setTextColor(Color.WHITE);
 		mLivesTextView.setVisibility(View.GONE);
 		mHighScoreTextView = (TextView) findViewById(R.id.highScore);
+		mHighScoreTextView.setVisibility(View.GONE);
 		mHighScoreTextView.setTextColor(Color.GRAY);
 		mReadyTextView = (TextView) findViewById(R.id.ready);
 		mReadyTextView.setTextColor(Color.RED);

@@ -83,7 +83,6 @@ public class ForcedTrial extends ActionBarActivity {
                 // go to next activity
                 Intent playNowAct = new Intent(ForcedTrial.this, TrialWaitActivity.class);
                 playNowAct.putExtra("PROCEDURE", currProcedure);
-                Toast.makeText(ForcedTrial.this, "*" + responseTime / 1000.0 + " sec* " + forcedChoice, Toast.LENGTH_SHORT).show();
                 startActivity(playNowAct);
             }
         };

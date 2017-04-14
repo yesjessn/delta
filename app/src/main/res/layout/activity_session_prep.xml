@@ -9,8 +9,13 @@
     tools:context="phoenix.delta.SessionPrep">
 
 
-    <!-- ADD THIS TO TEXTVIEW2 ONLY IF DB IS CONNECTED
-        android:text="@string/select_student"-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:background="@drawable/delta_logo"
+        android:layout_gravity="center_horizontal"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,6 +62,7 @@
         android:id="@+id/RAID"
         android:hint="@string/enter_RAID_here"
         android:imeOptions="flagNoExtractUi"
+        android:background="#64ffffff"
         android:textSize="20sp"/>
 
     <EditText
@@ -65,6 +71,7 @@
         android:inputType="textPassword"
         android:textSize="20sp"
         android:id="@+id/RAPassword"
+        android:background="#64ffffff"
         android:hint="@string/enter_RAPassword_here"/>
 
     <Button

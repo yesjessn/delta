@@ -28,20 +28,26 @@
             android:layout_weight="0.5">
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/play_game1_btn"
-                android:background="@drawable/game_screenshot1"
-                android:layout_weight=".5"
-                android:layout_margin="@dimen/activity_horizontal_margin"/>
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/game_screenshot1" />
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/play_game2_btn"
-                android:background="@drawable/game_screenshot2"
-                android:layout_weight=".5"
-                android:layout_margin="@dimen/activity_horizontal_margin"/>
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/game_screenshot2"/>
         </TableRow>
 
         <TableRow
@@ -49,20 +55,26 @@
 
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/play_game3_btn"
-                android:background="@drawable/game_screenshot1"
-                android:layout_weight=".5"
-                android:layout_margin="@dimen/activity_horizontal_margin"/>
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/game_screenshot3"/>
 
             <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/play_game4_btn"
-                android:background="@drawable/game_screenshot1"
-                android:layout_weight=".5"
-                android:layout_margin="@dimen/activity_horizontal_margin"/>
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/game_screenshot4"/>
         </TableRow>
 
 
@@ -70,7 +82,7 @@
 
     <Button
         style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="@string/next"
         android:id="@+id/btn_continue"
