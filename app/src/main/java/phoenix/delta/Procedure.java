@@ -104,10 +104,6 @@ public class Procedure implements Serializable{
         {
             writeSessionToFile(context, currentSession);
             writeProgressToFile(context, currentSession);
-            lastSessionID = currentSession.sessionID;
-            lastSessionPrerewardDelay = currentSession.waitTime.getPrerewardDelay();
-            currentSession = null;
-
             return true;
         }
         return false;
