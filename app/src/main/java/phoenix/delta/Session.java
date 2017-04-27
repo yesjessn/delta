@@ -25,7 +25,7 @@ public class Session implements Serializable
 
     public WaitTime waitTime;
 
-    public long initDelay = 0*1000L; //TODO: change to 45 seconds
+    public long initDelay = 45*1000L;
 
     public Class<? extends Activity> selectedGame;
 
@@ -48,8 +48,8 @@ public class Session implements Serializable
 
     public boolean isSessionDone()
     {
-        return (completedBlocks.size() == 1);
-    } //TODO: change back to 6
+        return (completedBlocks.size() == 6);
+    }
 
     public void resetSession()
     {
