@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation">
 
     <!-- Home -->
     <string name="app_name">DELTA</string>
@@ -135,4 +137,5 @@
 
 
     <string name="moe_app_name">MysteryOfOrientExpress</string>
+    <string name="title_rb_main">Retro Breaker</string>
 </resources>
