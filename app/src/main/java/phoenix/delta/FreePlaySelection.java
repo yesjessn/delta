@@ -63,4 +63,14 @@ public class FreePlaySelection extends ActionBarActivity{
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent thisIntent = getIntent();
+        final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
+            Intent gameSelection = new Intent(FreePlaySelection.this, SessionStartActivity.class);
+            gameSelection.putExtra("PROCEDURE", currProcedure);
+            startActivity(gameSelection);
+        }
+    }
+
 }
