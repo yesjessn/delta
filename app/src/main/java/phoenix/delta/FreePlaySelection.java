@@ -49,6 +49,7 @@ public class FreePlaySelection extends ActionBarActivity{
                 } else if (playGame3Btn.isChecked()) {
                     game = new Intent(FreePlaySelection.this, br.usp.ime.retrobreaker.GameActivity.class);
                     Game.State.setDifficult(2 /* normal */);
+                    Game.State.enableSoundEffects(true);
                 } else if (playGame4Btn.isChecked()) {
                     game = new Intent(FreePlaySelection.this, com.mystery_of_orient_express.game.android.AndroidLauncher.class);
                 } else {
@@ -67,10 +68,9 @@ public class FreePlaySelection extends ActionBarActivity{
     public void onBackPressed() {
         Intent thisIntent = getIntent();
         final Procedure currProcedure = (Procedure) thisIntent.getSerializableExtra("PROCEDURE");
-            Intent gameSelection = new Intent(FreePlaySelection.this, SessionStartActivity.class);
-            gameSelection.putExtra("PROCEDURE", currProcedure);
-            startActivity(gameSelection);
-        }
+        Intent gameSelection = new Intent(FreePlaySelection.this, SessionStartActivity.class);
+        gameSelection.putExtra("PROCEDURE", currProcedure);
+        startActivity(gameSelection);
     }
 
 }

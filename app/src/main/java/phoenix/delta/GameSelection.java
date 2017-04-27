@@ -49,6 +49,7 @@ public class GameSelection extends ActionBarActivity {
                     currProcedure.startNewSession();
                     currProcedure.currentSession.selectedGame = br.usp.ime.retrobreaker.GameActivity.class;
                     Game.State.setDifficult(2 /* normal */);
+                    Game.State.enableSoundEffects(true);
                 } else if (playGame4Btn.isChecked()) {
                     currProcedure.startNewSession();
                     currProcedure.currentSession.selectedGame = com.mystery_of_orient_express.game.android.AndroidLauncher.class;
