@@ -3,6 +3,7 @@ package dev.emmaguy.fruitninja.ui;
 import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -49,38 +50,40 @@ public class GameSurfaceView extends SurfaceView implements OnTouchListener, Sur
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-	switch (event.getActionMasked()) {
-        	case MotionEvent.ACTION_DOWN:
-        	    createNewPath(event.getX(), event.getY(), event.getPointerId(0));
-        	    break;
-        	case MotionEvent.ACTION_POINTER_DOWN:
-        
-        	    int newPointerIndex = event.getActionIndex();
-        	    createNewPath(event.getX(newPointerIndex), event.getY(newPointerIndex), event.getPointerId(newPointerIndex));
-        
-        	    break;
-        	case MotionEvent.ACTION_MOVE:
-        
-        	    for (int i = 0; i < paths.size(); i++) {
-        		int pointerIndex = event.findPointerIndex(paths.indexOfKey(i));
-        
-        		if (pointerIndex >= 0) {
-        		    paths.valueAt(i).lineTo(event.getX(pointerIndex), event.getY(pointerIndex));
-        		    paths.valueAt(i).updateTimeDrawn(System.currentTimeMillis());
-        		}
-        	    }
-        	    break;
-	}
+        long timestamp = System.currentTimeMillis();
+        switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    createNewPath(timestamp, event.getX(), event.getY(), event.getPointerId(0));
+                    break;
+                case MotionEvent.ACTION_POINTER_DOWN:
 
-	gameThread.updateDrawnPath(paths);
-	return true;
+                    int newPointerIndex = event.getActionIndex();
+                    createNewPath(timestamp, event.getX(newPointerIndex), event.getY(newPointerIndex), event.getPointerId(newPointerIndex));
+
+                    break;
+                case MotionEvent.ACTION_MOVE:
+
+                    for (int i = 0; i < paths.size(); i++) {
+                        int pointerIndex = event.findPointerIndex(paths.indexOfKey(i));
+
+                        if (pointerIndex >= 0) {
+                            float x = event.getX(pointerIndex);
+                            float y = event.getY(pointerIndex);
+                            TimedPath tp = paths.valueAt(i);
+                            Log.d("FN", String.format("Added point #%d to path @%s (%.2f, %.2f)", tp.size(), timestamp, x, y));
+                            tp.addPoint(timestamp, x, y);
+                        }
+                    }
+                    break;
+        }
+        gameThread.updateDrawnPath(paths);
+        return true;
     }
     
-    private void createNewPath(float x, float y, int ptrId) {
-	TimedPath path = new TimedPath();
-	path.moveTo(x, y);
-	path.updateTimeDrawn(System.currentTimeMillis());
-	paths.append(ptrId, path);
+    private void createNewPath(long timestamp, float x, float y, int ptrId) {
+        TimedPath path = new TimedPath(timestamp, x, y);
+        Log.d("FN", String.format("Created a new path @%s (%.2f, %.2f)", timestamp, x, y));
+        paths.append(ptrId, path);
     }
 
     @Override

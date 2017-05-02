@@ -51,7 +51,7 @@ public class Pothole {
         //
 
         w = DroidConstants.MIN_POTHOLE_WIDTH;
-        x = game.getWidth() + xOffset;
+        x = game.getBackgroundImage().getWidth() + xOffset;
         Log.i("DRJ", "Spawning pothole at " + x);
         alive = true;
     }
@@ -86,8 +86,9 @@ public class Pothole {
     public Pothole(int id, Game game) {
         this.id = id;
         this.game = game;
-        y = 416; //numbers based on height of background image (where ground starts)
-        h = 64; //where ground ends
+        int raisedPx = 4; // Raise the pothole up a little off the ground to cover the background
+        y = DroidConstants.GROUND_Y - raisedPx;
+        h = game.getBackgroundImage().getHeight() - y + raisedPx;
         alive = false;
     }
 

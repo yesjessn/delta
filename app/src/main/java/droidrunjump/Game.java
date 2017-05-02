@@ -177,15 +177,11 @@ public class Game
         final float scaleFactorX = getWidth()/(getBackgroundImage().getWidth()*1.f);
         //gets height of entire surface screen
         final float scaleFactorY = getHeight()/(getBackgroundImage().getHeight()*1.f);
-        Log.i("DRJ", String.format("X: %s / %s = %s", getWidth(), getBackgroundImage().getWidth(), scaleFactorX));
-        Log.i("DRJ", String.format("X: %s / %s = %s", getHeight(), getBackgroundImage().getHeight(), scaleFactorY));
         if (p_canvas != null) {
             final int savedState = p_canvas.save();
 
             //scales screen
-            Log.i("DRJ", String.format("Canvas pre-scaling size %s", p_canvas.getClipBounds()));
             p_canvas.scale(scaleFactorX, scaleFactorY);
-            Log.i("DRJ", String.format("Canvas scaled to %s by (%f, %f)", p_canvas.getClipBounds(), scaleFactorX, scaleFactorY));
 
             switch (m_gameState) {
                 case GAME_MENU:
