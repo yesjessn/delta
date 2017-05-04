@@ -40,29 +40,30 @@ public class Procedure implements Serializable{
         }
         try {
             File progressFile = new File(subjectFile, subjectID + "-progress.csv");
-            FileInputStream fis = new FileInputStream(progressFile);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            Log.d("prg", "Reading " + progressFile.getPath());
-            reader.readLine(); // skip the header row
-            String line = reader.readLine();
-            while(line != null){
-                String[] parts = line.split(",");
-                if (parts.length <= 8) {
-                    continue;
+            if (progressFile.exists()) {
+                Log.d("prg", "Reading " + progressFile.getPath());
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(progressFile)))) {
+                    reader.readLine(); // skip the header row
+                    String line = reader.readLine();
+                    while (line != null) {
+                        Log.d("prg", "line " + line);
+                        String[] parts = line.split(",");
+                        if (parts.length > 8) {
+                            String sessionID = parts[0];
+                            String prerewardDelay = parts[1];
+                            String allNow = parts[8];
+                            lastSessionID = Integer.parseInt(sessionID);
+                            lastSessionPrerewardDelay = Long.parseLong(prerewardDelay);
+                            lastSessionAllNow = Boolean.parseBoolean(allNow);
+                        }
+                        line = reader.readLine();
+                    }
                 }
-                String sessionID = parts[0];
-                String prerewardDelay = parts[1];
-                String allNow = parts[8];
-                Log.d("prg", "line " + line + "\n= " + sessionID + ", " + prerewardDelay);
-                lastSessionID = Integer.parseInt(sessionID);
-                lastSessionPrerewardDelay = Long.parseLong(prerewardDelay);
-                lastSessionAllNow = Boolean.parseBoolean(allNow);
-                line = reader.readLine();
+            } else {
+                Log.i("prg", "No progress found, starting with session 0");
+                lastSessionID = -1;
             }
-        } catch (FileNotFoundException e) {
-            //first session, leave
-            lastSessionID = -1;
-        } catch (IOException e) {
+        } catch (Exception e) {
             Log.i("prg", "", e);
             lastSessionID = -1;
         }

@@ -45,7 +45,7 @@ public class DeltaOneDriveClient {
         authenticationAdapter = new MSAAuthAndroidAdapter(activity.getApplication()) {
             @Override
             public String getClientId() {
-                return "c84db6c6-611a-4af9-961e-7d27204c632e";
+                return "8bf9f2f4-b36b-40c6-81a8-73621723bec8";
             }
 
             @Override
@@ -72,8 +72,8 @@ public class DeltaOneDriveClient {
         // * https://dev.onedrive.com/misc/appfolder.htm
         // * https://dev.onedrive.com/items/list.htm
         // Using https://graph.microsoft.io/en-us/graph-explorer - use URL:
-        // https://graph.microsoft.com/v1.0/me/drive/root:/Apps/DeLTA:/children
-        final String itemId = "01KLLSCEBPTHTBF23OORB3ISCF7J4WDI43";
+        // https://graph.microsoft.com/v1.0/me/drive/root:/Apps/DelTA:/children
+        final String itemId = "01FWWOHCE2XSYEPBE2GBEJZZSGFMIOD7AZ";
 
         final String passwordDBName = "passwords.db";
         File dbfile = ctx.getDatabasePath(passwordDBName);
