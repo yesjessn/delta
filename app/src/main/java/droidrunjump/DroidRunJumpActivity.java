@@ -3,6 +3,7 @@ package droidrunjump;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import phoenix.delta.FreePlaySelection;
@@ -14,13 +15,16 @@ public class DroidRunJumpActivity extends Activity {
     private DroidRunJumpView m_drjView;
     private DroidRunJumpThread m_drjThread;
 
+    MediaPlayer alertSnd;
+
     @Override
     public void onCreate(Bundle p_savedInstanceState) {
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.main);
 
         m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
-
+        alertSnd = MediaPlayer.create(this, R.raw.save);
+        alertSnd.start();
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,11 +44,15 @@ public class GameActivity extends Activity {
 	private HashMap<String, Integer> mSoundIds;
 	private View mDecorView;
 
+	MediaPlayer alertSnd;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_game);
+		alertSnd = MediaPlayer.create(this, R.raw.save);
+		alertSnd.start();
 
 		mHandler = new Handler();
 		mNewHighScore = false;
