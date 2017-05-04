@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public enum SessionType {
     ESTABLISH_INDIFFERENCE(4) {
-        public long delayChange = 23226L; //23.2258064516 seconds -> 90 = 45 + (DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)])
+        public long delayChange = 11428L; //11.4286 seconds -> 45 = 22.5 + (DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)])
         public float adjustment = 0.5f;
 
         @Override
@@ -22,7 +22,7 @@ public enum SessionType {
                     adjustmentMultiplier -= Math.pow(adjustment, i);
                 }
             }
-            return Math.round(initDelay + delayChange * adjustmentMultiplier);
+            return Math.max(Math.round(initDelay + delayChange * adjustmentMultiplier), minWaitTime);
         }
     }, SHAPING(5) {
         public float initDelayMultiplier = 0.75f;
@@ -45,9 +45,10 @@ public enum SessionType {
                     delay *= nowMultiplier;
                 }
             }
-            return Math.round(delay);
+            return Math.max(Math.round(delay), minWaitTime);
         }
     };
+    private static final long minWaitTime = 1000L;
 
     public int trialsPerBlock;
 
