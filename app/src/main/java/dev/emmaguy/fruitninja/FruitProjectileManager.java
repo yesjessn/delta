@@ -1,17 +1,21 @@
 package dev.emmaguy.fruitninja;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Canvas;
 import android.graphics.Region;
+import android.media.MediaPlayer;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
+import phoenix.delta.R;
 
 public class FruitProjectileManager implements ProjectileManager {
 
@@ -22,13 +26,17 @@ public class FruitProjectileManager implements ProjectileManager {
     private int maxWidth;
     private int maxHeight;
 
-    public FruitProjectileManager(Resources r) {
+    private final MediaPlayer fruitSnd;
+
+    public FruitProjectileManager(Context ctx) {
+        Resources r = ctx.getResources();
 
         bitmapCache = new SparseArray<Bitmap>(FruitType.values().length);
 
         for (FruitType t : FruitType.values()) {
             bitmapCache.put(t.getResourceId(), BitmapFactory.decodeResource(r, t.getResourceId(), new Options()));
         }
+        fruitSnd = MediaPlayer.create(ctx, R.raw.fruit_sound);
     }
 
     public void draw(Canvas canvas) {
@@ -97,6 +105,7 @@ public class FruitProjectileManager implements ProjectileManager {
 
                 if (!projectile.quickReject(path) && projectile.op(path, Region.Op.INTERSECT)) {
                     f.kill();
+                    fruitSnd.start();
                     score++;
                 }
             }

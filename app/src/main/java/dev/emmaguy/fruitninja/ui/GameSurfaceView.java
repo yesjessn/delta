@@ -92,7 +92,7 @@ public class GameSurfaceView extends SurfaceView implements OnTouchListener, Sur
 	    gameThread.resumeGame(width, height);
 	} else {
 	    isGameInitialised = true;
-	    projectileManager = new FruitProjectileManager(getResources());
+	    projectileManager = new FruitProjectileManager(this.getContext());
 	    gameThread = new GameThread(getHolder(), projectileManager, gameOverListener);
 	    gameThread.startGame(width, height);
 	}
