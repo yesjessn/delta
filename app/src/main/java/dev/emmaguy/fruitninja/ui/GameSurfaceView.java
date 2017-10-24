@@ -19,7 +19,7 @@ import dev.emmaguy.fruitninja.ui.GameFragment.OnGameOver;
 public class GameSurfaceView extends SurfaceView implements OnTouchListener, SurfaceHolder.Callback {
 
     private GameThread gameThread;
-    private ProjectileManager projectileManager;
+    protected ProjectileManager projectileManager;
     private OnGameOver gameOverListener;
     private boolean isGameInitialised = false;
     private final SparseArrayCompat<TimedPath> paths = new SparseArrayCompat<TimedPath>();
@@ -43,9 +43,16 @@ public class GameSurfaceView extends SurfaceView implements OnTouchListener, Sur
     }
 
     private void initialise() {
-	this.setOnTouchListener(this);
-	this.setFocusable(true);
-	this.getHolder().addCallback(this);
+        this.setOnTouchListener(this);
+        this.setFocusable(true);
+        this.getHolder().addCallback(this);
+        projectileManager = new FruitProjectileManager(this.getContext());
+        gameThread = new GameThread(getHolder(), projectileManager, new OnGameOver() {
+            @Override
+            public void onGameOver(int score) {
+                gameOverListener.onGameOver(score);
+            }
+        });
     }
 
     @Override
@@ -88,14 +95,12 @@ public class GameSurfaceView extends SurfaceView implements OnTouchListener, Sur
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-	if (isGameInitialised) {
-	    gameThread.resumeGame(width, height);
-	} else {
-	    isGameInitialised = true;
-	    projectileManager = new FruitProjectileManager(this.getContext());
-	    gameThread = new GameThread(getHolder(), projectileManager, gameOverListener);
-	    gameThread.startGame(width, height);
-	}
+        if (isGameInitialised) {
+            gameThread.resumeGame(width, height);
+        } else {
+            isGameInitialised = true;
+            gameThread.startGame(width, height);
+        }
     }
 
     @Override
@@ -108,6 +113,6 @@ public class GameSurfaceView extends SurfaceView implements OnTouchListener, Sur
     }
 
     public void setGameOverListener(OnGameOver gameOverListener) {
-	this.gameOverListener = gameOverListener;
+	    this.gameOverListener = gameOverListener;
     }
 }

@@ -15,15 +15,19 @@ public class DroidRunJumpActivity extends Activity {
     private DroidRunJumpView m_drjView;
     private DroidRunJumpThread m_drjThread;
 
-    MediaPlayer alertSnd;
-
     @Override
     public void onCreate(Bundle p_savedInstanceState) {
         super.onCreate(p_savedInstanceState);
         setContentView(R.layout.main);
 
         m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
-        alertSnd = MediaPlayer.create(this, R.raw.save);
+        final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
+        alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                alertSnd.release();
+            }
+        });
         alertSnd.start();
     }
 

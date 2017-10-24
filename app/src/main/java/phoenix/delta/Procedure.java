@@ -86,8 +86,8 @@ public class Procedure implements Serializable{
             else
             {
                 currentSession = new Session(lastSessionID + 1);
-                currentSession.initDelay = lastSessionPrerewardDelay; //TODO: clear up with julie
                 if (currentSession.sessionID <= 25)  {
+                    currentSession.initDelay = lastSessionPrerewardDelay;
                     currentSession.sessionType = SessionType.SHAPING;
                 }
                 else

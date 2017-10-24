@@ -44,14 +44,18 @@ public class GameActivity extends Activity {
 	private HashMap<String, Integer> mSoundIds;
 	private View mDecorView;
 
-	MediaPlayer alertSnd;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_game);
-		alertSnd = MediaPlayer.create(this, R.raw.save);
+		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
+		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				alertSnd.release();
+			}
+		});
 		alertSnd.start();
 
 		mHandler = new Handler();

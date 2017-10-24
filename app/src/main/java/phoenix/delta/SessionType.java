@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public enum SessionType {
     ESTABLISH_INDIFFERENCE(4) {
-        public long delayChange = 11428L; //11.4286 seconds -> 45 = 22.5 + (DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)])
+        public long delayChange = 15238L; //15.238 seconds -> 30 = 10.0 + (DC * [(0.5^0) + (0.5^1) + (0.5^2) + (0.5^3) + (0.5^4) + (0.5^5)])
         public float adjustment = 0.5f;
 
         @Override

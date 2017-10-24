@@ -14,14 +14,18 @@ import phoenix.delta.R;
 
 public class AndroidLauncher extends AndroidApplication {
 
-	MediaPlayer alertSnd;
-
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new MysteryOfOrientExpress(), config);
-		alertSnd = MediaPlayer.create(this, R.raw.save);
+		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
+		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				alertSnd.release();
+			}
+		});
 		alertSnd.start();
 	}
 

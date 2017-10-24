@@ -17,14 +17,19 @@ public class TrialMain extends ActionBarActivity {
 
     Button start_trial_btn;
     Procedure currProcedure;
-    MediaPlayer alertSnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_trial_main);
-        alertSnd = MediaPlayer.create(this, R.raw.save);
+        final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
+        alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                alertSnd.release();
+            }
+        });
         alertSnd.start();
 
 

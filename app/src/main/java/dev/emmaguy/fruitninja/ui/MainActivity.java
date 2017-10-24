@@ -15,15 +15,19 @@ import phoenix.delta.R;
 
 public class MainActivity extends FragmentActivity implements OnMainMenuButtonClicked, OnGameOver {
 
-	MediaPlayer alertSnd;
-
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
 	setContentView(R.layout.activity_main_fn);
-	alertSnd = MediaPlayer.create(this, R.raw.save);
-	alertSnd.start();
+		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
+		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				alertSnd.release();
+			}
+		});
+		alertSnd.start();
 
 	onPlayButtonClicked();
     }

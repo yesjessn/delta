@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import phoenix.delta.R;
 
 public class GameFragment extends Fragment {
-
+	private GameSurfaceView gameView;
     private OnGameOver gameOverListener;
 
     public interface OnGameOver {
@@ -21,13 +21,13 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 	View v = inflater.inflate(R.layout.fragment_game, null);
 
-	GameSurfaceView gameView = (GameSurfaceView) v.findViewById(R.id.gameview);
+	gameView = (GameSurfaceView) v.findViewById(R.id.gameview);
 	gameView.setGameOverListener(gameOverListener);
 	
 	return v;
     }
 
-    @Override
+	@Override
     public void onAttach(Activity activity) {
 	super.onAttach(activity);
 
