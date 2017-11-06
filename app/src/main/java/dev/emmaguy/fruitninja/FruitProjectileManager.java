@@ -23,10 +23,8 @@ import java.util.Random;
 import phoenix.delta.R;
 
 public class FruitProjectileManager implements ProjectileManager {
-    private static final SoundPool soundPool = new SoundPool.Builder()
-            .setMaxStreams(4)
-            .setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
-            .build();
+    private static SoundPool soundPool;
+    private static int fruitSnd;
 
     private final Random random = new Random();
     private final List<Projectile> fruitProjectiles = new ArrayList<Projectile>();
@@ -34,8 +32,6 @@ public class FruitProjectileManager implements ProjectileManager {
     private Region clip;
     private int maxWidth;
     private int maxHeight;
-
-    private final int fruitSnd;
 
     public FruitProjectileManager(Context ctx) {
         Resources r = ctx.getResources();
@@ -45,7 +41,13 @@ public class FruitProjectileManager implements ProjectileManager {
         for (FruitType t : FruitType.values()) {
             bitmapCache.put(t.getResourceId(), BitmapFactory.decodeResource(r, t.getResourceId(), new Options()));
         }
-        fruitSnd = soundPool.load(ctx, R.raw.fruit_sound, 1);
+        if (soundPool == null) {
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(4)
+                    .setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                    .build();
+            fruitSnd = soundPool.load(ctx, R.raw.fruit_sound, 1);
+        }
         MediaPlayer.create(ctx, R.raw.fruit_sound);
     }
 

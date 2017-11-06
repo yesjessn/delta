@@ -5,6 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.Log;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import phoenix.delta.Utilities;
 
 public class Star
@@ -16,7 +19,7 @@ public class Star
     private Game m_game;
     private RectF m_rect;
 
-    public Star(Game game)
+    private Star(Game game)
     {
         m_game = game;
 
@@ -49,7 +52,7 @@ public class Star
 
         if (m_x < -m_w)
         {
-            m_alive = false;
+            setAlive(false);
         }
     }
 
@@ -58,9 +61,11 @@ public class Star
         return m_alive;
     }
 
-    public void setAlive(boolean p_alive)
-    {
+    public void setAlive(boolean p_alive) {
         m_alive = p_alive;
+        if (!m_alive) {
+            destroy();
+        }
     }
 
     public void draw(Canvas canvas)
@@ -76,6 +81,26 @@ public class Star
         map.putFloat("ps_h", m_h);
         map.putBoolean("ps_alive", m_alive);
         map.putInt("ps_star", i);
+    }
+
+    public void destroy() {
+        synchronized (graveyard) {
+            graveyard.push(this);
+        }
+    }
+
+    private static final Deque<Star> graveyard = new ArrayDeque<>(5);
+    public static Star create(Game game) {
+        Star s;
+        synchronized (graveyard) {
+            s = graveyard.poll();
+        }
+        if (s == null) {
+            return new Star(game);
+        } else {
+            s.m_game = game;
+            return s;
+        }
     }
 }
 

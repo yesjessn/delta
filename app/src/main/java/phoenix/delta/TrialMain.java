@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-
-
 public class TrialMain extends ActionBarActivity {
 
     Button start_trial_btn;
@@ -23,14 +21,7 @@ public class TrialMain extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_trial_main);
-        final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
-        alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                alertSnd.release();
-            }
-        });
-        alertSnd.start();
+        AlertSound.play(this.getApplicationContext());
 
 
         Intent thisIntent = getIntent();

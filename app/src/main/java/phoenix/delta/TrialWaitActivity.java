@@ -118,22 +118,21 @@ public class TrialWaitActivity extends ActionBarActivity {
                 }
 
                 public void onFinish() {
-                    Intent nextAct = new Intent(TrialWaitActivity.this, currSession.selectedGame);
+                    final Intent nextAct = new Intent(TrialWaitActivity.this, currSession.selectedGame);
                     nextAct.putExtra("PROCEDURE", currProcedure);
 
                     long gameTime = currSession.waitTime.getGameTime();
 
                     new CountDownTimer(gameTime, 1000) {
-                        public void onTick(long millisUntilFinished) {
-                        }
+                        public void onTick(long millisUntilFinished) { }
 
                         public void onFinish() {
                             Log.i("TWA", "Game time completed");
-                            Intent nextAct = new Intent(TrialWaitActivity.this, TrialWaitActivity.class);
+                            Intent returnAct = new Intent(TrialWaitActivity.this, TrialWaitActivity.class);
 
-                            nextAct.putExtra("PROCEDURE", currProcedure);
-                            nextAct.putExtra("prerewardDelay", false);
-                            startActivity(nextAct);
+                            returnAct.putExtra("PROCEDURE", currProcedure);
+                            returnAct.putExtra("prerewardDelay", false);
+                            startActivity(returnAct);
                         }
                     }.start();
                     startActivity(nextAct);

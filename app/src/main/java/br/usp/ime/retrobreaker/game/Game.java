@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -33,13 +34,14 @@ public class Game {
 	private static final String TAG = Game.class.getSimpleName();
 	private static final int SCREEN_INITIAL_X = 0;
 	private static final int SCREEN_INITIAL_Y = 0;
+
+	private static SoundPool mSoundPool;
+	private static HashMap<String, Integer> mSoundIds;
 	
 	//Game objects
 	private Paddle mPaddle;
 	private Ball mBall;
 	private Brick[][] mBricks;
-	private SoundPool mSoundPool;
-	private HashMap<String, Integer> mSoundIds;
 	private Context mContext;
 	private List<Explosion> mExplosions;
 	private List<MobileBrick> mMobileBricks;
@@ -51,13 +53,18 @@ public class Game {
 		mContext = context;
 
 		// Load sound pool, audio shouldn't change between levels
-		mSoundPool = new SoundPool(4, AudioManager.STREAM_MUSIC, 0);
-		mSoundIds = new HashMap<String, Integer>(4);
-		mSoundIds.put("lost_life", mSoundPool.load(mContext, R.raw.lost_life, 1));
-		mSoundIds.put("wall_hit", mSoundPool.load(mContext, R.raw.wall_hit, 1));
-		mSoundIds.put("paddle_hit", mSoundPool.load(mContext, R.raw.paddle_hit, 1));
-		mSoundIds.put("brick_hit", mSoundPool.load(mContext, R.raw.brick_hit, 1));
-		mSoundIds.put("explosive_brick", mSoundPool.load(mContext, R.raw.explosive_brick, 1));
+		if (mSoundPool == null) {
+			mSoundPool = new SoundPool.Builder()
+					.setMaxStreams(4)
+					.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+					.build();
+			mSoundIds = new HashMap<>(4);
+			mSoundIds.put("lost_life", mSoundPool.load(mContext, R.raw.lost_life, 1));
+			mSoundIds.put("wall_hit", mSoundPool.load(mContext, R.raw.wall_hit, 1));
+			mSoundIds.put("paddle_hit", mSoundPool.load(mContext, R.raw.paddle_hit, 1));
+			mSoundIds.put("brick_hit", mSoundPool.load(mContext, R.raw.brick_hit, 1));
+			mSoundIds.put("explosive_brick", mSoundPool.load(mContext, R.raw.explosive_brick, 1));
+		}
 		
 		// Create level elements
 		resetElements();

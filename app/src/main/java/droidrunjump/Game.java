@@ -7,9 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.media.AudioManager;
+import android.media.AudioAttributes;
 import android.media.SoundPool;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,6 +17,11 @@ import phoenix.delta.Utilities;
 
 public class Game
 {
+    private static SoundPool soundPool;
+    private static int droidJumpSnd;
+    private static int droidEatStarSnd;
+    private static int droidCrashSnd;
+
     private Pothole[] m_potholes;
     private Pothole m_lastPothole;
     private long    m_spawnPotholeTime;
@@ -36,8 +40,6 @@ public class Game
     private int     m_width;
     private int     m_height;
 
-    private Paint   m_blackPaint;
-
     private int   m_highScore;
     private int   m_curScore;
     private long  m_scoreTime;
@@ -51,11 +53,8 @@ public class Game
     private Bitmap   m_pastryImage;
     private Bitmap   m_droidJumpImage;
     private Bitmap[] m_droidImages;
-    
-    private SoundPool m_soundPool;
-    private int       m_droidJumpSnd;
-    private int m_droidEatStarSnd;
-    private int       m_droidCrashSnd;
+
+
     private GameState m_lastGameState;
     private long      m_pauseStartTime;
     
@@ -108,12 +107,12 @@ public class Game
 
     public SoundPool getSoundPool()
     {
-        return m_soundPool;
+        return soundPool;
     }
 
     public int getDroidJumpSnd()
     {
-        return m_droidJumpSnd;
+        return droidJumpSnd;
     }
 
     public Droid getDroid() {
@@ -124,8 +123,7 @@ public class Game
         return m_stars;
     }
 
-    public Game(Context p_context)
-    {
+    public Game(Context p_context) {
         m_clearPaint = new Paint();
         m_clearPaint.setARGB(DroidConstants.EIGHT_BIT_MAX, 0, 0, 0);
         m_clearPaint.setAntiAlias(true);
@@ -133,8 +131,6 @@ public class Game
 
         loadImages(p_context);
 
-        //Deprecated in build 21 - we're at build 16
-        m_soundPool = new SoundPool(DroidConstants.MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
         loadSounds(p_context);
 
         m_droid = new Droid(this);
@@ -145,12 +141,6 @@ public class Game
             m_potholes[i] = new Pothole(i, this);
         }
         m_spawnPotholeTime = 0;
-
-        m_blackPaint = new Paint();
-        m_blackPaint.setAntiAlias(true);
-        m_blackPaint.setARGB(DroidConstants.EIGHT_BIT_MAX, 0, 0, 0);
-        m_blackPaint.setFakeBoldText(true);
-        m_blackPaint.setTextSize(100.0f);
 
         m_stars = new ArrayList<>();
         m_road = new Road(this);
@@ -203,15 +193,13 @@ public class Game
         m_playerTapFlag = true;
     }
 
-    public void initOrResetGame()
-    {
+    public void initOrResetGame() {
         m_tapToStartTime = System.currentTimeMillis();
         m_showTapToStart = true;
         m_playerTapFlag = false;
         m_droid.reset();
 
-        for (Pothole p : m_potholes)
-        {
+        for (Pothole p : m_potholes) {
             p.reset();
         }
         m_spawnPotholeTime = 0;
@@ -225,16 +213,14 @@ public class Game
         m_road.reset();
     }
     
-    public void initGameOver()
-    {
-        m_soundPool.play(m_droidCrashSnd, DroidConstants.FULL_VOLUME, DroidConstants.FULL_VOLUME,
+    public void initGameOver() {
+        soundPool.play(droidCrashSnd, DroidConstants.FULL_VOLUME, DroidConstants.FULL_VOLUME,
                          DroidConstants.DEFAULT_PRIORITY, DroidConstants.LOOP_INDICATOR,
                          DroidConstants.PLAYBACK_RATE);
         initOrResetGame();
     }
 
-    private void gamePlay(Canvas p_canvas)
-    {
+    private void gamePlay(Canvas p_canvas) {
         p_canvas.drawRect(0, 0, m_width, m_height, m_clearPaint);
 
         m_road.update();
@@ -269,8 +255,7 @@ public class Game
         spawnStar();
     }
 
-    private void gameMenu(Canvas p_canvas)
-    {
+    private void gameMenu(Canvas p_canvas) {
         m_road.draw(p_canvas);
 
         m_gameState = GameState.GAME_PLAY;
@@ -336,11 +321,16 @@ public class Game
         }
     }
 
-    private void loadSounds(Context context)
-    {
-        m_droidCrashSnd = m_soundPool.load(context, R.raw.sfx_deathscream_robot1, 1);
-        m_droidEatStarSnd = m_soundPool.load(context, R.raw.positive, 1);
-        m_droidJumpSnd = m_soundPool.load(context, R.raw.sfx_movement_jump6, 1);
+    private static void loadSounds(Context context) {
+        if (soundPool == null) {
+            soundPool = new SoundPool.Builder()
+                    .setMaxStreams(DroidConstants.MAX_STREAMS)
+                    .setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+                    .build();
+            droidCrashSnd = soundPool.load(context, R.raw.sfx_deathscream_robot1, 1);
+            droidEatStarSnd = soundPool.load(context, R.raw.positive, 1);
+            droidJumpSnd = soundPool.load(context, R.raw.sfx_movement_jump6, 1);
+        }
     }
 
     private void loadImages(Context context)
@@ -416,7 +406,7 @@ public class Game
             // randomly determine whether or not to spawn a new star
             if (Utilities.nextFloat() > DroidConstants.SPAWN_STAR_CHANCE)
             {
-                Star s = new Star(this);
+                Star s = Star.create(this);
                 s.spawn();
                 m_stars.add(s);
             }
@@ -427,7 +417,7 @@ public class Game
     public void doPlayerEatStar(Star s)
     {
         // play eat pastry sound
-        m_soundPool.play(m_droidEatStarSnd, 1.0f, 1.0f, 0, 0, 1.0f);
+        soundPool.play(droidEatStarSnd, 1.0f, 1.0f, 0, 0, 1.0f);
 
         // increase score
         m_curScore += DroidConstants.SCORE_STAR_BONUS;
@@ -494,6 +484,4 @@ public class Game
 
         map.commit();
     }
-
-
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import dev.emmaguy.fruitninja.ui.GameFragment.OnGameOver;
 import dev.emmaguy.fruitninja.ui.MainMenuFragment.OnMainMenuButtonClicked;
+import phoenix.delta.AlertSound;
 import phoenix.delta.FreePlaySelection;
 import phoenix.delta.Procedure;
 import phoenix.delta.R;
@@ -20,14 +21,7 @@ public class MainActivity extends FragmentActivity implements OnMainMenuButtonCl
 	super.onCreate(savedInstanceState);
 
 	setContentView(R.layout.activity_main_fn);
-		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
-		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				alertSnd.release();
-			}
-		});
-		alertSnd.start();
+	AlertSound.play(this.getApplicationContext());
 
 	onPlayButtonClicked();
     }

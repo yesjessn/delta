@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 
+import phoenix.delta.AlertSound;
 import phoenix.delta.FreePlaySelection;
 import phoenix.delta.Procedure;
 import phoenix.delta.R;
@@ -13,7 +15,6 @@ import phoenix.delta.Session;
 
 public class DroidRunJumpActivity extends Activity {
     private DroidRunJumpView m_drjView;
-    private DroidRunJumpThread m_drjThread;
 
     @Override
     public void onCreate(Bundle p_savedInstanceState) {
@@ -21,14 +22,7 @@ public class DroidRunJumpActivity extends Activity {
         setContentView(R.layout.main);
 
         m_drjView = (DroidRunJumpView) findViewById(R.id.droidrunjump);
-        final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
-        alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                alertSnd.release();
-            }
-        });
-        alertSnd.start();
+        AlertSound.play(this.getApplicationContext());
     }
 
     @Override
@@ -38,7 +32,7 @@ public class DroidRunJumpActivity extends Activity {
         SharedPreferences settings = getSharedPreferences(DroidConstants.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        m_drjThread = m_drjView.getThread();
+        DroidRunJumpThread m_drjThread = m_drjView.getThread();
 
         // if player wants to quit then reset the game
         if (isFinishing()) {
@@ -54,7 +48,6 @@ public class DroidRunJumpActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        m_drjThread = m_drjView.getThread();
     }
 
     @Override

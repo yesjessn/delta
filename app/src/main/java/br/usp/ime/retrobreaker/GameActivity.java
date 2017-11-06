@@ -12,6 +12,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -24,9 +25,12 @@ import android.widget.TextView;
 import br.usp.ime.retrobreaker.game.TouchSurfaceView;
 import br.usp.ime.retrobreaker.game.Constants.Config;
 import br.usp.ime.retrobreaker.game.Game.State;
+import phoenix.delta.AlertSound;
 import phoenix.delta.R;
 
 public class GameActivity extends Activity {
+	private static SoundPool mSoundPool;
+	private static HashMap<String, Integer> mSoundIds;
 
 	private TouchSurfaceView mTouchSurfaceView;
 	private Handler mHandler;
@@ -40,8 +44,6 @@ public class GameActivity extends Activity {
 	private long mHighScore;
 	private boolean mNewHighScore;
 	private boolean mFinish;
-	private SoundPool mSoundPool;
-	private HashMap<String, Integer> mSoundIds;
 	private View mDecorView;
 
 	@Override
@@ -49,14 +51,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_game);
-		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
-		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				alertSnd.release();
-			}
-		});
-		alertSnd.start();
+		AlertSound.play(this.getApplicationContext());
 
 		mHandler = new Handler();
 		mNewHighScore = false;
@@ -86,9 +81,14 @@ public class GameActivity extends Activity {
 		mReadyTextView.setTextColor(Color.RED);
 
 		// Initialize SoundPool to play a music if the user beats his high score
-		mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-		mSoundIds = new HashMap<String, Integer>(1);
-		mSoundIds.put("victory_fanfare", mSoundPool.load(this, R.raw.victory_fanfare, 1));
+		if (mSoundPool == null) {
+			mSoundPool = new SoundPool.Builder()
+					.setMaxStreams(1)
+					.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build())
+					.build();
+			mSoundIds = new HashMap<>(1);
+			mSoundIds.put("victory_fanfare", mSoundPool.load(this, R.raw.victory_fanfare, 1));
+		}
 		
 		/* We can't update the UI from the GL thread, so we set a timer and update it on
 		 * approximately each 10 updates from game state. Don't put this value too low since

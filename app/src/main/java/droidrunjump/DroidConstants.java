@@ -5,7 +5,7 @@ public class DroidConstants {
     public static final float GROUND_X = 64f;
 
 
-    public static final float MOVEMENT_RATE         = 10.0f;//pixels per second
+    public static final float MOVEMENT_RATE         = 9.0f;//pixels per second
     public static final float AIR_TIME              = .5f;//seconds
     public static final float JUMP_HEIGHT           = -100.0f;//pixels
 
@@ -41,5 +41,5 @@ public class DroidConstants {
     public static final long SPAWN_STAR_TIME = 300;
     public static final double SPAWN_STAR_CHANCE = 0.7;
 
-    public static final int MAX_STREAMS       = 4;
+    public static final int MAX_STREAMS       = 8;
 }

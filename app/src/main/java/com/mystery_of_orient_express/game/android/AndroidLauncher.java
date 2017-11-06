@@ -8,6 +8,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.mystery_of_orient_express.game.MysteryOfOrientExpress;
 
+import phoenix.delta.AlertSound;
 import phoenix.delta.FreePlaySelection;
 import phoenix.delta.Procedure;
 import phoenix.delta.R;
@@ -19,14 +20,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new MysteryOfOrientExpress(), config);
-		final MediaPlayer alertSnd = MediaPlayer.create(this, R.raw.save);
-		alertSnd.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				alertSnd.release();
-			}
-		});
-		alertSnd.start();
+		AlertSound.play(this.getApplicationContext());
 	}
 
 	@Override
