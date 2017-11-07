@@ -244,6 +244,7 @@ public class DeltaOneDriveClient {
                         .post(driveSubjectFolder);
             } catch (ClientException e) {
                 Log.e("ODC", "Failed to create subject folder", e);
+                throw new IOException("Failed to create subject folder on OneDrive.", e);
             }
         }
 
@@ -254,11 +255,14 @@ public class DeltaOneDriveClient {
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Progress file upload failed", ce);
+                throw new IOException("Progress file upload failed.", ce);
             }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Progress file not found", e);
+            throw new IOException("Progress file not found on device.", e);
         } catch (IOException e) {
             Log.e("ODC", "Error uploading progress file", e);
+            throw new IOException("Error uploading progress file.", e);
         }
 
         try {
@@ -268,11 +272,14 @@ public class DeltaOneDriveClient {
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Session file upload failed", ce);
+                throw new IOException("Session file upload failed.", ce);
             }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Session file not found", e);
+            throw new IOException("Session file not found on device.", e);
         } catch (IOException e) {
             Log.e("ODC", "Error uploading session file", e);
+            throw new IOException("Error uploading session file.", e);
         }
 
         return true;
