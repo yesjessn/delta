@@ -250,13 +250,7 @@ public class DeltaOneDriveClient {
 
         try {
             final File progressFile = new File(subjectFolder, subjectID + "-progress.csv");
-            final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
             uploadSubjectFile(progressFile);
-            ClientException ce = uploadFailure.get();
-            if (ce != null) {
-                Log.e("ODC", "Progress file upload failed", ce);
-                throw new IOException("Progress file upload failed.", ce);
-            }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Progress file not found", e);
             throw new IOException("Progress file not found on device.", e);
@@ -267,13 +261,7 @@ public class DeltaOneDriveClient {
 
         try {
             final File sessionFile = new File(subjectFolder, subjectID + "-" + sessionID + ".csv");
-            final AtomicReference<ClientException> uploadFailure = new AtomicReference<>();
             uploadSubjectFile(sessionFile);
-            ClientException ce = uploadFailure.get();
-            if (ce != null) {
-                Log.e("ODC", "Session file upload failed", ce);
-                throw new IOException("Session file upload failed.", ce);
-            }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Session file not found", e);
             throw new IOException("Session file not found on device.", e);
