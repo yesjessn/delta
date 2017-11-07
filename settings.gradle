@@ -1,1 +1,1 @@
-include ':app', ':box-content-sdk'
+include ':app'
