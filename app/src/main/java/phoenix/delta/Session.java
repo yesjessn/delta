@@ -47,17 +47,14 @@ public class Session implements Serializable
     }
 
     public boolean isSessionDone() {
-
         if (sessionType == SessionType.ESTABLISH_INDIFFERENCE) {
             return (completedBlocks.size() == 6);
-        }
-        else {
+        } else {
             return (completedBlocks.size() == 3);
         }
     }
 
-    public void resetSession()
-    {
+    public void resetSession() {
         currentBlock = null;
         m_currentTrial = null;
         completedBlocks.clear();
@@ -94,8 +91,7 @@ public class Session implements Serializable
     public boolean startNewTrial () {
         if( m_currentTrial != null) {
             return false;
-        }
-        else {
+        } else {
             if (currentBlock == null) {
                 currentBlock = new Block(completedBlocks.size()+1, sessionType);
             }
@@ -103,8 +99,7 @@ public class Session implements Serializable
             TrialType trialType;
             if (completedTrials> 1) {
                 trialType = TrialType.FREE_CHOICE;
-            }
-            else {
+            } else {
                 trialType = TrialType.FORCED_CHOICE;
             }
             m_currentTrial = new Trial(trialType,waitTime.getPrerewardDelay());
@@ -118,8 +113,7 @@ public class Session implements Serializable
         out: return true if current trial is not null and added to the storing list
              return false if current trial is null
      */
-    public boolean endTrial()
-    {
+    public boolean endTrial() {
         if(m_currentTrial != null)
         {
             m_trials.add(m_currentTrial);

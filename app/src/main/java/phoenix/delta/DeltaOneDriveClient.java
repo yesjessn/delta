@@ -18,10 +18,14 @@ import com.microsoft.graph.extensions.DriveItem;
 import com.microsoft.graph.extensions.DriveItemUploadableProperties;
 import com.microsoft.graph.extensions.Folder;
 import com.microsoft.graph.extensions.GraphServiceClient;
+import com.microsoft.graph.extensions.IDriveItemStreamRequest;
+import com.microsoft.graph.extensions.IDriveItemStreamRequestBuilder;
 import com.microsoft.graph.extensions.IGraphServiceClient;
 import com.microsoft.graph.http.GraphErrorResponse;
 import com.microsoft.graph.http.GraphServiceException;
 import com.microsoft.graph.logger.LoggerLevel;
+import com.microsoft.graph.options.Option;
+import com.microsoft.graph.options.QueryOption;
 
 import org.apache.commons.io.IOUtils;
 
@@ -33,10 +37,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DeltaOneDriveClient {
     public static DeltaOneDriveClient INSTANCE;
+    private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     public final MSAAuthAndroidAdapter authenticationAdapter;
     public final IGraphServiceClient oneDriveClient;
@@ -142,9 +151,20 @@ public class DeltaOneDriveClient {
     public boolean DownloadProgress (Context context, String subjectID) {
         File root = context.getFilesDir();
         File subjectFile = new File(root, subjectID);
-        if (!subjectFile.exists())
-        {
+        if (!subjectFile.exists()) {
             subjectFile.mkdir();
+        }
+
+        File subjectDir = new File(context.getFilesDir(), subjectID);
+        File progressFile = new File(subjectDir, subjectID + "-progress.csv");
+
+        FileSizeComparison bigger = isLocalFileBigger(progressFile);
+        switch (bigger) {
+            case LocalBigger:
+            case EqualSize:
+            case MissingRemote:
+                Log.i("ODC", "Skipping progress file download: " + bigger);
+                return true;
         }
 
         final InputStream inputStream;
@@ -156,48 +176,24 @@ public class DeltaOneDriveClient {
                     .getMe()
                     .getDrive()
                     .getSpecial("approot")
-                    .getItemWithPath(subjectID + "/" + subjectID + "-progress.csv")
+                    .getItemWithPath(subjectID + "/" + progressFile.getName())
                     .getContent()
                     .buildRequest()
                     .get();
         } catch (GraphServiceException clientException) {
-            if (clientException.isError(GraphErrorCodes.ItemNotFound)) {
-                // Don't write error to log, needs log in
+            if (isClientExceptionCode(clientException, GraphErrorCodes.ItemNotFound)) {
                 return true;
             }
-            // This block to make up for the cases when the error doesn't deserialize properly.
-            // Example JSON object:
-            /*
-            {
-                "error": {
-                    "code": "itemNotFound",
-                    "message": "The resource could not be found.",
-                    "innerError": {
-                        "request-id": "fbdad64b-42f2-4773-9524-ed5d65628988",
-                        "date": "2017-03-08T04:04:45"
-                    }
-                }
-            }
-             */
-            try {
-                Field f = GraphServiceException.class.getDeclaredField("mError");
-                f.setAccessible(true);
-                GraphErrorResponse errResponse = (GraphErrorResponse) f.get(clientException);
-                if (errResponse.rawObject.getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase(GraphErrorCodes.ItemNotFound.toString())) {
-                    return true;
-                }
-            } catch (Exception ignored) { Log.e("ODC", "error with hacking the response code: ", ignored);}
             Log.e("ODC", "Error received from graph server: " + clientException.getServiceError().code, clientException);
             return false;
         } catch (Exception e) {
             Log.e("ODC", "Unknown error getting progress csv file", e);
             return false;
         }
-        Log.i("ODC", "Password csv download successful");
+        Log.i("ODC", progressFile.getName() + " download successful");
 
         try {
-            File rootDir=new File(context.getFilesDir(), subjectID);
-            FileOutputStream outputStream = new FileOutputStream(new File(rootDir, subjectID + "-progress.csv"));
+            FileOutputStream outputStream = new FileOutputStream(progressFile);
             IOUtils.copy(inputStream, outputStream);
             inputStream.close();
             outputStream.close();
@@ -250,7 +246,7 @@ public class DeltaOneDriveClient {
 
         try {
             final File progressFile = new File(subjectFolder, subjectID + "-progress.csv");
-            uploadSubjectFile(progressFile);
+            uploadSubjectFile(progressFile, true);
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Progress file not found", e);
             throw new IOException("Progress file not found on device.", e);
@@ -261,7 +257,7 @@ public class DeltaOneDriveClient {
 
         try {
             final File sessionFile = new File(subjectFolder, subjectID + "-" + sessionID + ".csv");
-            uploadSubjectFile(sessionFile);
+            uploadSubjectFile(sessionFile, true);
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Session file not found", e);
             throw new IOException("Session file not found on device.", e);
@@ -273,19 +269,86 @@ public class DeltaOneDriveClient {
         return true;
     }
 
-    private void uploadSubjectFile(File file) throws IOException {
+    public void uploadSubjectFile(File file, boolean replace) throws IOException {
         Log.i("ODC", "Starting upload of " + file.getAbsolutePath());
         String subjectID = file.getParentFile().getName();
         String name = file.getName();
         byte[] contents = IOUtils.toByteArray(new FileInputStream(file));
 
-        oneDriveClient
+        IDriveItemStreamRequestBuilder builder = oneDriveClient
                 .getMe()
                 .getDrive()
                 .getSpecial("approot")
                 .getItemWithPath(subjectID + "/" + name)
-                .getContent()
-                .buildRequest()
-                .put(contents);
+                .getContent();
+        IDriveItemStreamRequest request;
+        if (!replace) {
+            request = builder.buildRequest(Arrays.<Option>asList(new QueryOption("@name.conflictBehavior", "fail")));
+        } else {
+            request = builder.buildRequest();
+        }
+         request.put(contents);
+    }
+
+    public enum FileSizeComparison {
+        MissingLocal, LocalBigger, EqualSize, RemoteBigger, MissingRemote
+    }
+    public FileSizeComparison isLocalFileBigger(File file) {
+        if (!file.exists()) {
+            return FileSizeComparison.MissingLocal;
+        }
+        String subjectID = file.getParentFile().getName();
+        DriveItem item = null;
+        try {
+            item = oneDriveClient
+                    .getMe()
+                    .getDrive()
+                    .getSpecial("approot")
+                    .getItemWithPath(subjectID + "/" + file.getName())
+                    .buildRequest()
+                    .get();
+        } catch (ClientException ce) {
+            if (DeltaOneDriveClient.isClientExceptionCode(ce, GraphErrorCodes.ItemNotFound)) {
+                return FileSizeComparison.MissingRemote;
+            }
+        }
+        long remote = item.size;
+        long local = file.length();
+        if (remote > local) {
+            return FileSizeComparison.RemoteBigger;
+        } else if (local > remote) {
+            return FileSizeComparison.LocalBigger;
+        } else {
+            return FileSizeComparison.EqualSize;
+        }
+    }
+
+    public static boolean isClientExceptionCode(ClientException ce, GraphErrorCodes code) {
+        if (ce.isError(code)) {
+            return true;
+        }
+        // This block to make up for the cases when the error doesn't deserialize properly.
+        // Example JSON object:
+            /*
+            {
+                "error": {
+                    "code": "itemNotFound",
+                    "message": "The resource could not be found.",
+                    "innerError": {
+                        "request-id": "fbdad64b-42f2-4773-9524-ed5d65628988",
+                        "date": "2017-03-08T04:04:45"
+                    }
+                }
+            }
+             */
+        try {
+            Field f = GraphServiceException.class.getDeclaredField("mError");
+            f.setAccessible(true);
+            GraphErrorResponse errResponse = (GraphErrorResponse) f.get(ce);
+            if (errResponse.rawObject.getAsJsonObject("error").get("code").getAsString().equalsIgnoreCase(code.toString())) {
+                return true;
+            }
+        } catch (Exception ignored) { Log.e("ODC", "error with hacking the response code: ", ignored);}
+        return false;
     }
 }

@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 
 public class SessionPrep extends ActionBarActivity {
+    private static final AtomicReference<Thread> backgroundSessionUploader = new AtomicReference<>();
 
     Button start_btn, cancel_btn;
     Button onedrive_btn;
@@ -101,11 +102,17 @@ public class SessionPrep extends ActionBarActivity {
         start_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Calendar cal = Calendar.getInstance();
                 String subjectID = et_subjectD.getText().toString().toLowerCase();
                 String RAID = et_RAID.getText().toString();
                 String RAPassword = et_RAPassword.getText().toString();
+
+                Thread t = new Thread(new BackgroundSessionUploader(oneDriveCilent, getApplicationContext()), "BackgroundSessionUploader");
+                if (backgroundSessionUploader.compareAndSet(null, t)) {
+                    t.setDaemon(true);
+                    t.setPriority(Thread.MIN_PRIORITY);
+                    t.start();
+                }
 
                 if (subjectID.compareTo("") == 0 | spinner.getSelectedItem() == null) {
                     Toast.makeText(SessionPrep.this, "Invalid Input", Toast.LENGTH_SHORT).show();
