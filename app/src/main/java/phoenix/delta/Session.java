@@ -46,9 +46,14 @@ public class Session implements Serializable
         return m_trials;
     }
 
-    public boolean isSessionDone()
-    {
-        return (completedBlocks.size() == 6);
+    public boolean isSessionDone() {
+
+        if (sessionType == SessionType.ESTABLISH_INDIFFERENCE) {
+            return (completedBlocks.size() == 6);
+        }
+        else {
+            return (completedBlocks.size() == 3);
+        }
     }
 
     public void resetSession()
@@ -86,25 +91,20 @@ public class Session implements Serializable
         out: return true if newTrial is set to current successfully
              return false if newTrial is null OR if current trial is not finished
      */
-    public boolean startNewTrial ()
-    {
-        if( m_currentTrial != null)
-        {
+    public boolean startNewTrial () {
+        if( m_currentTrial != null) {
             return false;
         }
-        else
-        {
+        else {
             if (currentBlock == null) {
                 currentBlock = new Block(completedBlocks.size()+1, sessionType);
             }
             int completedTrials = this.currentBlock.trials.size();
             TrialType trialType;
-            if (completedTrials> 1)
-            {
+            if (completedTrials> 1) {
                 trialType = TrialType.FREE_CHOICE;
             }
-            else
-            {
+            else {
                 trialType = TrialType.FORCED_CHOICE;
             }
             m_currentTrial = new Trial(trialType,waitTime.getPrerewardDelay());
