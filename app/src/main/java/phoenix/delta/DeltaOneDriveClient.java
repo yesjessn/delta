@@ -209,7 +209,7 @@ public class DeltaOneDriveClient {
         return true;
     }
 
-    public boolean UploadSubjectData (Context context, String subjectID, String sessionID) {
+    public boolean UploadSubjectData (Context context, String subjectID, String sessionID) throws IOException {
         File subjectFolder = context.getFileStreamPath(subjectID);
 
         // ----------------------------
@@ -244,7 +244,6 @@ public class DeltaOneDriveClient {
                         .post(driveSubjectFolder);
             } catch (ClientException e) {
                 Log.e("ODC", "Failed to create subject folder", e);
-                return false;
             }
         }
 
@@ -255,14 +254,11 @@ public class DeltaOneDriveClient {
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Progress file upload failed", ce);
-                return false;
             }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Progress file not found", e);
-            return false;
         } catch (IOException e) {
             Log.e("ODC", "Error uploading progress file", e);
-            return false;
         }
 
         try {
@@ -272,14 +268,11 @@ public class DeltaOneDriveClient {
             ClientException ce = uploadFailure.get();
             if (ce != null) {
                 Log.e("ODC", "Session file upload failed", ce);
-                return false;
             }
         } catch (FileNotFoundException e) {
             Log.e("ODC", "Session file not found", e);
-            return false;
         } catch (IOException e) {
             Log.e("ODC", "Error uploading session file", e);
-            return false;
         }
 
         return true;

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -53,23 +54,28 @@ public class DoneSessionActivity extends ActionBarActivity {
     }
 
     private void asyncUploadSubjectData (final DeltaOneDriveClient oneDriveClient, final Procedure currProcedure, final Session currSession) {
-        AsyncTask<DeltaOneDriveClient, Void, Boolean> task = new AsyncTask<DeltaOneDriveClient, Void, Boolean>() {
+        AsyncTask<DeltaOneDriveClient, Void, Exception> task = new AsyncTask<DeltaOneDriveClient, Void, Exception>() {
             @Override
-            protected Boolean doInBackground(DeltaOneDriveClient... params) {
+            protected Exception doInBackground(DeltaOneDriveClient... params) {
                 Log.i("DoneSessionActivity", "Starting subject data upload");
                 DeltaOneDriveClient client = params[0];
-                return client.UploadSubjectData(getApplicationContext(), currProcedure.subjectID, String.valueOf(currSession.sessionID));
+                try {
+                    client.UploadSubjectData(getApplicationContext(), currProcedure.subjectID, String.valueOf(currSession.sessionID));
+                    return null;
+                } catch (IOException e) {
+                    return e;
+                }
             }
 
             @Override
-            protected void onPostExecute(Boolean result) {
+            protected void onPostExecute(Exception result) {
                 Log.i("DoneSessionActivity", "Subject data upload complete with result: " + result);
-                if(result) {
+                if(result == null) {
                     Intent uploadFile = new Intent(DoneSessionActivity.this, DoneFileUpload.class);
                     uploadFile.putExtra("PROCEDURE", currProcedure);
                     startActivity(uploadFile);
                 } else {
-                    Toast.makeText(DoneSessionActivity.this, "Failed to upload data, please try again", Toast.LENGTH_LONG).show();
+                    Toast.makeText(DoneSessionActivity.this, "Failed to upload data (" + result.toString() + "),\n please try again", Toast.LENGTH_LONG).show();
                 }
             }
         };
