@@ -25,28 +25,28 @@ public enum SessionType {
             return Math.max(Math.round(initDelay + delayChange * adjustmentMultiplier), minWaitTime);
         }
     }, SHAPING(5) {
-        public float initDelayMultiplier = 0.75f;
+        public float	initDelayMultiplier	= 0.75f;
 
-        public float waitMultiplier = 1.5f;
-        public float nowMultiplier = 0.5f;
+		public float	waitDelta			= 2.5f;
 
-        @Override
-        public long getDelay(long initDelay, ArrayList<Block> completedBlocks) {
-            float delay = initDelay * initDelayMultiplier;
-            for (int i = 0; i < completedBlocks.size(); i++)
-            {
-                Block b = completedBlocks.get(i);
-                if (b.allWait())
-                {
-                    delay *= waitMultiplier;
-                }
-                else if (b.allNow())
-                {
-                    delay *= nowMultiplier;
-                }
-            }
-            return Math.max(Math.round(delay), minWaitTime);
-        }
+		@Override
+		public long getDelay(final long initDelay, final ArrayList<Block> completedBlocks)
+		{
+			float delay = initDelay * initDelayMultiplier;
+			for (int i = 0; i < completedBlocks.size(); i++)
+			{
+				final Block b = completedBlocks.get(i);
+				if (b.allWait())
+				{
+					delay += waitDelta;
+				}
+				else if (b.allNow())
+				{
+					delay -= waitDelta;
+				}
+			}
+			return Math.max(Math.round(delay), minWaitTime);
+		}
     };
     private static final long minWaitTime = 1000L;
 
